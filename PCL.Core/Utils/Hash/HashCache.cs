@@ -3,6 +3,7 @@ using PCL.Core.Utils.Exts;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PCL.Core.Utils.Hash;
@@ -10,6 +11,7 @@ namespace PCL.Core.Utils.Hash;
 public class HashCache
 {
     private readonly string _dbPath;
+    private readonly SemaphoreSlim _writeLock = new(1, 1);
 
     public HashCache(string dbPath)
     {
@@ -45,7 +47,9 @@ public class HashCache
 
     private SqliteConnection _CreateConnection()
     {
-        var connection = new SqliteConnection($"Data Source={_dbPath};Pooling=True");
+        // 关闭连接池：池化的底层句柄会长期持有数据库文件，
+        // 多线程并发写时容易产生 SQLite Error，且测试清理时文件被锁
+        var connection = new SqliteConnection($"Data Source={_dbPath};Pooling=False");
         connection.Open();
         return connection;
     }
@@ -183,38 +187,54 @@ public class HashCache
     private async Task _InsertOrUpdateHashAsync(string fullPath, long fileSize, string lastWrite, string algoName, string hash)
     {
         if (hash.IsNullOrWhiteSpace()) return;
-        using var conn = _CreateConnection();
-        using var cmd = conn.CreateCommand();
-        cmd.CommandText = """
-            INSERT INTO HashCache (FilePath, FileSize, LastWriteTime, MD5, SHA1, SHA256, SHA512, MurmurHash2)
-            VALUES (@FilePath, @FileSize, @LastWriteTime, @MD5, @SHA1, @SHA256, @SHA512, @MurmurHash2)
-            ON CONFLICT(FilePath) DO UPDATE SET
-                FileSize = excluded.FileSize,
-                LastWriteTime = excluded.LastWriteTime,
-                MD5 = COALESCE(excluded.MD5, HashCache.MD5),
-                SHA1 = COALESCE(excluded.SHA1, HashCache.SHA1),
-                SHA256 = COALESCE(excluded.SHA256, HashCache.SHA256),
-                SHA512 = COALESCE(excluded.SHA512, HashCache.SHA512),
-                MurmurHash2 = COALESCE(excluded.MurmurHash2, HashCache.MurmurHash2)
-            """;
-        cmd.Parameters.AddWithValue("@FilePath", fullPath);
-        cmd.Parameters.AddWithValue("@FileSize", fileSize);
-        cmd.Parameters.AddWithValue("@LastWriteTime", lastWrite);
-        cmd.Parameters.AddWithValue("@MD5", algoName == "MD5" ? hash : DBNull.Value);
-        cmd.Parameters.AddWithValue("@SHA1", algoName == "SHA1" ? hash : DBNull.Value);
-        cmd.Parameters.AddWithValue("@SHA256", algoName == "SHA256" ? hash : DBNull.Value);
-        cmd.Parameters.AddWithValue("@SHA512", algoName == "SHA512" ? hash : DBNull.Value);
-        cmd.Parameters.AddWithValue("@MurmurHash2", algoName == "MurmurHash2" ? hash : DBNull.Value);
-        await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+        await _writeLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            using var conn = _CreateConnection();
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = """
+                INSERT INTO HashCache (FilePath, FileSize, LastWriteTime, MD5, SHA1, SHA256, SHA512, MurmurHash2)
+                VALUES (@FilePath, @FileSize, @LastWriteTime, @MD5, @SHA1, @SHA256, @SHA512, @MurmurHash2)
+                ON CONFLICT(FilePath) DO UPDATE SET
+                    FileSize = excluded.FileSize,
+                    LastWriteTime = excluded.LastWriteTime,
+                    MD5 = COALESCE(excluded.MD5, HashCache.MD5),
+                    SHA1 = COALESCE(excluded.SHA1, HashCache.SHA1),
+                    SHA256 = COALESCE(excluded.SHA256, HashCache.SHA256),
+                    SHA512 = COALESCE(excluded.SHA512, HashCache.SHA512),
+                    MurmurHash2 = COALESCE(excluded.MurmurHash2, HashCache.MurmurHash2)
+                """;
+            cmd.Parameters.AddWithValue("@FilePath", fullPath);
+            cmd.Parameters.AddWithValue("@FileSize", fileSize);
+            cmd.Parameters.AddWithValue("@LastWriteTime", lastWrite);
+            cmd.Parameters.AddWithValue("@MD5", algoName == "MD5" ? hash : DBNull.Value);
+            cmd.Parameters.AddWithValue("@SHA1", algoName == "SHA1" ? hash : DBNull.Value);
+            cmd.Parameters.AddWithValue("@SHA256", algoName == "SHA256" ? hash : DBNull.Value);
+            cmd.Parameters.AddWithValue("@SHA512", algoName == "SHA512" ? hash : DBNull.Value);
+            cmd.Parameters.AddWithValue("@MurmurHash2", algoName == "MurmurHash2" ? hash : DBNull.Value);
+            await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            _writeLock.Release();
+        }
     }
 
     private async Task _DeleteCacheEntryAsync(string fullPath)
     {
-        using var conn = _CreateConnection();
-        using var cmd = conn.CreateCommand();
-        cmd.CommandText = "DELETE FROM HashCache WHERE FilePath = @FilePath";
-        cmd.Parameters.AddWithValue("@FilePath", fullPath);
-        await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+        await _writeLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            using var conn = _CreateConnection();
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = "DELETE FROM HashCache WHERE FilePath = @FilePath";
+            cmd.Parameters.AddWithValue("@FilePath", fullPath);
+            await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            _writeLock.Release();
+        }
     }
 
     private sealed class CacheEntry

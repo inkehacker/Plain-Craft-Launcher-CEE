@@ -2014,7 +2014,19 @@ public static class ModLocalComp
                 // 读取 Comp 缓存
                 if (ModEntry.State == LocalCompFile.LocalFileStatus.Unavailable)
                     continue;
-                var cacheKey = ModEntry.ModrinthHash + loader.input.gameVersion.Info.VanillaName +
+                string modrinthHash;
+                try
+                {
+                    modrinthHash = ModEntry.ModrinthHash;
+                }
+                catch (Exception ex)
+                {
+                    // 单个 Mod 的哈希计算失败（如 SQLite 异常）不应拖垮整个列表加载，
+                    // 退化为按文件名区分，仅损失该 Mod 的 Comp 缓存命中
+                    ModBase.Log(ex, $"获取 Mod 哈希失败，已跳过缓存：{ModEntry.FileName}", ModBase.LogLevel.Debug);
+                    modrinthHash = "file:" + ModEntry.FileName;
+                }
+                var cacheKey = modrinthHash + loader.input.gameVersion.Info.VanillaName +
                                loader.input.loaders.Join("");
                 if (cache.ContainsKey(cacheKey))
                 {
