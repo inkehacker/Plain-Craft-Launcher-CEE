@@ -68,6 +68,13 @@ public partial class PageLoginAuth
             return;
         }
 
+        // 与新建档案流程一致：未进行过正版验证时不允许第三方登录（#3559）
+        if (!ModProfile.CanUseThirdPartyLogin())
+        {
+            HintService.Hint(Lang.Text("Launch.Account.Profile.RequireMicrosoftHint"), HintType.Error);
+            return;
+        }
+
         BtnLogin.IsEnabled = false;
         BtnBack.IsEnabled = false;
         var loginData = new ModLaunch.McLoginServer(ModLaunch.McLoginType.Auth)

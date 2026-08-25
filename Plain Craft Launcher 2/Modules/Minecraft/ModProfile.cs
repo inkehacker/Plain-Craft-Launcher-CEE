@@ -337,25 +337,28 @@ public static class ModProfile
     /// <summary>
     ///     新建档案
     /// </summary>
+    /// <summary>
+    ///     是否允许使用除正版以外的验证方式（需先进行一次正版验证）
+    /// </summary>
+    public static bool CanUseThirdPartyLogin()
+    {
+#if DEBUG || DEBUGCI
+        return true;
+#else
+        var hasMinecraftAccount = profileList.Any(x => x.Type == ModLaunch.McLoginType.Ms);
+        var restricted = Lang.IsFeaturesUnrestricted && profileList.Count > 0;
+        var hasNetwork = NetworkHelper.IsNetworkAvailable();
+        return hasMinecraftAccount || restricted || !hasNetwork;
+#endif
+    }
+
     public static void CreateProfile()
     {
         int? selectedAuthTypeNum = default; // 验证类型序号
         ModBase.RunInUiWait(() =>
         {
-            List<IMyRadio> authTypeList;
-#if DEBUG || DEBUGCI
-            authTypeList = _GetAvailableProfileSelection(true);
-#else
-            var hasMinecraftAccount = profileList.Any(x => x.Type == ModLaunch.McLoginType.Ms);
-            var restricted = Lang.IsFeaturesUnrestricted && profileList.Count > 0;
-            var hasNetwork = NetworkHelper.IsNetworkAvailable();
-            if (hasMinecraftAccount || restricted || !hasNetwork)
-                authTypeList = _GetAvailableProfileSelection(true);
-            else
-                authTypeList = _GetAvailableProfileSelection(false);
-            
-#endif
-        
+            var authTypeList = _GetAvailableProfileSelection(CanUseThirdPartyLogin());
+
             selectedAuthTypeNum = ModMain.MyMsgBoxSelect(authTypeList, Lang.Text("Launch.Account.Profile.Create.SelectAuthType.Title"), Lang.Text("Common.Action.Continue"), Lang.Text("Common.Action.Cancel"));
         });
         if (selectedAuthTypeNum is null)
