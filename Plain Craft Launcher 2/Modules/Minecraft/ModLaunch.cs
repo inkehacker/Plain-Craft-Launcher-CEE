@@ -3365,6 +3365,22 @@ public static class ModLaunch
             or LocalizationFontProfile.Korean;
     }
 
+    private static bool ConfirmInstancePreLaunchCommand(string command)
+    {
+        var confirmed = false;
+        ModBase.RunInUiWait(() =>
+            confirmed = ModMain.MyMsgBox(
+                Lang.Text("Minecraft.Launch.CustomCommand.InstanceConfirm.Message",
+                    ModInstanceList.McMcInstanceSelected?.Name ?? "", command),
+                Lang.Text("Minecraft.Launch.CustomCommand.InstanceConfirm.Title"),
+                Lang.Text("Minecraft.Launch.CustomCommand.InstanceConfirm.Run"),
+                Lang.Text("Minecraft.Launch.CustomCommand.InstanceConfirm.Skip"),
+                isWarn: true) == 1);
+        if (!confirmed)
+            McLaunchLog("已跳过实例自定义命令：" + command);
+        return confirmed;
+    }
+
     private static void McLaunchCustom(ModLoader.LoaderTask<int, int> loader)
     {
         // 获取自定义命令
@@ -3373,7 +3389,11 @@ public static class ModLaunch
             customCommandGlobal = ArgumentReplace(customCommandGlobal, true);
         var customCommandVersion = Config.Instance.PreLaunchCommand[ModInstanceList.McMcInstanceSelected?.PathInstance];
         if (!string.IsNullOrEmpty(customCommandVersion))
+        {
             customCommandVersion = ArgumentReplace(customCommandVersion, true);
+            if (!ConfirmInstancePreLaunchCommand(customCommandVersion))
+                customCommandVersion = "";
+        }
 
         // 输出 bat
         try

@@ -2750,6 +2750,10 @@
     <sys:String x:Key="Setup.Launch.Advanced.MoreInInstanceSetup">你还可以在实例独立设置中找到更多高级启动选项。</sys:String>
     <sys:String x:Key="Setup.Launch.Advanced.PreLaunchCommand">启动前执行命令</sys:String>
     <sys:String x:Key="Setup.Launch.Advanced.PreLaunchCommand.ToolTip">在 MC 启动前执行特定命令或程序，语法与 Windows 的命令提示符一致。&#xA;&#xA;可以使用以下替换标记实现相对路径（路径均以 \ 结尾）：&#xA; · {path}：PCL CE 的 exe 文件所在的文件夹&#xA; · {minecraft}：.minecraft 文件夹&#xA; · {verpath}：实例文件夹（.minecraft\versions\实例名\）&#xA; · {verindie}：开启实例隔离时等同实例文件夹，未开启时等同 .minecraft 文件夹&#xA; · {java}：游戏运行时的 Java 文件夹&#xA;&#xA;除此之外，也支持以下替换标记：&#xA; · {user}：玩家名字&#xA; · {login}：玩家的登录方式&#xA; · {uuid}：玩家的 UUID&#xA; · {name}：游戏实例名&#xA; · {date}、{time}：当前的系统时间&#xA; · {version}：游戏对应的原版版本号&#xA;&#xA;例如：&#xA; · "{verpath}test.exe" ：运行实例文件夹下的 test.exe 程序&#xA; · "{java}java.exe" -jar "{verpath}test.jar" ：用 Java 运行实例文件夹下的 test.jar&#xA; · notepad "{verindie}options.txt" ：使用记事本打开该实例的设置文件&#xA;&#xA;涉及路径的操作最好都打上双引号，以避免路径中的空格导致运行失败。&#xA;执行命令时，命令行所在的目录是当前的 .minecraft 文件夹。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.CustomCommand.InstanceConfirm.Title">确认实例启动前命令</sys:String>
+    <sys:String x:Key="Minecraft.Launch.CustomCommand.InstanceConfirm.Message">实例“{0}”配置了启动前命令：&#xA;&#xA;{1}&#xA;&#xA;实例文件夹和整合包可能包含此设置。仅在你信任该实例来源时运行它。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.CustomCommand.InstanceConfirm.Run">运行命令</sys:String>
+    <sys:String x:Key="Minecraft.Launch.CustomCommand.InstanceConfirm.Skip">跳过命令</sys:String>
     <sys:String x:Key="Setup.Launch.Advanced.PreLaunchCommand.Wait">等待命令执行完成后再继续启动</sys:String>
     <sys:String x:Key="Setup.Launch.Advanced.Renderer.DirectX12">DirectX12（d3d12）</sys:String>
     <sys:String x:Key="Setup.Launch.Advanced.Renderer.GameDefault">游戏默认</sys:String>
