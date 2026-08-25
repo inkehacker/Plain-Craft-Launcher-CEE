@@ -3274,6 +3274,7 @@
     <sys:String x:Key="Tools.GameLink.Announcement.Notice">Notice</sys:String>
     <sys:String x:Key="Tools.GameLink.Announcement.Warning">Warning</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Back">Back</sys:String>
+    <sys:String x:Key="Tools.GameLink.CopyIp.NotReady">The lobby is not ready yet, unable to copy virtual IP</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Message">Lobby host's game address: {0}&#xA;Note: IP connection is only recommended when the lobby broadcast does not appear in the Minecraft multiplayer list. IP connection may require a licenced account.</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Title">Copy IP</sys:String>
     <sys:String x:Key="Tools.GameLink.Create.Action">Create</sys:String>

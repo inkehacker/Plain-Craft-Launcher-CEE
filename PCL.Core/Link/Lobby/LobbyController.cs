@@ -204,6 +204,8 @@ public sealed class LobbyController
         {
             ScfClientEntity = null;
             ScfServerEntity = null;
+            McForward = null;
+            McBroadcast = null;
         }
         return 0;
     }

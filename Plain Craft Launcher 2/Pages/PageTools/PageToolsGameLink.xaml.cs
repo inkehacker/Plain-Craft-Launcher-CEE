@@ -970,6 +970,12 @@ public partial class PageToolsGameLink
     // 复制 IP
     private void BtnFinishCopyIp_Click(object sender, ModBase.RouteEventArgs routeEventArgs)
     {
+        if (LobbyInfoProvider.McForward is null)
+        {
+            HintService.Hint(Lang.Text("Tools.GameLink.CopyIp.NotReady"), HintType.Error);
+            return;
+        }
+
         var ip = $"127.0.0.1:{LobbyInfoProvider.McForward.LocalPort}";
         ModMain.MyMsgBox(Lang.Text("Tools.GameLink.CopyIp.Message", ip),
             Lang.Text("Tools.GameLink.CopyIp.Title"),

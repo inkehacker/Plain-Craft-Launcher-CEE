@@ -3274,6 +3274,7 @@
     <sys:String x:Key="Tools.GameLink.Announcement.Notice">提示</sys:String>
     <sys:String x:Key="Tools.GameLink.Announcement.Warning">注意</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Back">返回</sys:String>
+    <sys:String x:Key="Tools.GameLink.CopyIp.NotReady">大厅尚未就绪，暂时无法复制虚拟 IP</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Message">大厅创建者的游戏地址：{0}&#xA;注意：仅推荐在 MC 多人游戏列表不显示大厅广播时使用 IP 连接！通过 IP 连接将可能要求使用正版档案。</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Title">复制 IP</sys:String>
     <sys:String x:Key="Tools.GameLink.Create.Action">创建</sys:String>

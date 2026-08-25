@@ -3274,6 +3274,7 @@
     <sys:String x:Key="Tools.GameLink.Announcement.Notice">提示</sys:String>
     <sys:String x:Key="Tools.GameLink.Announcement.Warning">注意</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Back">返回</sys:String>
+    <sys:String x:Key="Tools.GameLink.CopyIp.NotReady">大廳尚未就緒，暫時無法複製虛擬 IP</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Message">大廳建立者的遊戲位址：{0}&#xA;注意：僅建議在 Minecraft 多人遊戲清單未顯示大廳廣播時使用 IP 連線！透過 IP 連線可能需要使用微軟帳戶。</sys:String>
     <sys:String x:Key="Tools.GameLink.CopyIp.Title">複製 IP</sys:String>
     <sys:String x:Key="Tools.GameLink.Create.Action">建立</sys:String>
