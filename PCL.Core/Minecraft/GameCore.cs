@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace PCL.Core.Minecraft;
 
@@ -28,11 +30,20 @@ public class GameCore
         foreach (var entry in jarArchive.Entries)
         {
             if (!entry.FullName.Contains(filter)) continue;
+            // 核心 jar 中可能已存在同名条目（如 MANIFEST.MF、net/minecraft 类），
+            // Update 模式下重复 CreateEntry 会抛 ArgumentException，先删除旧条目
+            coreArchive.GetEntry(entry.FullName)?.Delete();
             using var coreArchiveStream = coreArchive.CreateEntry(entry.FullName).Open();
             using var jarArchiveStream = jarArchive.GetEntry(entry.FullName)?.Open();
             jarArchiveStream?.CopyTo(coreArchiveStream);
         }
-        // 删除包含签名文件的目录，避免 Oracle JDK 加载时验证签名失败导致无法启动
-        coreArchive.GetEntry("META-INF")?.Delete();
+        // 删除 META-INF 下的签名文件，避免 Oracle JDK 加载时验证签名失败导致无法启动
+        foreach (var signature in coreArchive.Entries
+                     .Where(entry => entry.FullName.StartsWith("META-INF/", StringComparison.OrdinalIgnoreCase)
+                                     && (entry.FullName.EndsWith(".SF", StringComparison.OrdinalIgnoreCase)
+                                         || entry.FullName.EndsWith(".RSA", StringComparison.OrdinalIgnoreCase)
+                                         || entry.FullName.EndsWith(".DSA", StringComparison.OrdinalIgnoreCase)))
+                     .ToList())
+            signature.Delete();
     }
 }
