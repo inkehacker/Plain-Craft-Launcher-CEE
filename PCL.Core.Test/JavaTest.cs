@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCL.Core.Minecraft;
+using PCL.Core.Minecraft.Java;
 using PCL.Core.Minecraft.Java.Parser;
 using PCL.Core.Minecraft.Java.Scanner;
 using System;
@@ -39,6 +40,13 @@ namespace PCL.Core.Test
             Assert.IsTrue(secondScaned.Count == 0 || (secondScaned.Count > 0 && (await jas.SelectSuitableJavaAsync(new Version(1, 8, 0), new Version(30, 0, 0))).Length > 0));
             // Java 是否有重复
             Assert.IsFalse(secondScaned.GroupBy(x => x.Installation.JavaExePath).Any(x => x.Count() > 1));
+        }
+
+        [TestMethod]
+        public void TestDefaultJavaSearchKeywordsDoNotIncludeMinecraft()
+        {
+            // AppData 下的 minecraft 文件夹属于用户可控的游戏内容，不应作为 Java 自动发现的关键词
+            Assert.IsFalse(JavaConsts.AllKeywords.Contains("minecraft", StringComparer.OrdinalIgnoreCase));
         }
     }
 }
