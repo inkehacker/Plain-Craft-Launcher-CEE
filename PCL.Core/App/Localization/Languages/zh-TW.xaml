@@ -799,6 +799,7 @@
     <sys:String x:Key="Instance.Install.NoExtraInstall">無附加安裝</sys:String>
     <sys:String x:Key="Instance.Install.Reset.Message">你正在重設目前實例。&#xA;PCL CE 將會重新連線下載該實例所需的檔案，並重新安裝模組載入器（如有）。&#xA;此操作不會使你的存檔、模組、資源包等資訊遺失。</sys:String>
     <sys:String x:Key="Instance.Install.Reset.Title">重設此實例</sys:String>
+    <sys:String x:Key="Instance.Install.ToolTip.GameRunning">無法在遊戲執行期間更改版本</sys:String>
 
     <!-- Instance.Export -->
 

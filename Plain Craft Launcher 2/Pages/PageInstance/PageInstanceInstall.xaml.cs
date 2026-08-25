@@ -36,6 +36,8 @@ public partial class PageInstanceInstall
     private void LoaderInit()
     {
         disabledPageAnimControls.Add(BtnSelectStart);
+        // 游戏运行期间禁用"开始修改/重置"按钮（防止文件被游戏占用导致崩溃 #3494）
+        ModVideoBack.GamingStateChanged += (_, _) => ModBase.RunInUi(_RefreshStartButtonState);
         // PageLoaderInit(LoadMinecraft, PanLoad, PanBack, Nothing, DlClientListLoader, AddressOf LoadMinecraft_OnFinish)
         PageLoaderInit(LoadMinecraft, PanLoad, PanAllBack, null, ModDownload.dlClientListLoader, _ => GetCurrentInfo());
         LoadOptiFine.StateChanged += (_, _, _) => { OptiFine_Loaded(); ReloadSelected(); };
@@ -95,6 +97,33 @@ public partial class PageInstanceInstall
     }
 
     #region 安装
+
+    /// <summary>
+    ///     根据游戏运行状态刷新"开始修改/重置"按钮的可用性。
+    ///     游戏运行期间禁止修改或重置实例（防止文件被游戏占用导致崩溃），
+    ///     并显示提示 Tooltip。
+    /// </summary>
+    private void _RefreshStartButtonState()
+    {
+        var blockedByGame = ModVideoBack.IsGaming;
+        BtnSelectStart.IsEnabled = !blockedByGame;
+        BtnSelectStart.ToolTip = blockedByGame ? Lang.Text("Instance.Install.ToolTip.GameRunning") : null;
+    }
+
+    private static void _TryDeleteOldApiFile(object? selected, string? path)
+    {
+        if (selected is null || path is null)
+            return;
+        try
+        {
+            File.Delete(path);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            // 文件可能被占用（如游戏仍在运行），不中断修改流程
+            ModBase.Log(ex, $"删除旧 API 文件失败：{path}", ModBase.LogLevel.Hint);
+        }
+    }
 
     private void BtnSelectStart_Click(object sender, MouseButtonEventArgs mouseButtonEventArgs)
     {
@@ -165,13 +194,10 @@ public partial class PageInstanceInstall
         BtnSelectStart.IsEnabled = false;
         if (!ModDownloadLib.McInstall(request, _installAction == InstallAction.Modify ? Lang.Text("Instance.Install.Action.ModifyLabel") : Lang.Text("Common.Action.Reset")))
             return;
-        // 删除旧的独立 API 文件
-        if (selectedFabricApi is not null && _currentFabricApiPath is not null)
-            File.Delete(_currentFabricApiPath);
-        if (selectedLegacyFabricApi is not null && _currentLegacyFabricApiPath is not null)
-            File.Delete(_currentLegacyFabricApiPath);
-        if (selectedOptiFabric is not null && _currentOptiFabricPath is not null)
-            File.Delete(_currentOptiFabricPath);
+        // 删除旧的独立 API 文件（文件可能被游戏占用，失败时仅提示不中断）
+        _TryDeleteOldApiFile(selectedFabricApi, _currentFabricApiPath);
+        _TryDeleteOldApiFile(selectedLegacyFabricApi, _currentLegacyFabricApiPath);
+        _TryDeleteOldApiFile(selectedOptiFabric, _currentOptiFabricPath);
         // 返回主页
         ModMain.frmMain.PageChange(new FormMain.PageStackData { page = FormMain.PageType.Launch });
     }
@@ -442,7 +468,7 @@ public partial class PageInstanceInstall
         // 主预览
         ItemSelect.Title = PageInstanceLeft.McInstance.Name;
         ItemSelect.Logo = GetSelectLogo();
-        BtnSelectStart.IsEnabled = true;
+        _RefreshStartButtonState();
         if ((selectedInfo ?? "") == (currentInfo ?? ""))
         {
             ItemSelect.Info = selectedInfo;
@@ -1034,7 +1060,7 @@ public partial class PageInstanceInstall
     public void GetCurrentInfo()
     {
         ClearSelected();
-        BtnSelectStart.IsEnabled = true;
+        _RefreshStartButtonState();
         var currentInstance = PageInstanceLeft.McInstance.Info;
         _vanillaName = currentInstance.VanillaName;
         if (currentInstance.HasLiteLoader)
