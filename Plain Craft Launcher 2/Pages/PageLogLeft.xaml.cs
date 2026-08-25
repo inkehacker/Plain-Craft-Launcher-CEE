@@ -105,8 +105,9 @@ public partial class PageLogLeft
                     margin = new Thickness(0d);
                 ModBase.RunInUi(() =>
                 {
-                    var paragraph = new Paragraph(new Run(e.logText)) { Foreground = e.color, Margin = margin };
-                    flowDocuments[uuid].Blocks.Add(paragraph);
+                    // 批量添加：一次 UI 调度处理一批日志行，避免洪泛时卡死 UI 线程 (#2798)
+                    foreach (var (line, color) in e.lines)
+                        flowDocuments[uuid].Blocks.Add(new Paragraph(new Run(line)) { Foreground = color, Margin = margin });
                     var maxLog = (ulong)Config.System.MaxGameLog;
                     switch (maxLog)
                     {

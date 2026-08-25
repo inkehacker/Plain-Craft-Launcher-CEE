@@ -144,13 +144,11 @@ public static class ModWatcher
     // 实时日志处理
     public class LogOutputEventArgs : EventArgs
     {
-        public SolidColorBrush color;
-        public string logText;
+        public List<(string Text, SolidColorBrush Color)> lines;
 
-        public LogOutputEventArgs(string logText, SolidColorBrush color)
+        public LogOutputEventArgs(List<(string, SolidColorBrush)> lines)
         {
-            this.logText = logText;
-            this.color = color;
+            this.lines = lines;
         }
     }
 
@@ -225,6 +223,11 @@ public static class ModWatcher
 
         // 日志
         public List<string> waitingLog = new(1000);
+
+        // 实时日志批量缓冲：按监视线程节拍统一发出，避免游戏崩溃瞬间
+        // 逐行事件淹没 UI 线程导致启动器卡死 (#2798)
+        private readonly object realTimeLogLock = new();
+        private List<(string Text, SolidColorBrush Color)> realTimeLogBatch = new();
         private nint windowHandle;
         private string windowTitle = "";
 
@@ -385,7 +388,25 @@ public static class ModWatcher
                 }
             }
 
-            LogOutput?.Invoke(this, new LogOutputEventArgs(line, color));
+            lock (realTimeLogLock)
+                realTimeLogBatch.Add((line, color));
+        }
+
+        /// <summary>
+        ///     将积累的实时日志批量发出，由监视线程的定时器节流调用。
+        /// </summary>
+        private void FlushRealTimeLog()
+        {
+            List<(string Text, SolidColorBrush Color)> batch;
+            lock (realTimeLogLock)
+            {
+                if (realTimeLogBatch.Count == 0)
+                    return;
+                batch = realTimeLogBatch;
+                realTimeLogBatch = new();
+            }
+
+            LogOutput?.Invoke(this, new LogOutputEventArgs(batch));
         }
 
         /// <summary>
@@ -422,6 +443,7 @@ public static class ModWatcher
                         LogRealTime(Lang.Text("Watcher.ProcessExited", gameProcess.ExitCode), ref arglevel);
                     }
 
+                    FlushRealTimeLog();
                     GameExit?.Invoke();
                     // If Process.ExitCode = 1 Then
                     // '返回值为 1，考虑是任务管理器结束
@@ -447,6 +469,8 @@ public static class ModWatcher
                         State = MinecraftState.Ended;
                     }
                 }
+
+                FlushRealTimeLog();
             }
             catch (Exception ex)
             {
@@ -791,6 +815,7 @@ public static class ModWatcher
                     {
                         var arglevel = GameLogLevel.Info;
                         LogRealTime(Lang.Text("Watcher.ProcessExited", gameProcess.ExitCode), ref arglevel);
+                        FlushRealTimeLog();
                     }
 
                     GameExit?.Invoke();
