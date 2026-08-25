@@ -17,7 +17,12 @@ public sealed partial class ApplicationService
     {
         Context.Debug("正在初始化 WPF 应用程序容器");
         var app = Loading!.Invoke();
-        app.DispatcherUnhandledException += (_, e) => Lifecycle.OnException(e.Exception);
+        // 设置 e.Handled 防止 WPF 重新抛出异常导致整个启动器崩溃（#3475/#3494/#3564 等）
+        app.DispatcherUnhandledException += (_, e) =>
+        {
+            e.Handled = true;
+            Lifecycle.OnException(e.Exception);
+        };
         app.Startup += (_, _) => Lifecycle.OnLoading();
         Lifecycle.CurrentApplication = app;
         Loading = null;
