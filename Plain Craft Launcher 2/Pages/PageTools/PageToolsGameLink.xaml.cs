@@ -413,7 +413,7 @@ public partial class PageToolsGameLink
                     }
                     catch (Exception ex)
                     {
-                        LogWrapper.Error(ex, $"[Link] Failed to get announcement from server {serverNumber}");
+                        LogWrapper.Warn(ex, $"[Link] Failed to get announcement from server {serverNumber}");
                         States.Link.AnnounceCacheConfig.Reset();
                         States.Link.AnnounceCacheVerConfig.Reset();
                         serverNumber++;
@@ -421,7 +421,19 @@ public partial class PageToolsGameLink
 
                 #endregion
 
-                if (jObj is null) throw new Exception("Failed to fetch lobby data");
+                if (jObj is null)
+                {
+                    // 服务器列表不可用（如 CI 构建缺少密钥）或网络受限时降级提示，
+                    // 不弹错误框打断用户
+                    LogWrapper.Warn("[Link] 无法获取大厅公告数据，联机大厅功能不可用");
+                    LobbyInfoProvider.IsLobbyAvailable = false;
+                    ModBase.RunInUi(() =>
+                    {
+                        HintAnnounce.Theme = MyHint.Themes.Red;
+                        HintAnnounce.Text = Lang.Text("Tools.GameLink.Error.ConnectFailed");
+                    });
+                    return;
+                }
 
                 #region 解析基础状态与版本限制
 
@@ -523,7 +535,7 @@ public partial class PageToolsGameLink
                     HintAnnounce.Theme = MyHint.Themes.Red;
                     HintAnnounce.Text = Lang.Text("Tools.GameLink.Error.ConnectFailed");
                 });
-                LogWrapper.Error(ex, "[Link] Failed to get lobby announcement");
+                LogWrapper.Warn(ex, "[Link] Failed to get lobby announcement");
             }
         });
     }
