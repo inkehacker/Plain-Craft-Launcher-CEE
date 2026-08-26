@@ -26,7 +26,7 @@
     <sys:String x:Key="Tools.Ai.Setting.TestSuccess">Connexion réussie, réponse du modèle : {0}</sys:String>
     <sys:String x:Key="Tools.Ai.Setting.TestFailed">Échec de la connexion : {0}</sys:String>
     <sys:String x:Key="Tools.Ai.Setting.TestFailedEmpty">Le modèle n'a renvoyé aucun contenu</sys:String>
-    <sys:String x:Key="Tools.Ai.Input.Hint">Saisissez un message, Entrée pour envoyer (Maj+Entrée pour un saut de ligne)</sys:String>
+    <sys:String x:Key="Tools.Ai.Input.Hint">Saisissez un message, Entrée pour envoyer</sys:String>
     <sys:String x:Key="Tools.Ai.Send">Envoyer</sys:String>
     <sys:String x:Key="Tools.Ai.Stop">Arrêter</sys:String>
     <sys:String x:Key="Tools.Ai.Chat.EmptyHint">Bonjour ! Je suis l'assistant IA intégré à PCL CE.

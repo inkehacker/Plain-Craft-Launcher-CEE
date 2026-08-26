@@ -87,9 +87,8 @@
                     </local:MyScrollViewer>
 
                     <Grid Grid.Row="2" Margin="0,0,0,10">
-                        <local:MyTextBox x:Name="TextInput" Height="Auto" MinHeight="34"
-                                         MaxHeight="120"
-                                         AcceptsReturn="True" TextWrapping="Wrap"
+                        <local:MyTextBox x:Name="TextInput" Margin="0"
+                                         AcceptsReturn="False" TextWrapping="NoWrap"
                                          HintText="{DynamicResource Tools.Ai.Input.Hint}"
                                          KeyDown="TextInput_KeyDown" />
                         <TextBlock x:Name="TextTokenUsage" HorizontalAlignment="Right" VerticalAlignment="Top"

@@ -3277,7 +3277,7 @@
     <sys:String x:Key="Tools.Ai.Setting.TestSuccess">連線成功，模型回覆：{0}</sys:String>
     <sys:String x:Key="Tools.Ai.Setting.TestFailed">連線失敗：{0}</sys:String>
     <sys:String x:Key="Tools.Ai.Setting.TestFailedEmpty">模型未回覆內容</sys:String>
-    <sys:String x:Key="Tools.Ai.Input.Hint">輸入訊息，Enter 傳送（Shift+Enter 換行）</sys:String>
+    <sys:String x:Key="Tools.Ai.Input.Hint">輸入訊息，Enter 傳送</sys:String>
     <sys:String x:Key="Tools.Ai.Send">傳送</sys:String>
     <sys:String x:Key="Tools.Ai.Stop">停止</sys:String>
     <sys:String x:Key="Tools.Ai.Chat.EmptyHint">你好！我是 PCL CE 內建的 AI 助手。
