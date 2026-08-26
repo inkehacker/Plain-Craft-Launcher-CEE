@@ -72,7 +72,7 @@
                         <StackPanel x:Name="PanChatList" Margin="0,0,5,0" />
                     </local:MyScrollViewer>
 
-                    <local:MyTextBox Grid.Row="1" x:Name="TextInput" Height="74" Margin="0,0,0,10"
+                    <local:MyTextBox Grid.Row="1" x:Name="TextInput" Height="48" Margin="0,0,0,10"
                                      AcceptsReturn="True" TextWrapping="Wrap"
                                      HintText="{DynamicResource Tools.Ai.Input.Hint}"
                                      KeyDown="TextInput_KeyDown" />
