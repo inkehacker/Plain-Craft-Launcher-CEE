@@ -26,7 +26,7 @@
     <sys:String x:Key="Tools.Ai.Setting.TestSuccess">接続成功、モデルの応答：{0}</sys:String>
     <sys:String x:Key="Tools.Ai.Setting.TestFailed">接続失敗：{0}</sys:String>
     <sys:String x:Key="Tools.Ai.Setting.TestFailedEmpty">モデルが応答を返しませんでした</sys:String>
-    <sys:String x:Key="Tools.Ai.Input.Hint">メッセージを入力。Enter で送信</sys:String>
+    <sys:String x:Key="Tools.Ai.Input.Hint">メッセージを入力。Enter で送信（Shift+Enter で改行）</sys:String>
     <sys:String x:Key="Tools.Ai.Send">送信</sys:String>
     <sys:String x:Key="Tools.Ai.Stop">停止</sys:String>
     <sys:String x:Key="Tools.Ai.Chat.EmptyHint">こんにちは！PCL CE 内蔵の AI アシスタントです。
