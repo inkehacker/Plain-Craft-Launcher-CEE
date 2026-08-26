@@ -24,7 +24,6 @@ public partial class PageToolsLeft
         var hide = Config.Preference.Hide;
 
         if (ItemGameLink.Checked && hide.ToolsGameLink) isHiddenPage = true;
-        if (ItemAi.Checked && hide.ToolsAi) isHiddenPage = true;
         if (ItemTest.Checked && hide.ToolsTest) isHiddenPage = true;
         if (PageSetupUI.HiddenForceShow)
             isHiddenPage = false;
@@ -40,8 +39,6 @@ public partial class PageToolsLeft
         var hideCfg = Config.Preference.Hide;
         if (!hideCfg.ToolsGameLink)
             ItemGameLink.SetChecked(true, false, false);
-        else if (!hideCfg.ToolsAi)
-            ItemAi.SetChecked(true, false, false);
         else if (!hideCfg.ToolsTest)
             ItemTest.SetChecked(true, false, false);
         else

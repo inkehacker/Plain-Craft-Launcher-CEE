@@ -3032,6 +3032,7 @@
     <sys:String x:Key="Setup.Ui.Basic.Opacity2">不透明度</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowLogo">打开启动器时显示 PCL CE 图标</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowTriviaHint">在启动游戏时显示"你知道吗"</sys:String>
+    <sys:String x:Key="Setup.Ui.Basic.ShowAi">在启动页右栏显示 AI 助手</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Title">基础</sys:String>
 
     <!-- Setup.Ui.FeatureHide -->

@@ -619,6 +619,11 @@ public static partial class Config
         [ConfigItem<string>("AiModel", "deepseek-chat")] public partial string Model { get; set; }
 
         /// <summary>
+        /// 在启动页右栏显示 AI 助手面板。
+        /// </summary>
+        [ConfigItem<bool>("AiShowOnLaunchPage", false)] public partial bool ShowOnLaunchPage { get; set; }
+
+        /// <summary>
         /// API Key 明文（读写时自动加解密）。
         /// </summary>
         public string ApiKey

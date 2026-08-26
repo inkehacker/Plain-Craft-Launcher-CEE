@@ -34,6 +34,17 @@ public partial class PageLaunchRight : IRefreshable
         PanBack.ScrollToHome();
         PanScroll = PanBack; // 不知道为啥不能在 XAML 设置
         PanLog.Visibility = ModBase.modeDebug ? Visibility.Visible : Visibility.Collapsed;
+        // AI 助手面板（设置中可选开启）
+        if (Config.Ai.ShowOnLaunchPage)
+        {
+            ModMain.frmToolsAi ??= new PageToolsAi();
+            PanAi.Child = ModMain.frmToolsAi;
+            PanAi.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            PanAi.Visibility = Visibility.Collapsed;
+        }
         // 社区版提示
         PanHint.Visibility = States.Hint.CEMessage
             ? Visibility.Visible
