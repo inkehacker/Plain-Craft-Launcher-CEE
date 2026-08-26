@@ -20,18 +20,15 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BasedOnTextBlock}">
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="Margin" Value="0,0,15,0" />
-                        </Style>
-                    </Grid.Resources>
-
-                    <TextBlock Grid.Row="0" Text="{DynamicResource Tools.Ai.Setting.Endpoint}" />
+                    <TextBlock Grid.Row="0" Text="{DynamicResource Tools.Ai.Setting.Endpoint}"
+                               Style="{StaticResource BasedOnTextBlock}"
+                               VerticalAlignment="Center" Margin="0,0,15,0" />
                     <local:MyTextBox Grid.Row="0" Grid.Column="1" x:Name="TextEndpoint" Margin="0,0,0,12"
                                      HintText="https://api.deepseek.com/v1" />
 
-                    <TextBlock Grid.Row="1" Text="{DynamicResource Tools.Ai.Setting.ApiKey}" />
+                    <TextBlock Grid.Row="1" Text="{DynamicResource Tools.Ai.Setting.ApiKey}"
+                               Style="{StaticResource BasedOnTextBlock}"
+                               VerticalAlignment="Center" Margin="0,0,15,0" />
                     <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -43,7 +40,9 @@
                                         Click="BtnShowKey_Click" MinWidth="50" />
                     </Grid>
 
-                    <TextBlock Grid.Row="2" Text="{DynamicResource Tools.Ai.Setting.Model}" />
+                    <TextBlock Grid.Row="2" Text="{DynamicResource Tools.Ai.Setting.Model}"
+                               Style="{StaticResource BasedOnTextBlock}"
+                               VerticalAlignment="Center" Margin="0,0,15,0" />
                     <local:MyTextBox Grid.Row="2" Grid.Column="1" x:Name="TextModel" Margin="0,0,0,12"
                                      HintText="deepseek-chat" />
 
