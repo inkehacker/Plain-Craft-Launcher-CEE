@@ -34,9 +34,9 @@
                     <TextBlock Grid.Row="1" Text="{DynamicResource Tools.Ai.Setting.ApiKey}" />
                     <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,12">
                         <local:MyTextBox x:Name="TextApiKey" HintText="sk-..." />
-                        <local:MyButton x:Name="BtnShowKey" HorizontalAlignment="Right" Margin="0,0,4,3"
+                        <local:MyButton x:Name="BtnShowKey" HorizontalAlignment="Right" Margin="0,0,4,0"
                                         VerticalAlignment="Center" Text="{DynamicResource Tools.Ai.Setting.ShowKey}"
-                                        Click="BtnShowKey_Click" TextPadding="4" Padding="3,0" />
+                                        Click="BtnShowKey_Click" Width="50" Height="24" />
                     </Grid>
 
                     <TextBlock Grid.Row="2" Text="{DynamicResource Tools.Ai.Setting.Model}" />
@@ -44,10 +44,11 @@
                                      HintText="deepseek-chat" />
 
                     <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <local:MyButton x:Name="BtnTest" Margin="0,0,10,0"
+                        <local:MyButton x:Name="BtnTest" Margin="0,0,10,0" MinWidth="90" Height="28"
                                         Text="{DynamicResource Tools.Ai.Setting.Test}"
                                         Click="BtnTest_Click" />
-                        <local:MyButton Text="{DynamicResource Tools.Ai.Setting.Save}"
+                        <local:MyButton MinWidth="80" Height="28"
+                                        Text="{DynamicResource Tools.Ai.Setting.Save}"
                                         Click="BtnSave_Click" />
                     </StackPanel>
                 </Grid>
@@ -74,21 +75,25 @@
 
                     <Grid Grid.Row="2">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <local:MyButton Margin="0,0,10,0" Text="{DynamicResource Tools.Ai.Skill.Core}"
+                            <local:MyButton Margin="0,0,10,0" MinWidth="110" Height="28"
+                                            Text="{DynamicResource Tools.Ai.Skill.Core}"
                                             ToolTip="{DynamicResource Tools.Ai.Skill.Core.ToolTip}"
-                                            Click="BtnSkillCore_Click" TextPadding="5" Padding="4,0" />
-                            <local:MyButton Margin="0,0,10,0" Text="{DynamicResource Tools.Ai.Skill.Mod}"
+                                            Click="BtnSkillCore_Click" />
+                            <local:MyButton Margin="0,0,10,0" MinWidth="110" Height="28"
+                                            Text="{DynamicResource Tools.Ai.Skill.Mod}"
                                             ToolTip="{DynamicResource Tools.Ai.Skill.Mod.ToolTip}"
-                                            Click="BtnSkillMod_Click" TextPadding="5" Padding="4,0" />
-                            <local:MyButton Text="{DynamicResource Tools.Ai.Skill.Keybind}"
+                                            Click="BtnSkillMod_Click" />
+                            <local:MyButton MinWidth="110" Height="28"
+                                            Text="{DynamicResource Tools.Ai.Skill.Keybind}"
                                             ToolTip="{DynamicResource Tools.Ai.Skill.Keybind.ToolTip}"
-                                            Click="BtnSkillKeybind_Click" TextPadding="5" Padding="4,0" />
+                                            Click="BtnSkillKeybind_Click" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <local:MyButton x:Name="BtnStop" Margin="0,0,10,0" Visibility="Collapsed"
-                                            ColorType="Red" Text="{DynamicResource Tools.Ai.Stop}"
+                            <local:MyButton x:Name="BtnStop" Margin="0,0,10,0" MinWidth="70" Height="28"
+                                            Visibility="Collapsed" ColorType="Red"
+                                            Text="{DynamicResource Tools.Ai.Stop}"
                                             Click="BtnStop_Click" />
-                            <local:MyButton x:Name="BtnSend" ColorType="Highlight"
+                            <local:MyButton x:Name="BtnSend" MinWidth="80" Height="28" ColorType="Highlight"
                                             Text="{DynamicResource Tools.Ai.Send}"
                                             Click="BtnSend_Click" />
                         </StackPanel>
