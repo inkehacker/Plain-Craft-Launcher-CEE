@@ -33,6 +33,13 @@
 ゲームコアの翻訳、mod の翻訳、キー設定の調整ができます。
 
 下部のショートカットボタンからタスクを選ぶか、入力欄に直接ご要望を記入してください。</sys:String>
+    <sys:String x:Key="Tools.Ai.History">履歴</sys:String>
+    <sys:String x:Key="Tools.Ai.History.Empty">この履歴は空または破損しています</sys:String>
+    <sys:String x:Key="Tools.Ai.NewChat">新しい会話</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory">記憶</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Empty">長期記憶はまだありません。会話から記憶に値する内容が自動的に抽出されます</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Content">現在の長期記憶：</sys:String>
+    <sys:String x:Key="Tools.Ai.TokenUsage">トークン {2}（入力 {0} / 出力 {1}）</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core">コア翻訳</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">現在のインスタンスのゲームコア言語ファイルを翻訳（旧バージョン・バグ版・エイプリルフール版向け）</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">現在のインスタンスのゲームコアを翻訳してください</sys:String>

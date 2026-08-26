@@ -62,23 +62,42 @@
             <local:MyCard Margin="0,0,0,15" Title="{DynamicResource Tools.Ai.Title}">
                 <Grid Margin="25,30,25,20">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" MinHeight="320" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <local:MyScrollViewer Grid.Row="0" x:Name="PanChat" Margin="0,0,0,12"
+                    <!-- 会话工具栏 -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                        <local:MyComboBox x:Name="ComboSessions" Width="220" Height="26"
+                                          HintText="{DynamicResource Tools.Ai.History}"
+                                          SelectionChanged="ComboSessions_SelectionChanged" />
+                        <local:MyButton Margin="8,0,0,0" Height="26" Padding="10,0"
+                                        Text="{DynamicResource Tools.Ai.NewChat}"
+                                        Click="BtnNewChat_Click" />
+                        <local:MyButton Margin="8,0,0,0" Height="26" Padding="10,0"
+                                        Text="{DynamicResource Tools.Ai.Memory}"
+                                        Click="BtnMemory_Click" />
+                    </StackPanel>
+
+                    <local:MyScrollViewer Grid.Row="1" x:Name="PanChat" Margin="0,0,0,12"
                                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel x:Name="PanChatList" Margin="0,0,5,0" />
                     </local:MyScrollViewer>
 
-                    <local:MyTextBox Grid.Row="1" x:Name="TextInput" Height="Auto" MinHeight="48"
-                                     MaxHeight="120" Margin="0,0,0,10"
-                                     AcceptsReturn="True" TextWrapping="Wrap"
-                                     HintText="{DynamicResource Tools.Ai.Input.Hint}"
-                                     KeyDown="TextInput_KeyDown" />
+                    <Grid Grid.Row="2" Margin="0,0,0,10">
+                        <local:MyTextBox x:Name="TextInput" Height="Auto" MinHeight="34"
+                                         MaxHeight="120"
+                                         AcceptsReturn="True" TextWrapping="Wrap"
+                                         HintText="{DynamicResource Tools.Ai.Input.Hint}"
+                                         KeyDown="TextInput_KeyDown" />
+                        <TextBlock x:Name="TextTokenUsage" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                   Margin="0,2,6,0" FontSize="11" Opacity="0.55"
+                                   Foreground="{StaticResource ColorBrushGray4}" />
+                    </Grid>
 
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="3">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <local:MyButton Margin="0,0,10,0" Height="28" Padding="10,0"
                                             Text="{DynamicResource Tools.Ai.Skill.Core}"

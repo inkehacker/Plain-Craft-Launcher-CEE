@@ -16,6 +16,8 @@ public partial class PageToolsAi
     private CancellationTokenSource? _cts;
     private bool _isRunning;
     private bool _isShowingKey;
+    private string? _sessionPath;
+    private bool _isLoadingSessions;
 
     public PageToolsAi()
     {
@@ -30,6 +32,7 @@ public partial class PageToolsAi
         TextEndpoint.Text = Config.Ai.Endpoint;
         TextModel.Text = Config.Ai.Model;
         _ApplyKeyMask();
+        _RefreshSessionList();
         if (PanChatList.Children.Count == 0)
             _AddBubble(Lang.Text("Tools.Ai.Chat.EmptyHint"), isUser: false, isStatus: true);
     }
@@ -174,6 +177,9 @@ public partial class PageToolsAi
                         break;
                     case ModAi.AiEventKind.Done:
                         break;
+                    case ModAi.AiEventKind.UsageUpdated:
+                        _UpdateTokenLabel(evt.PromptTokens, evt.CompletionTokens);
+                        break;
                     case ModAi.AiEventKind.Error:
                         _AddBubble(evt.Text ?? "", isUser: false, isError: true);
                         break;
@@ -204,6 +210,8 @@ public partial class PageToolsAi
             _isRunning = false;
             BtnSend.IsEnabled = true;
             BtnStop.Visibility = Visibility.Collapsed;
+            _SaveSession();
+            _RefreshSessionList();
             _ScrollToBottom();
         }
     }
@@ -220,6 +228,120 @@ public partial class PageToolsAi
         "set_keybinds" => Lang.Text("Tools.Ai.Skill.Keybind"),
         _ => name ?? "?"
     };
+
+    #endregion
+
+    #region 会话与记忆
+
+    private void _RefreshSessionList()
+    {
+        _isLoadingSessions = true;
+        try
+        {
+            ComboSessions.Items.Clear();
+            foreach (var (path, name) in ModAi.ListSessions())
+                ComboSessions.Items.Add(new MyComboBoxItem { Content = name, Tag = path });
+            ComboSessions.SelectedIndex = -1;
+        }
+        finally
+        {
+            _isLoadingSessions = false;
+        }
+    }
+
+    private void ComboSessions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_isLoadingSessions || _isRunning)
+            return;
+        if (ComboSessions.SelectedItem is not MyComboBoxItem { Tag: string path })
+        {
+            _RefreshSessionList();
+            return;
+        }
+        // 切换前自动学习当前对话中的用户偏好（后台异步，不阻塞）
+        _ = ModAi.LearnMemoryAsync(new List<AiChatMessage>(_history), CancellationToken.None);
+
+        var messages = ModAi.LoadSession(path);
+        if (messages.Count == 0)
+        {
+            HintService.Hint(Lang.Text("Tools.Ai.History.Empty"), HintType.Warning);
+            _RefreshSessionList();
+            return;
+        }
+        _history.Clear();
+        _history.AddRange(messages);
+        _sessionPath = path;
+        ModAi.ResetTokenUsage();
+        _UpdateTokenLabel();
+        _RenderHistory();
+    }
+
+    private void BtnNewChat_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (_isRunning)
+            return;
+        if (_history.Any(m => m.Role != "system"))
+        {
+            _SaveSession();
+            _ = ModAi.LearnMemoryAsync(new List<AiChatMessage>(_history), CancellationToken.None);
+        }
+        _history.Clear();
+        _sessionPath = null;
+        ModAi.ResetTokenUsage();
+        _UpdateTokenLabel();
+        _RenderHistory();
+        _AddBubble(Lang.Text("Tools.Ai.Chat.EmptyHint"), isUser: false, isStatus: true);
+        _RefreshSessionList();
+        TextInput.Focus();
+    }
+
+    private void BtnMemory_Click(object sender, MouseButtonEventArgs e)
+    {
+        var memory = ModAi.LoadMemory();
+        if (memory.Count == 0)
+        {
+            _AddBubble(Lang.Text("Tools.Ai.Memory.Empty"), isUser: false, isStatus: true);
+            return;
+        }
+        _AddBubble(Lang.Text("Tools.Ai.Memory.Content") + "\n" + string.Join("\n", memory.Select(m => "• " + m)),
+            isUser: false, isStatus: true);
+    }
+
+    private void _SaveSession()
+    {
+        if (_history.Any(m => m.Role != "system"))
+            _sessionPath = ModAi.SaveSession(_sessionPath, _history);
+    }
+
+    private void _UpdateTokenLabel(int promptTokens = 0, int completionTokens = 0)
+    {
+        if (promptTokens <= 0 && completionTokens <= 0)
+        {
+            promptTokens = ModAi.SessionPromptTokens;
+            completionTokens = ModAi.SessionCompletionTokens;
+        }
+        TextTokenUsage.Text = promptTokens + completionTokens > 0
+            ? Lang.Text("Tools.Ai.TokenUsage", promptTokens, completionTokens, promptTokens + completionTokens)
+            : "";
+    }
+
+    /// <summary>按历史重建聊天区（加载历史会话时使用，工具过程消息省略）。</summary>
+    private void _RenderHistory()
+    {
+        PanChatList.Children.Clear();
+        foreach (var message in _history)
+        {
+            switch (message.Role)
+            {
+                case "user" when message.Content is { Length: > 0 }:
+                    _AddBubble(message.Content, isUser: true);
+                    break;
+                case "assistant" when message.Content is { Length: > 0 }:
+                    _AddBubble(message.Content, isUser: false);
+                    break;
+            }
+        }
+    }
 
     #endregion
 

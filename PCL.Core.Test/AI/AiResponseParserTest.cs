@@ -96,4 +96,31 @@ public class AiResponseParserTest
             AiResponseParser.ParseError("""{"error":{"message":"Invalid API key","type":"auth"}}"""));
         Assert.AreEqual("plain", AiResponseParser.ParseError("plain"));
     }
+
+    [TestMethod]
+    public void ParseUsageChunk()
+    {
+        // stream_options include_usage 时的末块：无 choices，仅携带用量
+        var chunk = AiResponseParser.TryParseData(
+            """{"choices":[],"usage":{"prompt_tokens":123,"completion_tokens":45}}""");
+
+        Assert.IsNotNull(chunk);
+        Assert.AreEqual(123, chunk.PromptTokens);
+        Assert.AreEqual(45, chunk.CompletionTokens);
+        Assert.IsNull(chunk.ContentDelta);
+        Assert.IsNull(chunk.FinishReason);
+    }
+
+    [TestMethod]
+    public void ParseUsageWithContentChunk()
+    {
+        // 个别服务端在普通块上也附带 usage
+        var chunk = AiResponseParser.TryParseData(
+            """{"choices":[{"index":0,"delta":{"content":"hi"}}],"usage":{"prompt_tokens":5,"completion_tokens":1}}""");
+
+        Assert.IsNotNull(chunk);
+        Assert.AreEqual("hi", chunk.ContentDelta);
+        Assert.AreEqual(5, chunk.PromptTokens);
+        Assert.AreEqual(1, chunk.CompletionTokens);
+    }
 }

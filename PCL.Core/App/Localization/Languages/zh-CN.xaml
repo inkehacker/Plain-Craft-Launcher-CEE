@@ -3284,6 +3284,13 @@
 我可以：翻译游戏核心、翻译 mod、调整键位。
 
 先在下方快捷按钮中选择任务，或在输入框中直接描述你的需求。</sys:String>
+    <sys:String x:Key="Tools.Ai.History">历史对话</sys:String>
+    <sys:String x:Key="Tools.Ai.History.Empty">该历史会话为空或已损坏</sys:String>
+    <sys:String x:Key="Tools.Ai.NewChat">新对话</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory">记忆</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Empty">暂无长期记忆。对话中值得记住的内容会被自动提炼</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Content">当前长期记忆：</sys:String>
+    <sys:String x:Key="Tools.Ai.TokenUsage">Token {2}（输入 {0} / 输出 {1}）</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core">翻译核心</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">翻译当前实例游戏核心的语言文件（适合远古版本、bug 版本或愚人节版本）</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">请翻译当前实例的游戏核心</sys:String>

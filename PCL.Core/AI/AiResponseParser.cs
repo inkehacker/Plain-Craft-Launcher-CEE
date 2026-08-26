@@ -35,7 +35,16 @@ public static class AiResponseParser
             return null;
 
         var chunk = new AiStreamChunk();
-        var choice = obj["choices"]?[0];
+
+        // 用量块（stream_options include_usage 时末块携带，choices 通常为空）
+        if (obj["usage"] is JsonObject usageObj)
+        {
+            chunk.PromptTokens = usageObj["prompt_tokens"]?.GetValue<int>() ?? 0;
+            chunk.CompletionTokens = usageObj["completion_tokens"]?.GetValue<int>() ?? 0;
+        }
+
+        var choices = obj["choices"] as JsonArray;
+        var choice = choices is { Count: > 0 } ? choices[0] : null;
         if (choice is null)
             return chunk;
 

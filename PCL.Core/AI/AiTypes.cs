@@ -96,6 +96,16 @@ public sealed class AiStreamChunk
     /// 是否为流结束标记（[DONE]）。
     /// </summary>
     public bool IsDone { get; set; }
+
+    /// <summary>
+    /// 本次请求的输入 token 数（携带 usage 的末块有值）。
+    /// </summary>
+    public int PromptTokens { get; set; }
+
+    /// <summary>
+    /// 本次请求的输出 token 数（携带 usage 的末块有值）。
+    /// </summary>
+    public int CompletionTokens { get; set; }
 }
 
 public sealed class AiToolCallDelta

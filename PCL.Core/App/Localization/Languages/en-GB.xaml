@@ -3284,6 +3284,13 @@
 I can translate the game core, translate mods and adjust keybinds.
 
 Pick a task with the quick buttons below, or describe your need in the input box.</sys:String>
+    <sys:String x:Key="Tools.Ai.History">History</sys:String>
+    <sys:String x:Key="Tools.Ai.History.Empty">This session is empty or corrupted</sys:String>
+    <sys:String x:Key="Tools.Ai.NewChat">New chat</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory">Memory</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Empty">No long-term memory yet. Worthwhile preferences are extracted automatically from conversations</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Content">Current long-term memory:</sys:String>
+    <sys:String x:Key="Tools.Ai.TokenUsage">Tokens {2} ({0} in / {1} out)</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core">Translate core</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">Translate the language files of the current instance's game core (for ancient versions, buggy versions or April Fools versions)</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">Please translate the game core of the current instance</sys:String>

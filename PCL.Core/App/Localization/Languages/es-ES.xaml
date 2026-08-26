@@ -33,6 +33,13 @@
 Puedo traducir el núcleo del juego, traducir mods y ajustar los controles.
 
 Elige una tarea con los botones de abajo, o describe tu petición directamente en el campo de entrada.</sys:String>
+    <sys:String x:Key="Tools.Ai.History">Historial</sys:String>
+    <sys:String x:Key="Tools.Ai.History.Empty">Este historial está vacío o dañado</sys:String>
+    <sys:String x:Key="Tools.Ai.NewChat">Nueva conversación</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory">Memoria</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Empty">Aún no hay memoria a largo plazo. Las preferencias relevantes se extraen automáticamente de las conversaciones</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Content">Memoria a largo plazo actual:</sys:String>
+    <sys:String x:Key="Tools.Ai.TokenUsage">Tokens {2} ({0} entrada / {1} salida)</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core">Traducir núcleo</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">Traducir los archivos de idioma del núcleo del juego de la instancia actual (apto para versiones antiguas, con errores o de April Fools)</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">Traduce el núcleo del juego de la instancia actual</sys:String>

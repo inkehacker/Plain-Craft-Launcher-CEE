@@ -3284,6 +3284,13 @@
 我可以：翻譯遊戲核心、翻譯 mod、調整按鍵。
 
 請在下方快捷按鈕中選擇任務，或在輸入框中直接描述你的需求。</sys:String>
+    <sys:String x:Key="Tools.Ai.History">歷史對話</sys:String>
+    <sys:String x:Key="Tools.Ai.History.Empty">該歷史對話為空或已損壞</sys:String>
+    <sys:String x:Key="Tools.Ai.NewChat">新對話</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory">記憶</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Empty">暫無長期記憶。對話中值得記住的內容會自動提煉</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Content">目前長期記憶：</sys:String>
+    <sys:String x:Key="Tools.Ai.TokenUsage">Token {2}（輸入 {0} / 輸出 {1}）</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core">翻譯核心</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">翻譯目前實例遊戲核心的語言檔案（適合遠古版本、bug 版本或愚人節版本）</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">請翻譯目前實例的遊戲核心</sys:String>

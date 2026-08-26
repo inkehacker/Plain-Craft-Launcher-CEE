@@ -29,11 +29,14 @@ public static class ModAi
         /// <summary>回答完成。</summary>
         Done,
 
+        /// <summary>token 用量更新（PromptTokens/CompletionTokens 为本次会话累计值）。</summary>
+        UsageUpdated,
+
         /// <summary>出错。Text 为错误信息。</summary>
         Error
     }
 
-    public sealed record AiEvent(AiEventKind Kind, string? Text = null);
+    public sealed record AiEvent(AiEventKind Kind, string? Text = null, int PromptTokens = 0, int CompletionTokens = 0);
 
     private static readonly List<(AiToolDefinition Definition, Func<JsonObject, CancellationToken, Task<string>> Handler)> _tools =
     [
@@ -46,8 +49,21 @@ public static class ModAi
 
     public static string SystemPrompt => BuildSystemPrompt();
 
+    /// <summary>本次会话累计输入 token 数。</summary>
+    public static int SessionPromptTokens { get; private set; }
+
+    /// <summary>本次会话累计输出 token 数。</summary>
+    public static int SessionCompletionTokens { get; private set; }
+
+    /// <summary>重置会话 token 统计（新建/加载会话时调用）。</summary>
+    public static void ResetTokenUsage()
+    {
+        SessionPromptTokens = 0;
+        SessionCompletionTokens = 0;
+    }
+
     /// <summary>
-    ///     系统提示词 = 基础提示词 + 当前 UI 语言规则（让 AI 始终用启动器界面语言回复）。
+    ///     系统提示词 = 基础提示词 + 当前 UI 语言规则（让 AI 始终用启动器界面语言回复）+ 长期记忆。
     /// </summary>
     private static string BuildSystemPrompt()
     {
@@ -55,6 +71,13 @@ public static class ModAi
         var rule = LanguageRule(LocalizationService.CurrentLanguage.Code);
         if (rule.Length > 0)
             prompt += "\n" + rule;
+
+        var memory = LoadMemory();
+        if (memory.Count > 0)
+        {
+            // 记忆注入是提示词内容而非界面文本，故放在代码中
+            prompt += "\n\n用户长期记忆（回答时可参考）：\n" + string.Join("\n", memory.Select(m => "- " + m));
+        }
         return prompt;
     }
 
@@ -118,7 +141,17 @@ public static class ModAi
                         call.Name = toolDelta.Name ?? "";
                     call.ArgumentsJson += toolDelta.ArgumentsFragment ?? "";
                 }
+
+                // 携带 usage 的末块（stream_options include_usage）
+                if (chunk.PromptTokens > 0 || chunk.CompletionTokens > 0)
+                {
+                    SessionPromptTokens += chunk.PromptTokens;
+                    SessionCompletionTokens += chunk.CompletionTokens;
+                }
             }
+
+            // 每轮结束后下发累计用量
+            yield return new AiEvent(AiEventKind.UsageUpdated, null, SessionPromptTokens, SessionCompletionTokens);
 
             var toolCalls = toolAccumulator.OrderBy(kv => kv.Key).Select(kv => kv.Value).ToList();
             if (toolCalls.Count == 0)
@@ -236,4 +269,180 @@ public static class ModAi
         }
         return text.Trim();
     }
+
+    #region 历史会话持久化
+
+    private static string SessionDirectory => Path.Combine(ModBase.exePath, "PCL", "AiSessions");
+
+    /// <summary>列出所有历史会话（按时间倒序）。</summary>
+    public static List<(string Path, string Name)> ListSessions()
+    {
+        var result = new List<(string, string)>();
+        try
+        {
+            if (!Directory.Exists(SessionDirectory))
+                return result;
+            foreach (var file in Directory.EnumerateFiles(SessionDirectory, "*.json").OrderByDescending(f => f))
+            {
+                var name = _SessionNameFromFile(file);
+                if (name.Length > 0)
+                    result.Add((file, name));
+            }
+        }
+        catch (Exception ex)
+        {
+            ModBase.Log(ex, "AI 历史会话列表读取失败");
+        }
+        return result;
+    }
+
+    /// <summary>加载历史会话（剔除 system 消息，运行时由 RunAsync 重新注入）。</summary>
+    public static List<AiChatMessage> LoadSession(string path)
+    {
+        try
+        {
+            var messages = JsonSerializer.Deserialize<List<AiChatMessage>>(File.ReadAllText(path)) ?? [];
+            return messages.Where(m => m.Role != "system").ToList();
+        }
+        catch (Exception ex)
+        {
+            ModBase.Log(ex, "AI 历史会话加载失败：" + path);
+            return [];
+        }
+    }
+
+    /// <summary>保存会话（剔除 system 消息）。path 为 null 时按首个用户消息新建文件。返回会话文件路径。</summary>
+    public static string SaveSession(string? path, List<AiChatMessage> history)
+    {
+        try
+        {
+            Directory.CreateDirectory(SessionDirectory);
+            path ??= CreateSessionPath(history);
+            var messages = history.Where(m => m.Role != "system").ToList();
+            File.WriteAllText(path, JsonSerializer.Serialize(messages, new JsonSerializerOptions { WriteIndented = true }));
+            return path;
+        }
+        catch (Exception ex)
+        {
+            ModBase.Log(ex, "AI 历史会话保存失败");
+            return path ?? "";
+        }
+    }
+
+    /// <summary>按首个用户消息生成会话文件名（时间戳 + 截断标题）。</summary>
+    public static string CreateSessionPath(List<AiChatMessage> history)
+    {
+        var first = history.FirstOrDefault(m => m.Role == "user")?.Content ?? "";
+        var name = new string(first.Trim().Where(c => !Path.GetInvalidFileNameChars().Contains(c)).ToArray());
+        if (name.Length > 20)
+            name = name[..20];
+        if (name.Length == 0)
+            name = "chat";
+        var timestamp = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+        return Path.Combine(SessionDirectory, $"{timestamp}-{name}.json");
+    }
+
+    private static string _SessionNameFromFile(string file)
+    {
+        var name = Path.GetFileNameWithoutExtension(file);
+        var dash = name.IndexOf('-');
+        return dash >= 0 && dash + 1 < name.Length ? name[(dash + 1)..] : name;
+    }
+
+    #endregion
+
+    #region 长期记忆
+
+    private static string MemoryFilePath => Path.Combine(ModBase.exePath, "PCL", "AiMemory.json");
+
+    /// <summary>读取长期记忆（最多 50 条，失败返回空列表）。</summary>
+    public static List<string> LoadMemory()
+    {
+        try
+        {
+            if (!File.Exists(MemoryFilePath))
+                return [];
+            return JsonSerializer.Deserialize<List<string>>(File.ReadAllText(MemoryFilePath)) ?? [];
+        }
+        catch (Exception ex)
+        {
+            ModBase.Log(ex, "AI 长期记忆读取失败");
+            return [];
+        }
+    }
+
+    private static void _SaveMemory(List<string> memory)
+    {
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(MemoryFilePath)!);
+            File.WriteAllText(MemoryFilePath,
+                JsonSerializer.Serialize(memory.TakeLast(50).ToList(), new JsonSerializerOptions { WriteIndented = true }));
+        }
+        catch (Exception ex)
+        {
+            ModBase.Log(ex, "AI 长期记忆保存失败");
+        }
+    }
+
+    /// <summary>
+    /// 从对话中提炼用户长期偏好并合并入记忆（异步执行，失败静默不影响主流程）。
+    /// 记忆上限 50 条，按内容去重。
+    /// </summary>
+    public static async Task LearnMemoryAsync(List<AiChatMessage> history, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(Config.Ai.ApiKey))
+                return;
+            var conversation = history
+                .Where(m => m.Role != "system" && m.Content is { Length: > 0 })
+                .TakeLast(10)
+                .Select(m => $"{m.Role}: {m.Content[..Math.Min(m.Content.Length, 300)]}")
+                .ToList();
+            if (conversation.Count == 0)
+                return;
+
+            var client = CreateClient();
+            var completion = await client.CompleteAsync(
+            [
+                AiChatMessage.System("你是记忆提炼助手。从对话中提取值得长期记住的关于用户的事实或偏好（例如：玩家名称、常用游戏版本、模组/玩法偏好、使用习惯）。最多 3 条，只输出 JSON 字符串数组，如 [\"...\"]；没有值得记住的内容时输出 []。不要输出其他内容。"),
+                AiChatMessage.User(string.Join("\n", conversation))
+            ], null, cancellationToken).ConfigureAwait(false);
+
+            var text = _StripCodeFence(completion.Choice.Content ?? "").Trim();
+            List<string>? extracted;
+            try
+            {
+                extracted = JsonSerializer.Deserialize<List<string>>(text);
+            }
+            catch
+            {
+                return;
+            }
+            if (extracted is null || extracted.Count == 0)
+                return;
+
+            var memory = LoadMemory();
+            var existing = new HashSet<string>(memory, StringComparer.Ordinal);
+            var added = false;
+            foreach (var fact in extracted)
+            {
+                var trimmed = fact.Trim();
+                if (trimmed.Length == 0 || trimmed.Length > 100 || existing.Contains(trimmed))
+                    continue;
+                memory.Add(trimmed);
+                existing.Add(trimmed);
+                added = true;
+            }
+            if (added)
+                _SaveMemory(memory);
+        }
+        catch (Exception ex)
+        {
+            ModBase.Log(ex, "AI 记忆学习失败");
+        }
+    }
+
+    #endregion
 }

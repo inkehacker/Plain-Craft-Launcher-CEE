@@ -33,6 +33,13 @@
 Je peux traduire le noyau du jeu, traduire les mods et ajuster les touches.
 
 Choisissez une tâche avec les boutons ci-dessous, ou décrivez directement votre demande dans le champ de saisie.</sys:String>
+    <sys:String x:Key="Tools.Ai.History">Historique</sys:String>
+    <sys:String x:Key="Tools.Ai.History.Empty">Cet historique est vide ou corrompu</sys:String>
+    <sys:String x:Key="Tools.Ai.NewChat">Nouvelle conversation</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory">Mémoire</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Empty">Pas encore de mémoire à long terme. Les préférences notables sont extraites automatiquement des conversations</sys:String>
+    <sys:String x:Key="Tools.Ai.Memory.Content">Mémoire à long terme actuelle :</sys:String>
+    <sys:String x:Key="Tools.Ai.TokenUsage">Jetons {2} ({0} entrée / {1} sortie)</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core">Traduire le noyau</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">Traduire les fichiers de langue du noyau du jeu de l'instance actuelle (adapté aux anciennes versions, aux versions buguées ou aux poissons d'avril)</sys:String>
     <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">Veuillez traduire le noyau du jeu de l'instance actuelle</sys:String>

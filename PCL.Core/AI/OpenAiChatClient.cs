@@ -64,6 +64,8 @@ public sealed class OpenAiChatClient
             body["tools"] = toolArray;
             body["tool_choice"] = "auto";
         }
+        if (stream)
+            body["stream_options"] = new JsonObject { ["include_usage"] = true };
         return body;
     }
 
