@@ -1,4 +1,5 @@
 using PCL.Core.App.Configuration;
+using PCL.Core.Utils.Secret;
 
 namespace PCL.Core.App;
 
@@ -445,6 +446,7 @@ public static partial class Config
 
             // 子页面 工具
             [ConfigItem<bool>("UiHiddenToolsGameLink", false, ConfigSource.Local)] public partial bool ToolsGameLink { get; set; } // 新增
+            [ConfigItem<bool>("UiHiddenToolsAi", false, ConfigSource.Local)] public partial bool ToolsAi { get; set; } // 新增
             [ConfigItem<bool>("UiHiddenToolsTest", false, ConfigSource.Local)] public partial bool ToolsTest { get; set; } // 新增
 
             // 子页面 实例设置
@@ -594,6 +596,36 @@ public static partial class Config
         /// 正版登录方式。
         /// </summary>
         [ConfigItem<int>("LoginMsAuthType", 1)] public partial int LoginMsAuthType { get; set; }
+    }
+
+    /// <summary>
+    /// AI 助手配置（用户自接入 API）。
+    /// </summary>
+    [ConfigGroup("Ai")] partial class AiConfigGroup
+    {
+        /// <summary>
+        /// OpenAI 兼容接口地址（以 /v1 结尾）。
+        /// </summary>
+        [ConfigItem<string>("AiEndpoint", "https://api.deepseek.com/v1")] public partial string Endpoint { get; set; }
+
+        /// <summary>
+        /// API Key（加密存储）。
+        /// </summary>
+        [ConfigItem<string>("AiApiKeyEncrypted", "")] public partial string ApiKeyEncrypted { get; set; }
+
+        /// <summary>
+        /// 模型名称。
+        /// </summary>
+        [ConfigItem<string>("AiModel", "deepseek-chat")] public partial string Model { get; set; }
+
+        /// <summary>
+        /// API Key 明文（读写时自动加解密）。
+        /// </summary>
+        public string ApiKey
+        {
+            get => EncryptHelper.SecretDecrypt(ApiKeyEncrypted);
+            set => ApiKeyEncrypted = EncryptHelper.SecretEncrypt(value);
+        }
     }
 
     /// <summary>
