@@ -48,7 +48,7 @@ public partial class PageToolsAi
         TextApiKey.Text = "••••••••";
     }
 
-    private void BtnShowKey_Click(object sender, ModBase.RouteEventArgs routeEventArgs)
+    private void BtnShowKey_Click(object sender, MouseButtonEventArgs e)
     {
         _isShowingKey = !_isShowingKey;
         TextApiKey.Text = _isShowingKey ? Config.Ai.ApiKey : "••••••••";
@@ -62,13 +62,13 @@ public partial class PageToolsAi
             Config.Ai.ApiKey = TextApiKey.Text;
     }
 
-    private void BtnSave_Click(object sender, ModBase.RouteEventArgs routeEventArgs)
+    private void BtnSave_Click(object sender, MouseButtonEventArgs e)
     {
         _SaveConfig();
         HintService.Hint(Lang.Text("Tools.Ai.Setting.Saved"), HintType.Success);
     }
 
-    private async void BtnTest_Click(object sender, ModBase.RouteEventArgs routeEventArgs)
+    private async void BtnTest_Click(object sender, MouseButtonEventArgs e)
     {
         _SaveConfig();
         if (Config.Ai.ApiKey.IsNullOrEmpty())
@@ -104,13 +104,13 @@ public partial class PageToolsAi
 
     #region 对话
 
-    private void BtnSkillCore_Click(object sender, ModBase.RouteEventArgs routeEventArgs) =>
+    private void BtnSkillCore_Click(object sender, MouseButtonEventArgs e) =>
         TextInput.Text = Lang.Text("Tools.Ai.Skill.Core.Prompt");
 
-    private void BtnSkillMod_Click(object sender, ModBase.RouteEventArgs routeEventArgs) =>
+    private void BtnSkillMod_Click(object sender, MouseButtonEventArgs e) =>
         TextInput.Text = Lang.Text("Tools.Ai.Skill.Mod.Prompt");
 
-    private void BtnSkillKeybind_Click(object sender, ModBase.RouteEventArgs routeEventArgs) =>
+    private void BtnSkillKeybind_Click(object sender, MouseButtonEventArgs e) =>
         TextInput.Text = Lang.Text("Tools.Ai.Skill.Keybind.Prompt");
 
     private void TextInput_KeyDown(object sender, KeyEventArgs e)
@@ -122,7 +122,7 @@ public partial class PageToolsAi
         }
     }
 
-    private async void BtnSend_Click(object sender, ModBase.RouteEventArgs routeEventArgs)
+    private async void BtnSend_Click(object sender, MouseButtonEventArgs e)
     {
         if (_isRunning)
             return;
@@ -208,7 +208,7 @@ public partial class PageToolsAi
         }
     }
 
-    private void BtnStop_Click(object sender, ModBase.RouteEventArgs routeEventArgs)
+    private void BtnStop_Click(object sender, MouseButtonEventArgs e)
     {
         _cts?.Cancel();
     }
