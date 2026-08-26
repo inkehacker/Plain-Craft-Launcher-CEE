@@ -10,4 +10,61 @@
     <sys:String x:Key="Meta.Code">fr-FR</sys:String>
     <sys:String x:Key="Meta.Name">Français (France)</sys:String>
 
+    <!-- Assistant IA -->
+
+    <sys:String x:Key="Tools.Left.Ai">Assistant IA</sys:String>
+    <sys:String x:Key="Tools.Ai.Title">Assistant IA</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Title">Paramètres de l'API</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Endpoint">Adresse de l'API</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ApiKey">Clé API</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ShowKey">Afficher</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Model">Modèle</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Test">Tester la connexion</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Save">Enregistrer</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Saved">Paramètres enregistrés</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.NoKey">Veuillez d'abord saisir une clé API</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestSuccess">Connexion réussie, réponse du modèle : {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailed">Échec de la connexion : {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailedEmpty">Le modèle n'a renvoyé aucun contenu</sys:String>
+    <sys:String x:Key="Tools.Ai.Input.Hint">Saisissez un message, Entrée pour envoyer (Maj+Entrée pour un saut de ligne)</sys:String>
+    <sys:String x:Key="Tools.Ai.Send">Envoyer</sys:String>
+    <sys:String x:Key="Tools.Ai.Stop">Arrêter</sys:String>
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">Bonjour ! Je suis l'assistant IA intégré à PCL CE.
+Je peux traduire le noyau du jeu, traduire les mods et ajuster les touches.
+
+Choisissez une tâche avec les boutons ci-dessous, ou décrivez directement votre demande dans le champ de saisie.</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core">Traduire le noyau</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">Traduire les fichiers de langue du noyau du jeu de l'instance actuelle (adapté aux anciennes versions, aux versions buguées ou aux poissons d'avril)</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">Veuillez traduire le noyau du jeu de l'instance actuelle</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod">Traduire les mods</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.ToolTip">Traduire en masse les fichiers de langue des mods de l'instance actuelle et générer un pack de ressources</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.Prompt">Veuillez traduire les mods de l'instance actuelle</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind">Ajuster les touches</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.ToolTip">Ajuster les touches de l'instance actuelle en langage naturel (ex. changer l'accroupissement en Ctrl gauche)</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.Prompt">Veuillez ajuster mes touches :</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Running">Exécution de l'outil : {0}…</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Done">Outil « {0} » terminé :</sys:String>
+    <sys:String x:Key="Tools.Ai.Stopped">Génération arrêtée</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Api">Erreur d'API (HTTP {0}) : {1}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Unknown">Une erreur est survenue : {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.TooManyRounds">Trop de tours d'appels d'outils, arrêt</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.NoInstance">Aucune instance de jeu sélectionnée. Veuillez d'abord en choisir une sur la page de lancement</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">Vous êtes l'assistant IA intégré du lanceur PCL CE, qui aide les utilisateurs dans les tâches liées au lanceur Minecraft. Vous pouvez utiliser les outils fournis : traduire le noyau du jeu (translate_core), traduire les mods (translate_mods) et ajuster les touches (set_keybinds). Règles : 1) Lorsque l'utilisateur demande une traduction ou un ajustement des touches, privilégiez l'outil correspondant ; 2) Après la réussite d'un outil, rapportez le résultat de manière concise ; 3) N'inventez pas d'informations que l'outil n'a pas renvoyées ; 4) Répondez normalement aux autres questions.</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.Prompt">Vous êtes un traducteur de fichiers de langue Minecraft. Traduisez le JSON fourni en chinois simplifié et ne sortez que du JSON. Règles : 1) Conservez les clés inchangées, ne traduisez que les valeurs ; 2) Conservez les placeholders comme %s, %1$s, %d, {0} ; 3) Conservez les sauts de ligne \n ; 4) Utilisez les traductions courantes de la communauté chinoise de Minecraft (ex. Creeper=苦力怕, Sneak=潜行, Shulker=潜影贝) ; 5) N'ajoutez ni commentaires ni explications.</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">Le contenu renvoyé par le modèle n'est pas un JSON valide</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">Le modèle n'a renvoyé aucune traduction</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoOptionsFile">options.txt introuvable (l'instance n'a peut-être jamais été lancée)</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoChanges">Aucune modification de touches à appliquer</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Invalid">Les modifications de touches suivantes n'ont pas passé la validation :</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Success">{0} touche(s) modifiée(s) (sauvegarde : {1})</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.NoCoreJar">Jar du noyau introuvable : {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Unsupported">Cette version n'a pas de mécanisme de fichiers de langue (avant 1.1), impossible de la traduire en chinois avec l'outil</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Empty">Le fichier de langue du noyau est vide</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.AlreadyTranslated">Cette version possède déjà une traduction chinoise complète, aucun traitement nécessaire</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessPack">{0} entrée(s) traduite(s), pack de ressources généré : {1} (activez-le dans l'interface des packs de ressources)</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessJar">{0} entrée(s) traduite(s) et écrite(s) dans {1} (le fichier d'origine a été sauvegardé dans {2})</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.NoModsFolder">Dossier mods introuvable</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Nothing">Aucun mod à traduire ({0} mod(s) déjà traduit(s) en chinois ignoré(s))</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Success">{0} mod(s) traduit(s), {1} entrée(s) au total ({2} ignoré(s)), pack de ressources généré : {3}</sys:String>
+
 </ResourceDictionary>

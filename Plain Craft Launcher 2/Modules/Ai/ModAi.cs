@@ -44,7 +44,34 @@ public static class ModAi
 
     public static IReadOnlyList<AiToolDefinition> ToolDefinitions => _tools.Select(t => t.Definition).ToList();
 
-    public static string SystemPrompt => Lang.Text("Tools.Ai.SystemPrompt");
+    public static string SystemPrompt => BuildSystemPrompt();
+
+    /// <summary>
+    ///     系统提示词 = 基础提示词 + 当前 UI 语言规则（让 AI 始终用启动器界面语言回复）。
+    /// </summary>
+    private static string BuildSystemPrompt()
+    {
+        var prompt = Lang.Text("Tools.Ai.SystemPrompt");
+        var rule = LanguageRule(LocalizationService.CurrentLanguage.Code);
+        if (rule.Length > 0)
+            prompt += "\n" + rule;
+        return prompt;
+    }
+
+    /// <summary>
+    ///     按 UI 语言返回回复语言指令。语言规则是提示词内容而非界面文本，故放在代码中。
+    /// </summary>
+    private static string LanguageRule(string languageCode) => languageCode switch
+    {
+        "zh-CN" => "请始终使用简体中文与用户交流。",
+        "zh-TW" => "請始終使用繁體中文與用戶交流。",
+        "en-US" => "Always communicate with the user in English.",
+        "en-GB" => "Always communicate with the user in British English.",
+        "ja-JP" => "常にユーザーには日本語で応答してください。",
+        "fr-FR" => "Répondez toujours à l'utilisateur en français.",
+        "es-ES" => "Responde siempre al usuario en español.",
+        _ => ""
+    };
 
     public static OpenAiChatClient CreateClient() =>
         new(Config.Ai.Endpoint, Config.Ai.ApiKey, Config.Ai.Model);

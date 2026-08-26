@@ -10,4 +10,61 @@
     <sys:String x:Key="Meta.Code">ja-JP</sys:String>
     <sys:String x:Key="Meta.Name">日本語（日本）</sys:String>
 
+    <!-- AI 助手 -->
+
+    <sys:String x:Key="Tools.Left.Ai">AI アシスタント</sys:String>
+    <sys:String x:Key="Tools.Ai.Title">AI アシスタント</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Title">API 設定</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Endpoint">エンドポイント</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ApiKey">API キー</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ShowKey">表示</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Model">モデル</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Test">接続テスト</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Save">保存</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Saved">設定を保存しました</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.NoKey">先に API キーを入力してください</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestSuccess">接続成功、モデルの応答：{0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailed">接続失敗：{0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailedEmpty">モデルが応答を返しませんでした</sys:String>
+    <sys:String x:Key="Tools.Ai.Input.Hint">メッセージを入力。Enter で送信（Shift+Enter で改行）</sys:String>
+    <sys:String x:Key="Tools.Ai.Send">送信</sys:String>
+    <sys:String x:Key="Tools.Ai.Stop">停止</sys:String>
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">こんにちは！PCL CE 内蔵の AI アシスタントです。
+ゲームコアの翻訳、mod の翻訳、キー設定の調整ができます。
+
+下部のショートカットボタンからタスクを選ぶか、入力欄に直接ご要望を記入してください。</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core">コア翻訳</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">現在のインスタンスのゲームコア言語ファイルを翻訳（旧バージョン・バグ版・エイプリルフール版向け）</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">現在のインスタンスのゲームコアを翻訳してください</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod">mod 翻訳</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.ToolTip">現在のインスタンスの mod 言語ファイルを一括翻訳し、リソースパックを生成</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.Prompt">現在のインスタンスの mod を翻訳してください</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind">キー設定調整</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.ToolTip">自然言語で現在のインスタンスのキー設定を調整（例：スニークを左 Ctrl にする）</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.Prompt">キー設定を調整してください：</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Running">ツールを実行中：{0}…</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Done">ツール「{0}」の実行が完了しました：</sys:String>
+    <sys:String x:Key="Tools.Ai.Stopped">生成を停止しました</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Api">インターフェースエラー（HTTP {0}）：{1}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Unknown">エラーが発生しました：{0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.TooManyRounds">ツール呼び出しのラウンド数が多すぎるため停止しました</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.NoInstance">ゲームインスタンスが選択されていません。先に起動ページでインスタンスを選択してください</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">あなたは PCL CE ランチャー内蔵の AI アシスタントです。Minecraft ランチャー関連のタスクを支援します。利用可能なツール：ゲームコアの翻訳（translate_core）、mod の翻訳（translate_mods）、キー設定の調整（set_keybinds）。ルール：1) 翻訳やキー設定の依頼には、対応するツールを優先して呼び出すこと；2) ツールが成功したら、簡潔に結果を報告すること；3) ツールが返していない情報を作り上げないこと；4) その他の質問には普通に回答すること。</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.Prompt">あなたは Minecraft 言語ファイル翻訳者です。提供された JSON を簡体字中国語に翻訳し、JSON のみを出力してください。ルール：1) キー名はそのままにし、値のみを翻訳する；2) %s、%1$s、%d、{0} などのプレースホルダーはそのまま保持する；3) \n 改行を保持する；4) Minecraft 中国語コミュニティの一般的な訳語を使用する（例：Creeper=苦力怕、Sneak=潜行、Shulker=潜影貝）；5) コメントや説明を追加しないこと。</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">モデルが返した内容は有効な JSON ではありません</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">モデルが翻訳内容を返しませんでした</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoOptionsFile">options.txt が見つかりません（このインスタンスはまだ一度も起動していない可能性があります）</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoChanges">実行可能なキー設定の変更がありません</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Invalid">以下のキー設定変更は検証に失敗しました：</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Success">{0} 個のキー設定を変更しました（バックアップ：{1}）</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.NoCoreJar">コア jar が見つかりません：{0}</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Unsupported">このバージョンには言語ファイル機構がありません（1.1 以前）。翻訳ツールでは中国語化できません</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Empty">コア言語ファイルが空です</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.AlreadyTranslated">このバージョンには既に完全な中国語翻訳があるため、処理は不要です</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessPack">{0} 個のエントリを翻訳し、リソースパックを出力しました：{1}（リソースパック画面で有効化してください）</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessJar">{0} 個のエントリを翻訳し {1} に書き込みました（元ファイルは {2} にバックアップ済み）</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.NoModsFolder">mods フォルダが見つかりません</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Nothing">翻訳が必要な mod がありません（既に中国語翻訳のある mod {0} 個をスキップしました）</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Success">{0} 個の mod、計 {1} 個のエントリを翻訳しました（{2} 個スキップ）、リソースパックを出力しました：{3}</sys:String>
+
 </ResourceDictionary>

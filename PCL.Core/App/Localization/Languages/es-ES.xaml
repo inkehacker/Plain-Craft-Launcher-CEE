@@ -10,4 +10,61 @@
     <sys:String x:Key="Meta.Code">es-ES</sys:String>
     <sys:String x:Key="Meta.Name">Español (España)</sys:String>
 
+    <!-- Asistente de IA -->
+
+    <sys:String x:Key="Tools.Left.Ai">Asistente de IA</sys:String>
+    <sys:String x:Key="Tools.Ai.Title">Asistente de IA</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Title">Configuración de la API</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Endpoint">Dirección de la API</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ApiKey">Clave de API</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ShowKey">Mostrar</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Model">Modelo</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Test">Probar conexión</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Save">Guardar</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Saved">Configuración guardada</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.NoKey">Introduce primero una clave de API</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestSuccess">Conexión correcta, respuesta del modelo: {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailed">Error de conexión: {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailedEmpty">El modelo no devolvió contenido</sys:String>
+    <sys:String x:Key="Tools.Ai.Input.Hint">Escribe un mensaje, Enter para enviar (Shift+Enter para salto de línea)</sys:String>
+    <sys:String x:Key="Tools.Ai.Send">Enviar</sys:String>
+    <sys:String x:Key="Tools.Ai.Stop">Detener</sys:String>
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">¡Hola! Soy el asistente de IA integrado en PCL CE.
+Puedo traducir el núcleo del juego, traducir mods y ajustar los controles.
+
+Elige una tarea con los botones de abajo, o describe tu petición directamente en el campo de entrada.</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core">Traducir núcleo</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">Traducir los archivos de idioma del núcleo del juego de la instancia actual (apto para versiones antiguas, con errores o de April Fools)</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">Traduce el núcleo del juego de la instancia actual</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod">Traducir mods</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.ToolTip">Traducir por lotes los archivos de idioma de los mods de la instancia actual y generar un paquete de recursos</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.Prompt">Traduce los mods de la instancia actual</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind">Ajustar controles</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.ToolTip">Ajusta los controles de la instancia actual en lenguaje natural (p. ej., cambiar agacharse a Ctrl izquierdo)</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.Prompt">Por favor, ajusta mis controles:</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Running">Ejecutando herramienta: {0}…</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Done">Herramienta « {0} » terminada:</sys:String>
+    <sys:String x:Key="Tools.Ai.Stopped">Generación detenida</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Api">Error de API (HTTP {0}): {1}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Unknown">Se produjo un error: {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.TooManyRounds">Demasiadas rondas de llamadas a herramientas, detenido</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.NoInstance">No hay ninguna instancia de juego seleccionada. Selecciona una en la página de inicio primero</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">Eres el asistente de IA integrado del lanzador PCL CE, que ayuda a los usuarios con tareas relacionadas con el lanzador de Minecraft. Puedes usar las herramientas proporcionadas: traducir el núcleo del juego (translate_core), traducir mods (translate_mods) y ajustar controles (set_keybinds). Reglas: 1) Cuando el usuario pida una traducción o un ajuste de controles, usa preferentemente la herramienta correspondiente; 2) Tras el éxito de una herramienta, informa del resultado de forma concisa; 3) No inventes información que la herramienta no haya devuelto; 4) Responde normalmente a otras preguntas.</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.Prompt">Eres un traductor de archivos de idioma de Minecraft. Traduce el JSON proporcionado al chino simplificado y devuelve solo JSON. Reglas: 1) Mantén las claves igual, traduce solo los valores; 2) Conserva los marcadores de posición como %s, %1$s, %d, {0}; 3) Conserva los saltos de línea \n; 4) Usa las traducciones comunes de la comunidad china de Minecraft (p. ej., Creeper=苦力怕, Sneak=潜行, Shulker=潜影贝); 5) No añadas comentarios ni explicaciones.</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">El contenido devuelto por el modelo no es JSON válido</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">El modelo no devolvió traducciones</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoOptionsFile">No se encontró options.txt (la instancia quizá no se haya iniciado nunca)</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoChanges">No hay cambios de controles aplicables</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Invalid">Los siguientes cambios de controles no superaron la validación:</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Success">{0} control(es) modificado(s) (copia de seguridad: {1})</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.NoCoreJar">No se encontró el jar del núcleo: {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Unsupported">Esta versión no tiene mecanismo de archivos de idioma (antes de 1.1), no se puede traducir al chino con la herramienta</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Empty">El archivo de idioma del núcleo está vacío</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.AlreadyTranslated">Esta versión ya tiene una traducción al chino completa, no es necesario procesarla</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessPack">{0} entrada(s) traducida(s), paquete de recursos generado: {1} (actívalo en la interfaz de paquetes de recursos)</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessJar">{0} entrada(s) traducida(s) y escrita(s) en {1} (el archivo original se ha guardado como {2})</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.NoModsFolder">No se encontró la carpeta de mods</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Nothing">No hay mods que traducir (se omitieron {0} mod(s) ya traducidos al chino)</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Success">{0} mod(s) traducido(s), {1} entrada(s) en total (se omitieron {2}), paquete de recursos generado: {3}</sys:String>
+
 </ResourceDictionary>
