@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -123,6 +124,38 @@ public partial class PageToolsAi
             e.Handled = true;
             BtnSend_Click(sender, null!);
         }
+    }
+
+    /// <summary>单行输入框基准高度。</summary>
+    private const double InputBaseHeight = 28;
+
+    /// <summary>输入框最大高度。</summary>
+    private const double InputMaxHeight = 120;
+
+    private double? _inputLineHeight;
+
+    /// <summary>
+    /// 每次换行高度恰好增加一行（用实际字体行高计算，避免模板 MinHeight 造成的增量偏差）。
+    /// </summary>
+    private void TextInput_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        _inputLineHeight ??= _MeasureLineHeight();
+        var lines = _CountLines(TextInput.Text);
+        TextInput.Height = Math.Min(InputBaseHeight + (lines - 1) * _inputLineHeight.Value, InputMaxHeight);
+    }
+
+    /// <summary>用输入框实际字体测量一行文字的高度。</summary>
+    private double _MeasureLineHeight()
+    {
+        var typeface = new Typeface(TextInput.FontFamily, TextInput.FontStyle, TextInput.FontWeight, TextInput.FontStretch);
+        return new FormattedText("Aq", CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+            typeface, TextInput.FontSize, Brushes.White, 96).Height;
+    }
+
+    private static int _CountLines(string text)
+    {
+        var normalized = text.Replace("\r\n", "\n");
+        return normalized.Count(c => c is '\n' or '\r') + 1;
     }
 
     private async void BtnSend_Click(object sender, MouseButtonEventArgs e)
