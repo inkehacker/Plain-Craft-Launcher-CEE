@@ -1451,6 +1451,7 @@ public partial class FormMain
         SetupLauncherLanguage = 11,
 
         ToolsGameLink = 1,
+        ToolsAi = 2,
         ToolsTest = 3,
 
         VersionOverall = 0,

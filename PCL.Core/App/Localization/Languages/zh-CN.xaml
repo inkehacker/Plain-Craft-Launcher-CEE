@@ -3263,6 +3263,60 @@
     <!-- Tools -->
 
     <sys:String x:Key="Tools.Error.OperationFailed">工具页操作失败。请查看错误详情。</sys:String>
+    <sys:String x:Key="Tools.Left.Ai">AI 助手</sys:String>
+    <sys:String x:Key="Tools.Ai.Title">AI 助手</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Title">API 设置</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Endpoint">接口地址</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ApiKey">API Key</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ShowKey">显示</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Model">模型</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Test">测试连接</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Save">保存</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Saved">设置已保存</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.NoKey">请先填写 API Key</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestSuccess">连接成功，模型回复：{0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailed">连接失败：{0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailedEmpty">模型未返回内容</sys:String>
+    <sys:String x:Key="Tools.Ai.Input.Hint">输入消息，Enter 发送（Shift+Enter 换行）</sys:String>
+    <sys:String x:Key="Tools.Ai.Send">发送</sys:String>
+    <sys:String x:Key="Tools.Ai.Stop">停止</sys:String>
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">你好！我是 PCL CE 内置的 AI 助手。
+我可以：翻译游戏核心、翻译 mod、调整键位。
+
+先在下方快捷按钮中选择任务，或在输入框中直接描述你的需求。</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core">翻译核心</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">翻译当前实例游戏核心的语言文件（适合远古版本、bug 版本或愚人节版本）</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">请翻译当前实例的游戏核心</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod">翻译 mod</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.ToolTip">批量翻译当前实例的 mod 语言文件，生成资源包</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.Prompt">请翻译当前实例的 mod</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind">调整键位</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.ToolTip">用自然语言调整当前实例的键位（如：把潜行改成左 Ctrl）</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.Prompt">请帮我调整键位：</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Running">正在执行工具：{0}…</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Done">工具「{0}」执行完成：</sys:String>
+    <sys:String x:Key="Tools.Ai.Stopped">已停止生成</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Api">接口错误（HTTP {0}）：{1}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Unknown">发生错误：{0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.TooManyRounds">工具调用轮次过多，已停止</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.NoInstance">当前没有选中的游戏实例，请先在启动页选择一个实例</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">你是 PCL CE 启动器的内置 AI 助手，帮助用户完成 Minecraft 启动器相关的任务。你可以使用提供的工具：翻译游戏核心（translate_core）、翻译 mod（translate_mods）、调整键位（set_keybinds）。规则：1) 用户要求翻译/键位调整时，优先调用对应工具；2) 工具执行成功后，用简洁的语言向用户汇报结果；3) 不要编造工具没有返回的信息；4) 其他问题正常回答。</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.Prompt">你是 Minecraft 语言文件翻译器。将用户提供的 JSON 翻译为简体中文并只输出 JSON。规则：1) 键名保持原样，只翻译值；2) 保留 %s、%1$s、%d、{0} 等占位符原样；3) 保留 \n 换行符；4) 使用 Minecraft 中文社区通用译名（如 Creeper=苦力怕、Sneak=潜行、Shulker=潜影贝）；5) 不要添加注释或解释。</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">模型返回的内容不是有效 JSON</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">模型没有返回翻译内容</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoOptionsFile">未找到 options.txt（该实例可能尚未启动过游戏）</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoChanges">没有可执行的键位修改</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Invalid">以下键位修改未通过校验：</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Success">已修改 {0} 个键位（备份：{1}）</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.NoCoreJar">未找到核心 jar：{0}</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Unsupported">该版本没有语言文件机制（1.1 之前），无法通过翻译工具汉化</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Empty">核心语言文件为空</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.AlreadyTranslated">该版本已有完整中文翻译，无需处理</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessPack">已翻译 {0} 个词条，资源包已输出：{1}（请在资源包界面启用）</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessJar">已翻译 {0} 个词条并写入 {1}（原文件已备份为 {2}）</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.NoModsFolder">未找到 mods 文件夹</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Nothing">没有需要翻译的 mod（已跳过 {0} 个已有中文翻译的 mod）</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Success">已翻译 {0} 个 mod 共 {1} 个词条（跳过 {2} 个），资源包已输出：{3}</sys:String>
     <sys:String x:Key="Tools.Left.Lobby">大厅</sys:String>
     <sys:String x:Key="Tools.Left.Multiplayer">联机</sys:String>
     <sys:String x:Key="Tools.Left.Utilities">奇妙小工具</sys:String>

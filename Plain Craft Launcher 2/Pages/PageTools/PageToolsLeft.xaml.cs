@@ -24,6 +24,7 @@ public partial class PageToolsLeft
         var hide = Config.Preference.Hide;
 
         if (ItemGameLink.Checked && hide.ToolsGameLink) isHiddenPage = true;
+        if (ItemAi.Checked && hide.ToolsAi) isHiddenPage = true;
         if (ItemTest.Checked && hide.ToolsTest) isHiddenPage = true;
         if (PageSetupUI.HiddenForceShow)
             isHiddenPage = false;
@@ -39,6 +40,8 @@ public partial class PageToolsLeft
         var hideCfg = Config.Preference.Hide;
         if (!hideCfg.ToolsGameLink)
             ItemGameLink.SetChecked(true, false, false);
+        else if (!hideCfg.ToolsAi)
+            ItemAi.SetChecked(true, false, false);
         else if (!hideCfg.ToolsTest)
             ItemTest.SetChecked(true, false, false);
         else
@@ -98,6 +101,12 @@ public partial class PageToolsLeft
                 if (ModMain.frmToolsGameLink is null)
                     ModMain.frmToolsGameLink = new PageToolsGameLink();
                 return ModMain.frmToolsGameLink;
+            }
+            case FormMain.PageSubType.ToolsAi:
+            {
+                if (ModMain.frmToolsAi is null)
+                    ModMain.frmToolsAi = new PageToolsAi();
+                return ModMain.frmToolsAi;
             }
             case FormMain.PageSubType.ToolsTest:
             {

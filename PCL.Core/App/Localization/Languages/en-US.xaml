@@ -3263,6 +3263,60 @@
     <!-- Tools -->
 
     <sys:String x:Key="Tools.Error.OperationFailed">A utilities operation failed. See the details below.</sys:String>
+    <sys:String x:Key="Tools.Left.Ai">AI Assistant</sys:String>
+    <sys:String x:Key="Tools.Ai.Title">AI Assistant</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Title">API Settings</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Endpoint">Endpoint</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ApiKey">API Key</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.ShowKey">Show</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Model">Model</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Test">Test connection</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Save">Save</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.Saved">Settings saved</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.NoKey">Please enter the API key first</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestSuccess">Connection succeeded, model replied: {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailed">Connection failed: {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Setting.TestFailedEmpty">The model returned no content</sys:String>
+    <sys:String x:Key="Tools.Ai.Input.Hint">Type a message, press Enter to send (Shift+Enter for newline)</sys:String>
+    <sys:String x:Key="Tools.Ai.Send">Send</sys:String>
+    <sys:String x:Key="Tools.Ai.Stop">Stop</sys:String>
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">Hi! I am the built-in AI assistant of PCL CE.
+I can translate the game core, translate mods and adjust keybinds.
+
+Pick a task with the quick buttons below, or describe your need in the input box.</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core">Translate core</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.ToolTip">Translate the language files of the current instance's game core (for ancient versions, buggy versions or April Fools versions)</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Core.Prompt">Please translate the game core of the current instance</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod">Translate mods</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.ToolTip">Batch translate the language files of the current instance's mods and generate a resource pack</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Mod.Prompt">Please translate the mods of the current instance</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind">Adjust keybinds</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.ToolTip">Adjust the keybinds of the current instance in natural language (e.g. change sneak to left Ctrl)</sys:String>
+    <sys:String x:Key="Tools.Ai.Skill.Keybind.Prompt">Please adjust my keybinds: </sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Running">Running tool: {0}...</sys:String>
+    <sys:String x:Key="Tools.Ai.Tool.Done">Tool &quot;{0}&quot; finished:</sys:String>
+    <sys:String x:Key="Tools.Ai.Stopped">Generation stopped</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Api">API error (HTTP {0}): {1}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Unknown">An error occurred: {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.TooManyRounds">Too many tool call rounds, stopped</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.NoInstance">No game instance is selected. Please select one on the launch page first</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">You are the built-in AI assistant of PCL CE launcher, helping users with Minecraft launcher tasks. You can use the provided tools: translate the game core (translate_core), translate mods (translate_mods) and adjust keybinds (set_keybinds). Rules: 1) When the user asks for translation or keybind changes, prefer calling the corresponding tool; 2) After a tool succeeds, report the result concisely; 3) Do not fabricate information the tool did not return; 4) Answer other questions normally.</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.Prompt">You are a Minecraft language file translator. Translate the provided JSON into Simplified Chinese and output JSON only. Rules: 1) Keep keys unchanged, translate values only; 2) Keep placeholders like %s, %1$s, %d, {0} intact; 3) Keep \n newlines; 4) Use common Chinese Minecraft community translations (e.g. Creeper=苦力怕, Sneak=潜行, Shulker=潜影贝); 5) No comments or explanations.</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">The model returned invalid JSON</sys:String>
+    <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">The model returned no translations</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoOptionsFile">options.txt not found (the instance may not have been launched yet)</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.NoChanges">No valid keybind changes to apply</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Invalid">The following changes failed validation:</sys:String>
+    <sys:String x:Key="Tools.Ai.Keybind.Success">Changed {0} keybind(s) (backup: {1})</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.NoCoreJar">Core jar not found: {0}</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Unsupported">This version has no language file mechanism (pre-1.1), translation is not possible</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.Empty">The core language file is empty</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.AlreadyTranslated">This version already has complete Chinese translations</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessPack">Translated {0} entries, resource pack saved as: {1} (enable it in the resource pack screen)</sys:String>
+    <sys:String x:Key="Tools.Ai.CoreTranslate.SuccessJar">Translated {0} entries and written into {1} (backup: {2})</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.NoModsFolder">mods folder not found</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Nothing">No mods need translation ({0} mod(s) with existing Chinese translations skipped)</sys:String>
+    <sys:String x:Key="Tools.Ai.ModTranslate.Success">Translated {0} mod(s), {1} entries in total ({2} skipped), resource pack saved as: {3}</sys:String>
     <sys:String x:Key="Tools.Left.Lobby">Lobby</sys:String>
     <sys:String x:Key="Tools.Left.Multiplayer">Multiplayer</sys:String>
     <sys:String x:Key="Tools.Left.Utilities">Utilities</sys:String>
