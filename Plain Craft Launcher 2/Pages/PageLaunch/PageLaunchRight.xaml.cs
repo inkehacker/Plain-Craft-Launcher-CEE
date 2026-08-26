@@ -27,6 +27,7 @@ public partial class PageLaunchRight : IRefreshable
         Loaded += (_, _) => Init();
         Loaded += (_, _) => Refresh();
         Unloaded += (_, _) => _DisposeHomepageLiveWatcher();
+        PanBack.SizeChanged += (_, _) => _RefreshAiPanelHeight();
     }
 
     private void Init()
@@ -51,7 +52,23 @@ public partial class PageLaunchRight : IRefreshable
             : Visibility.Collapsed;
         LabHint1.Text = Lang.Text("Launch.Right.CommunityHint.Message");
         LabHint2.Text = Lang.Text("Launch.Right.CommunityHint.HidePrompt");
+        _RefreshAiPanelHeight();
         _EnsureHomepageLiveWatcher();
+    }
+
+    /// <summary>
+    /// 让 AI 面板恰好填满右栏剩余空间，整页只有 AI 面板内部一个滚动条。
+    /// </summary>
+    private void _RefreshAiPanelHeight()
+    {
+        if (PanAi.Visibility != Visibility.Visible)
+            return;
+        var used = PanMain.Margin.Top + PanMain.Margin.Bottom + PanAi.Margin.Bottom;
+        if (PanHint.Visibility == Visibility.Visible)
+            used += PanHint.ActualHeight + PanHint.Margin.Top + PanHint.Margin.Bottom;
+        if (PanLog.Visibility == Visibility.Visible)
+            used += PanLog.ActualHeight + PanLog.Margin.Top + PanLog.Margin.Bottom;
+        PanAi.Height = Math.Max(360, PanBack.ActualHeight - used);
     }
 
     // 暂时关闭快照版提示
