@@ -29,10 +29,9 @@
     <sys:String x:Key="Tools.Ai.Input.Hint">Saisissez un message, Entrée pour envoyer (Maj+Entrée pour un saut de ligne)</sys:String>
     <sys:String x:Key="Tools.Ai.Send">Envoyer</sys:String>
     <sys:String x:Key="Tools.Ai.Stop">Arrêter</sys:String>
-    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">Bonjour ! Je suis l'assistant IA intégré à PCL CE.
-Je peux traduire le noyau du jeu, traduire les mods et ajuster les touches.
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">Bonjour ! Je suis l'assistant IA polyvalent intégré à PCL CE, prêt à discuter et à répondre à vos questions.
 
-Choisissez une tâche avec les boutons ci-dessous, ou décrivez directement votre demande dans le champ de saisie.</sys:String>
+Pour traduire le noyau du jeu, traduire des mods ou ajuster les touches, utilisez les boutons rapides ci-dessous.</sys:String>
     <sys:String x:Key="Tools.Ai.History">Historique</sys:String>
     <sys:String x:Key="Tools.Ai.History.Empty">Cet historique est vide ou corrompu</sys:String>
     <sys:String x:Key="Tools.Ai.NewChat">Nouvelle conversation</sys:String>
@@ -56,7 +55,7 @@ Choisissez une tâche avec les boutons ci-dessous, ou décrivez directement votr
     <sys:String x:Key="Tools.Ai.Error.Unknown">Une erreur est survenue : {0}</sys:String>
     <sys:String x:Key="Tools.Ai.Error.TooManyRounds">Trop de tours d'appels d'outils, arrêt</sys:String>
     <sys:String x:Key="Tools.Ai.Error.NoInstance">Aucune instance de jeu sélectionnée. Veuillez d'abord en choisir une sur la page de lancement</sys:String>
-    <sys:String x:Key="Tools.Ai.SystemPrompt">Vous êtes l'assistant IA intégré du lanceur PCL CE, qui aide les utilisateurs dans les tâches liées au lanceur Minecraft. Vous pouvez utiliser les outils fournis : traduire le noyau du jeu (translate_core), traduire les mods (translate_mods) et ajuster les touches (set_keybinds). Règles : 1) Lorsque l'utilisateur demande une traduction ou un ajustement des touches, privilégiez l'outil correspondant ; 2) Après la réussite d'un outil, rapportez le résultat de manière concise ; 3) N'inventez pas d'informations que l'outil n'a pas renvoyées ; 4) Répondez normalement aux autres questions.</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">Vous êtes l'assistant IA polyvalent intégré au lanceur PCL CE : discutez de tout, répondez aux questions de n'importe quel domaine, aidez à l'écriture, au codage, à l'apprentissage, etc. Vous disposez en outre de plusieurs compétences liées au lanceur Minecraft, à utiliser quand l'utilisateur en a besoin : traduire le noyau du jeu (translate_core), traduire les mods (translate_mods) et ajuster les touches (set_keybinds). Règles : 1) N'appelez un outil que lorsque l'utilisateur en fait la demande, puis rapportez le résultat de manière concise ; 2) N'inventez pas d'informations que les outils n'ont pas renvoyées ; 3) Ne vous présentez pas spontanément, n'énumérez pas vos fonctionnalités et ne faites pas votre propre promotion, sauf si l'utilisateur le demande explicitement ; 4) Répondez de façon naturelle et directe, comme un ami serviable.</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.Prompt">Vous êtes un traducteur de fichiers de langue Minecraft. Traduisez le JSON fourni en chinois simplifié et ne sortez que du JSON. Règles : 1) Conservez les clés inchangées, ne traduisez que les valeurs ; 2) Conservez les placeholders comme %s, %1$s, %d, {0} ; 3) Conservez les sauts de ligne \n ; 4) Utilisez les traductions courantes de la communauté chinoise de Minecraft (ex. Creeper=苦力怕, Sneak=潜行, Shulker=潜影贝) ; 5) N'ajoutez ni commentaires ni explications.</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">Le contenu renvoyé par le modèle n'est pas un JSON valide</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">Le modèle n'a renvoyé aucune traduction</sys:String>

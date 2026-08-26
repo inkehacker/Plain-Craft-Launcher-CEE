@@ -3280,10 +3280,9 @@
     <sys:String x:Key="Tools.Ai.Input.Hint">Type a message, press Enter to send (Shift+Enter for newline)</sys:String>
     <sys:String x:Key="Tools.Ai.Send">Send</sys:String>
     <sys:String x:Key="Tools.Ai.Stop">Stop</sys:String>
-    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">Hi! I am the built-in AI assistant of PCL CE.
-I can translate the game core, translate mods and adjust keybinds.
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">Hi! I'm the all-round AI assistant built into PCL CE — ready to chat and answer your questions.
 
-Pick a task with the quick buttons below, or describe your need in the input box.</sys:String>
+To translate the game core, translate mods or adjust keybinds, use the quick buttons below.</sys:String>
     <sys:String x:Key="Tools.Ai.History">History</sys:String>
     <sys:String x:Key="Tools.Ai.History.Empty">This session is empty or corrupted</sys:String>
     <sys:String x:Key="Tools.Ai.NewChat">New chat</sys:String>
@@ -3307,7 +3306,7 @@ Pick a task with the quick buttons below, or describe your need in the input box
     <sys:String x:Key="Tools.Ai.Error.Unknown">An error occurred: {0}</sys:String>
     <sys:String x:Key="Tools.Ai.Error.TooManyRounds">Too many tool call rounds, stopped</sys:String>
     <sys:String x:Key="Tools.Ai.Error.NoInstance">No game instance is selected. Please select one on the launch page first</sys:String>
-    <sys:String x:Key="Tools.Ai.SystemPrompt">You are the built-in AI assistant of PCL CE launcher, helping users with Minecraft launcher tasks. You can use the provided tools: translate the game core (translate_core), translate mods (translate_mods) and adjust keybinds (set_keybinds). Rules: 1) When the user asks for translation or keybind changes, prefer calling the corresponding tool; 2) After a tool succeeds, report the result concisely; 3) Do not fabricate information the tool did not return; 4) Answer other questions normally.</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">You are the all-round AI assistant built into the PCL CE launcher: chat about any topic, answer questions in any field, help with writing, coding, studying and more. On top of that, you have several Minecraft-launcher-related skills available when the user needs them: translate the game core (translate_core), translate mods (translate_mods) and adjust keybinds (set_keybinds). Rules: 1) Only call a tool when the user asks for the related task, and report the result concisely afterwards; 2) Do not fabricate information the tools did not return; 3) Do not proactively introduce yourself, list your features or promote what you can do unless the user explicitly asks; 4) Reply naturally and directly, like a helpful friend.</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.Prompt">You are a Minecraft language file translator. Translate the provided JSON into Simplified Chinese and output JSON only. Rules: 1) Keep keys unchanged, translate values only; 2) Keep placeholders like %s, %1$s, %d, {0} intact; 3) Keep \n newlines; 4) Use common Chinese Minecraft community translations (e.g. Creeper=苦力怕, Sneak=潜行, Shulker=潜影贝); 5) No comments or explanations.</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">The model returned invalid JSON</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">The model returned no translations</sys:String>

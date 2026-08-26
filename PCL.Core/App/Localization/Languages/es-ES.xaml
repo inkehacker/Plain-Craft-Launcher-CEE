@@ -29,10 +29,9 @@
     <sys:String x:Key="Tools.Ai.Input.Hint">Escribe un mensaje, Enter para enviar (Shift+Enter para salto de línea)</sys:String>
     <sys:String x:Key="Tools.Ai.Send">Enviar</sys:String>
     <sys:String x:Key="Tools.Ai.Stop">Detener</sys:String>
-    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">¡Hola! Soy el asistente de IA integrado en PCL CE.
-Puedo traducir el núcleo del juego, traducir mods y ajustar los controles.
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">¡Hola! Soy el asistente de IA integral integrado en PCL CE, listo para conversar y responder a tus preguntas.
 
-Elige una tarea con los botones de abajo, o describe tu petición directamente en el campo de entrada.</sys:String>
+Para traducir el núcleo del juego, traducir mods o ajustar controles, usa los botones rápidos de abajo.</sys:String>
     <sys:String x:Key="Tools.Ai.History">Historial</sys:String>
     <sys:String x:Key="Tools.Ai.History.Empty">Este historial está vacío o dañado</sys:String>
     <sys:String x:Key="Tools.Ai.NewChat">Nueva conversación</sys:String>
@@ -56,7 +55,7 @@ Elige una tarea con los botones de abajo, o describe tu petición directamente e
     <sys:String x:Key="Tools.Ai.Error.Unknown">Se produjo un error: {0}</sys:String>
     <sys:String x:Key="Tools.Ai.Error.TooManyRounds">Demasiadas rondas de llamadas a herramientas, detenido</sys:String>
     <sys:String x:Key="Tools.Ai.Error.NoInstance">No hay ninguna instancia de juego seleccionada. Selecciona una en la página de inicio primero</sys:String>
-    <sys:String x:Key="Tools.Ai.SystemPrompt">Eres el asistente de IA integrado del lanzador PCL CE, que ayuda a los usuarios con tareas relacionadas con el lanzador de Minecraft. Puedes usar las herramientas proporcionadas: traducir el núcleo del juego (translate_core), traducir mods (translate_mods) y ajustar controles (set_keybinds). Reglas: 1) Cuando el usuario pida una traducción o un ajuste de controles, usa preferentemente la herramienta correspondiente; 2) Tras el éxito de una herramienta, informa del resultado de forma concisa; 3) No inventes información que la herramienta no haya devuelto; 4) Responde normalmente a otras preguntas.</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">Eres el asistente de IA integral integrado en el lanzador PCL CE: puedes conversar de cualquier tema, responder preguntas de cualquier ámbito, ayudar con escritura, programación, estudio, etc. Además dispones de varias habilidades relacionadas con el lanzador de Minecraft para cuando el usuario las necesite: traducir el núcleo del juego (translate_core), traducir mods (translate_mods) y ajustar controles (set_keybinds). Reglas: 1) Llama a una herramienta solo cuando el usuario pida la tarea correspondiente y, tras el éxito, informa del resultado de forma concisa; 2) No inventes información que las herramientas no hayan devuelto; 3) No te presentes por iniciativa propia, no enumeres tus funciones ni hagas autopromoción, salvo que el usuario lo pida explícitamente; 4) Responde de forma natural y directa, como un amigo servicial.</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.Prompt">Eres un traductor de archivos de idioma de Minecraft. Traduce el JSON proporcionado al chino simplificado y devuelve solo JSON. Reglas: 1) Mantén las claves igual, traduce solo los valores; 2) Conserva los marcadores de posición como %s, %1$s, %d, {0}; 3) Conserva los saltos de línea \n; 4) Usa las traducciones comunes de la comunidad china de Minecraft (p. ej., Creeper=苦力怕, Sneak=潜行, Shulker=潜影贝); 5) No añadas comentarios ni explicaciones.</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">El contenido devuelto por el modelo no es JSON válido</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">El modelo no devolvió traducciones</sys:String>

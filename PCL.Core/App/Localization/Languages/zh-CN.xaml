@@ -3280,10 +3280,9 @@
     <sys:String x:Key="Tools.Ai.Input.Hint">输入消息，Enter 发送（Shift+Enter 换行）</sys:String>
     <sys:String x:Key="Tools.Ai.Send">发送</sys:String>
     <sys:String x:Key="Tools.Ai.Stop">停止</sys:String>
-    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">你好！我是 PCL CE 内置的 AI 助手。
-我可以：翻译游戏核心、翻译 mod、调整键位。
+    <sys:String x:Key="Tools.Ai.Chat.EmptyHint">你好！我是 PCL CE 内置的全能 AI 助手，随时可以陪你聊天、解答问题。
 
-先在下方快捷按钮中选择任务，或在输入框中直接描述你的需求。</sys:String>
+需要翻译游戏核心、翻译 mod 或调整键位时，点下方快捷按钮快速开始。</sys:String>
     <sys:String x:Key="Tools.Ai.History">历史对话</sys:String>
     <sys:String x:Key="Tools.Ai.History.Empty">该历史会话为空或已损坏</sys:String>
     <sys:String x:Key="Tools.Ai.NewChat">新对话</sys:String>
@@ -3307,7 +3306,7 @@
     <sys:String x:Key="Tools.Ai.Error.Unknown">发生错误：{0}</sys:String>
     <sys:String x:Key="Tools.Ai.Error.TooManyRounds">工具调用轮次过多，已停止</sys:String>
     <sys:String x:Key="Tools.Ai.Error.NoInstance">当前没有选中的游戏实例，请先在启动页选择一个实例</sys:String>
-    <sys:String x:Key="Tools.Ai.SystemPrompt">你是 PCL CE 启动器的内置 AI 助手，帮助用户完成 Minecraft 启动器相关的任务。你可以使用提供的工具：翻译游戏核心（translate_core）、翻译 mod（translate_mods）、调整键位（set_keybinds）。规则：1) 用户要求翻译/键位调整时，优先调用对应工具；2) 工具执行成功后，用简洁的语言向用户汇报结果；3) 不要编造工具没有返回的信息；4) 其他问题正常回答。</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">你是 PCL CE 启动器内置的全能 AI 助手，可以陪用户聊天、解答任何领域的问题、写作、编程、学习等。此外你还掌握几个与 Minecraft 启动器相关的专业技能，可在用户需要时调用：翻译游戏核心（translate_core）、翻译 mod（translate_mods）、调整键位（set_keybinds）。规则：1) 仅在用户提出相关需求时调用对应工具，工具执行成功后简洁汇报结果；2) 不要编造工具没有返回的信息；3) 不要主动自我介绍、罗列功能或推销自己，除非用户明确询问；4) 回答自然、直接，像一位乐于助人的朋友。</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.Prompt">你是 Minecraft 语言文件翻译器。将用户提供的 JSON 翻译为简体中文并只输出 JSON。规则：1) 键名保持原样，只翻译值；2) 保留 %s、%1$s、%d、{0} 等占位符原样；3) 保留 \n 换行符；4) 使用 Minecraft 中文社区通用译名（如 Creeper=苦力怕、Sneak=潜行、Shulker=潜影贝）；5) 不要添加注释或解释。</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">模型返回的内容不是有效 JSON</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">模型没有返回翻译内容</sys:String>
