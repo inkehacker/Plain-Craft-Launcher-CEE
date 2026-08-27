@@ -3033,6 +3033,7 @@
     <sys:String x:Key="Setup.Ui.Basic.ShowLogo">打开启动器时显示 PCL CE 图标</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowTriviaHint">在启动游戏时显示"你知道吗"</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowAi">在启动页右栏显示 AI 助手</sys:String>
+    <sys:String x:Key="Setup.Ui.Basic.CatgirlMode">猫娘化（粉色主题 + 猫娘风文字 + 猫娘 AI）</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Title">基础</sys:String>
 
     <!-- Setup.Ui.FeatureHide -->
@@ -3157,6 +3158,7 @@
     <!-- Setup.Ui.Theme -->
 
     <sys:String x:Key="Setup.Ui.Theme.Color.CatBlue">龙猫蓝</sys:String>
+    <sys:String x:Key="Setup.Ui.Theme.Color.CatPink">猫娘粉</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Color.CrashBlue">死机蓝</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Color.Hmcl">HMCL</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Color.SkyBlue">天空蓝</sys:String>

@@ -200,6 +200,11 @@ public static partial class Config
         [ConfigItem<bool>("UiShowLaunchingHint", true, ConfigSource.Local)] public partial bool ShowLaunchingHint { get; set; }
 
         /// <summary>
+        /// 猫娘化：粉色主题 + 猫娘风文字 + AI 猫娘人设。
+        /// </summary>
+        [ConfigItem<bool>("UiCatgirlMode", false, ConfigSource.Local)] public partial bool CatgirlMode { get; set; }
+
+        /// <summary>
         /// 标题内容类型。
         /// </summary>
         [ConfigItem<LauncherTitleType>("UiLogoType", LauncherTitleType.Default, ConfigSource.Local)] public partial LauncherTitleType WindowTitleType { get; set; }

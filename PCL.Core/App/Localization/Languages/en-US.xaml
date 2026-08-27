@@ -3033,6 +3033,7 @@
     <sys:String x:Key="Setup.Ui.Basic.ShowLogo">Display the PCL CE logo while opening the launcher</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowTriviaHint">Show "Trivia" when launching the game</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowAi">Show the AI assistant in the right column of the launch page</sys:String>
+    <sys:String x:Key="Setup.Ui.Basic.CatgirlMode">Catgirl Mode (pink theme + catgirl text + catgirl AI)</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Title">Basics</sys:String>
 
     <!-- Setup.Ui.FeatureHide -->
@@ -3157,6 +3158,7 @@
     <!-- Setup.Ui.Theme -->
 
     <sys:String x:Key="Setup.Ui.Theme.Color.CatBlue">LTCat Blue</sys:String>
+    <sys:String x:Key="Setup.Ui.Theme.Color.CatPink">Catgirl Pink</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Color.CrashBlue">Crash Blue</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Color.Hmcl">HMCL</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Color.SkyBlue">Sky Blue</sys:String>

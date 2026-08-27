@@ -157,6 +157,7 @@ public sealed partial class ThemeService
             ColorTheme.CatBlue => (255, 0, -0.2),
             ColorTheme.DeathBlue => (268, -0.05, -0.1),
             ColorTheme.HmclBlue => (275, -0.03, -0.35),
+            ColorTheme.CatPink => (345, 0.36, 0.25),
 #if DEBUG
             _ => ((int)theme, 0, 0)
 #else

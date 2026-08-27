@@ -12,9 +12,9 @@ namespace PCL;
 
 public partial class PageSetupUI
 {
-    public string[] ThemeColors => Basics.IsAprilFool 
-        ? [Lang.Text("Setup.Ui.Theme.Color.SkyBlue"), Lang.Text("Setup.Ui.Theme.Color.CatBlue"), Lang.Text("Setup.Ui.Theme.Color.CrashBlue"), Lang.Text("Setup.Ui.Theme.Color.Hmcl")]
-        : [Lang.Text("Setup.Ui.Theme.Color.SkyBlue"), Lang.Text("Setup.Ui.Theme.Color.CatBlue"), Lang.Text("Setup.Ui.Theme.Color.CrashBlue")];
+    public string[] ThemeColors => Basics.IsAprilFool
+        ? [Lang.Text("Setup.Ui.Theme.Color.SkyBlue"), Lang.Text("Setup.Ui.Theme.Color.CatBlue"), Lang.Text("Setup.Ui.Theme.Color.CrashBlue"), Lang.Text("Setup.Ui.Theme.Color.Hmcl"), Lang.Text("Setup.Ui.Theme.Color.CatPink")]
+        : [Lang.Text("Setup.Ui.Theme.Color.SkyBlue"), Lang.Text("Setup.Ui.Theme.Color.CatBlue"), Lang.Text("Setup.Ui.Theme.Color.CrashBlue"), Lang.Text("Setup.Ui.Theme.Color.CatPink")];
     
     public new bool isLoaded;
 
@@ -56,6 +56,7 @@ public partial class PageSetupUI
             ComboLightColor.SelectedIndex = (int)Config.Preference.Theme.LightColor;
             CheckShowLaunchingHint.Checked = Config.Preference.ShowLaunchingHint;
             CheckAiShow.Checked = Config.Ai.ShowOnLaunchPage;
+            CheckCatgirlMode.Checked = Config.Preference.CatgirlMode;
 
             // 字体设置
             ComboUiFont.SelectedFontTag = Config.Preference.Font;
@@ -666,6 +667,21 @@ public partial class PageSetupUI
         var sender = (MyComboBox)senderRaw;
         SetByTag(sender.Tag?.ToString(), sender.SelectedIndex);
         ThemeManager.ThemeRefresh();
+    }
+
+    // 猫娘化
+    private void CatgirlMode_Change(object senderRaw, bool user)
+    {
+        var sender = (MyCheckBox)senderRaw;
+        if (ModAnimation.AniControlEnabled != 0)
+            return;
+        var enabled = sender.Checked == true;
+        Config.Preference.CatgirlMode = enabled;
+        // 亮/暗主题都切到猫娘粉；取消恢复默认龙猫蓝
+        Config.Preference.Theme.DarkColor = enabled ? ColorTheme.CatPink : ColorTheme.CatBlue;
+        Config.Preference.Theme.LightColor = enabled ? ColorTheme.CatPink : ColorTheme.CatBlue;
+        ThemeManager.ThemeRefresh();
+        PCL.Core.UI.Theme.CatgirlStyleService.Apply(enabled);
     }
 
     // 赞助

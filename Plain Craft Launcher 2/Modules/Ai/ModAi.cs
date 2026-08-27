@@ -63,7 +63,7 @@ public static class ModAi
     }
 
     /// <summary>
-    ///     系统提示词 = 基础提示词 + 当前 UI 语言规则（让 AI 始终用启动器界面语言回复）+ 长期记忆。
+    ///     系统提示词 = 基础提示词 + 当前 UI 语言规则（让 AI 始终用启动器界面语言回复）+ 猫娘人设（可选）+ 长期记忆。
     /// </summary>
     private static string BuildSystemPrompt()
     {
@@ -71,6 +71,10 @@ public static class ModAi
         var rule = LanguageRule(LocalizationService.CurrentLanguage.Code);
         if (rule.Length > 0)
             prompt += "\n" + rule;
+
+        // 猫娘人设是提示词内容而非界面文本，故放在代码中
+        if (Config.Preference.CatgirlMode)
+            prompt += "\n\n你现在是猫娘。保持全能助手的能力和规则不变，但语气要软萌可爱：自称「喵」，称呼用户为「主人」，句尾常带「喵」「呜喵」等语气词，回答简洁自然，不要过度堆砌语气词。";
 
         var memory = LoadMemory();
         if (memory.Count > 0)

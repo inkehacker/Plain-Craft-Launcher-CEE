@@ -74,6 +74,9 @@
                         <local:MyCheckBox Text="{DynamicResource Setup.Ui.Basic.ShowAi}" Margin="-1,0,0,7" Height="22"
                                           x:Name="CheckAiShow" Tag="AiShowOnLaunchPage"
                                           Change="CheckBoxChange" />
+                        <local:MyCheckBox Text="{DynamicResource Setup.Ui.Basic.CatgirlMode}" Margin="-1,0,0,7" Height="22"
+                                          x:Name="CheckCatgirlMode" Tag="UiCatgirlMode"
+                                          Change="CatgirlMode_Change" />
                         <StackPanel x:Name="PanelBlur" Margin="0,0,0,10">
                             <local:MyCheckBox Text="{DynamicResource Setup.Ui.Basic.AdvancedMaterial}" Height="22" x:Name="CheckBlur" Tag="UiBlur"
                                               ToolTip="{DynamicResource Setup.Ui.Basic.AdvancedMaterial.ToolTip}"
