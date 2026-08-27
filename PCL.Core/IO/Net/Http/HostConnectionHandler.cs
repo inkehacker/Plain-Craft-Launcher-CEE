@@ -150,10 +150,17 @@ public class HostConnectionHandler
                 sortedUncached.Add(ipv4List[j++]);
         }
 
-        return cachedAddresses
-            .Concat(sortedUncached)
-            .Take(WaitTasks)
-            .ToArray();
+        // 截断取前 WaitTasks 个，但要保证 v6/v4 各至少一个（DNS 同时返回两族时）。
+        // 否则在某一地址族网络不可达时（如 IPv6 路由不稳），Happy Eyeballs 没有备胎可用，会偶发连接失败
+        var candidates = cachedAddresses.Concat(sortedUncached).ToList();
+        var selected = candidates.Take(WaitTasks).ToList();
+        if (selected.Count == WaitTasks && selected[0].AddressFamily == selected[1].AddressFamily)
+        {
+            var otherFamily = candidates.FirstOrDefault(ip => ip.AddressFamily != selected[0].AddressFamily);
+            if (otherFamily is not null)
+                selected[1] = otherFamily;
+        }
+        return selected.ToArray();
     }
 
     private void _UpdateConnectionCache(string host, int port, IPAddress ip, DateTime now)
