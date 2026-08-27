@@ -14,6 +14,8 @@ public static class UpdateManager
 
     public static UpdatesWrapperModel remoteServer = new(new List<IUpdateSource>
     {
+        // 自定义下载源优先：CEE 自研版本从 GitHub Versions 分支检查更新，不可用时回退官方源
+        new UpdatesCeeGitHubModel(),
         new UpdatesMirrorChyanModel(),
         new UpdatesRandomModel(new[]
         {
@@ -109,8 +111,9 @@ public static class UpdateManager
                     SystemInfo.IsArm64System ? UpdateArch.arm64 : UpdateArch.x64, dlTargetPath));
                 loaders.Add(new ModLoader.LoaderTask<int, int>(Lang.Text("Update.Task.Check"), _ =>
                 {
+                    // GitHub 自定义源不提供内容 SHA256，校验留空跳过；官方源仍完整校验
                     var curHash = ModBase.GetFileSHA256(dlTargetPath);
-                    if ((curHash ?? "") != (version.Sha256 ?? ""))
+                    if (!string.IsNullOrEmpty(version.Sha256) && (curHash ?? "") != version.Sha256)
                         throw new Exception(Lang.Text("Update.Error.Sha256Mismatch", version.Sha256, curHash));
                 }));
                 if (type == UpdateEnums.UpdateType.UpdateNow)
