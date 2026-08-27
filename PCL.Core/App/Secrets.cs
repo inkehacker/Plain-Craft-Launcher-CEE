@@ -9,8 +9,12 @@ public static class Secrets
 {
     /// <summary>
     /// 微软 OAuth 的 Client ID
+    /// 默认内置官方 PCL-CE 注册的微软公共客户端 ID（公共客户端 ID 非机密，公开可见）。
+    /// 自构建版本可用环境变量 PCL_MS_CLIENT_ID 覆盖（配合 PCL_WRITE_SECRET=1 编译期注入）。
     /// </summary>
-    public static string MSOAuthClientId { get; } = EnvironmentInterop.GetSecret("MS_CLIENT_ID", readEnvDebugOnly: true).ReplaceNullOrEmpty();
+    public static string MSOAuthClientId { get; } = EnvironmentInterop
+        .GetSecret("MS_CLIENT_ID", readEnvDebugOnly: true)
+        .ReplaceNullOrEmpty("c14b0370-8d75-42f8-b329-5b60d39e319f");
 
     /// <summary>
     /// CurseForge API 的 Client ID
