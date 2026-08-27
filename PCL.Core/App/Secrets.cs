@@ -1,3 +1,4 @@
+using System.Linq;
 using PCL.Core.Utils.Exts;
 using PCL.Core.Utils.OS;
 
@@ -32,9 +33,10 @@ public static class Secrets
     public static string NatayarkClientSecret { get; } = EnvironmentInterop.GetSecret("NAID_CLIENT_SECRET", readEnvDebugOnly: true).ReplaceNullOrEmpty();
 
     /// <summary>
-    /// 联机根服务器
+    /// 联机根服务器（自构建版本未内置时可通过 PCL_LINK_SERVER_ROOT 环境变量注入，多个用 | 分隔）
     /// </summary>
-    public static string[] LinkServers { get; } = EnvironmentInterop.GetSecret("LINK_SERVER_ROOT", readEnvDebugOnly: true).ReplaceNullOrEmpty().Split("|");
+    public static string[] LinkServers { get; } = EnvironmentInterop.GetSecret("LINK_SERVER_ROOT").ReplaceNullOrEmpty()
+        .Split("|").Where(server => !string.IsNullOrWhiteSpace(server)).ToArray();
 
     /// <summary>
     /// 当前版本的 Git 提交 SHA

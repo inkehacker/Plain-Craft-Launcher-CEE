@@ -371,6 +371,19 @@ public partial class PageToolsGameLink
                 var serverNumber = 0;
                 JsonObject jObj = null;
 
+                // 自构建/无密钥版本未内置联机服务器地址：干净降级，不当作连接错误
+                if (Secrets.LinkServers.Length == 0)
+                {
+                    LobbyInfoProvider.IsLobbyAvailable = false;
+                    LogWrapper.Info("[Link] 当前构建未内置联机服务器配置，联机大厅不可用");
+                    ModBase.RunInUi(() =>
+                    {
+                        HintAnnounce.Theme = MyHint.Themes.Yellow;
+                        HintAnnounce.Text = Lang.Text("Tools.GameLink.Error.UnofficialBuild");
+                    });
+                    return;
+                }
+
                 #region 多服务器轮询获取公告
 
                 while (serverNumber < Secrets.LinkServers.Length)
