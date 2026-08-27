@@ -148,12 +148,14 @@ public partial class PageSetupUpdate
         }
     }
 
-    public void BtnUpdate_Timer()
+    public async void BtnUpdate_Timer()
     {
+        // 原实现是 UI 线程上的 while 死循环：下载挂起（Loading 不结束）时永久占用 UI 线程导致界面卡死。
+        // 改为异步等待，每 200ms 回 UI 线程更新一次进度，不阻塞界面。
         while (UpdateManager.updateLoader is not null && UpdateManager.updateLoader.State == ModBase.LoadState.Loading)
         {
-            ModBase.RunInUi(() => BtnUpdate.Text = Lang.Number(UpdateManager.updateLoader.Progress, "P2"));
-            Thread.Sleep(200);
+            BtnUpdate.Text = Lang.Number(UpdateManager.updateLoader.Progress, "P2");
+            await Task.Delay(200);
         }
     }
 

@@ -34,7 +34,8 @@ public class UpdatesCeeGitHubModel : IUpdateSource
 
     public bool RefreshCache()
     {
-        var json = ModBase.GetJson(Requester.FetchString(_listUrl, RequestParam.WithRetry));
+        // 自定义源快速失败：GitHub 不可达时 ~8 秒内放弃，交由更新系统回退到官方源，避免页面长时间无响应
+        var json = ModBase.GetJson(Requester.FetchString(_listUrl, new RequestParam { Timeout = 8000, Retries = 1 }));
         var files = new List<CeeRemoteFile>();
         foreach (var node in json.AsArray())
         {
