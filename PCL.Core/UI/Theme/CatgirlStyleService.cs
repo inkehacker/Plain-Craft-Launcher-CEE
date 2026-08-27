@@ -9,8 +9,9 @@ namespace PCL.Core.UI.Theme;
 /// 猫娘化文案覆盖：开启时把关键界面文案覆盖为猫娘风，关闭时移除覆盖、回落语言字典原值。
 /// 文案属于风格内容而非界面文本，按约定放代码中。
 /// </summary>
+[LifecycleScope("catgirl-style", "猫娘化文案", false)]
 [LifecycleService(LifecycleState.WindowCreating)]
-public sealed class CatgirlStyleService
+public sealed partial class CatgirlStyleService
 {
     // 键名 → 猫娘文案
     private static readonly Dictionary<string, string> _CatgirlTexts = new()
