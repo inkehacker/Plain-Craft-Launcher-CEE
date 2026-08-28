@@ -3206,6 +3206,16 @@
     <sys:String x:Key="Setup.Update.Auto.NotifyOnly.ToolTip">The launcher will automatically check for available updates, then prompt you to download and install.</sys:String>
     <sys:String x:Key="Setup.Update.Auto.Title">Auto update settings</sys:String>
 
+    <!-- Setup.Update.Source -->
+
+    <sys:String x:Key="Setup.Update.Source.Title">Update source</sys:String>
+    <sys:String x:Key="Setup.Update.Source.Auto">Auto</sys:String>
+    <sys:String x:Key="Setup.Update.Source.Auto.ToolTip">Automatically try GitHub and the domestic mirror source, preferring whichever is available.</sys:String>
+    <sys:String x:Key="Setup.Update.Source.GitHub">GitHub</sys:String>
+    <sys:String x:Key="Setup.Update.Source.GitHub.ToolTip">Check for updates from the GitHub repository (may be unstable on some networks).</sys:String>
+    <sys:String x:Key="Setup.Update.Source.AtomGit">AtomGit Mirror</sys:String>
+    <sys:String x:Key="Setup.Update.Source.AtomGit.ToolTip">Check for updates from the AtomGit domestic mirror, no proxy required.</sys:String>
+
     <!-- Setup.Update.Channel -->
 
     <sys:String x:Key="Setup.Update.Channel.Beta">Beta</sys:String>

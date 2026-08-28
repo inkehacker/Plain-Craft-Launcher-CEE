@@ -25,6 +25,7 @@ public partial class PageSetupUpdate
 
         ComboSystemUpdateChannel.SelectedIndex = (int)Config.Update.UpdateChannel;
         ComboSystemUpdateMode.SelectedIndex = (int)Config.Update.UpdateMode;
+        ComboSystemUpdateSource.SelectedIndex = (int)Config.Update.UpdateSource;
 
         TextCurrentVersion.Text = "PCL CE " + VersionNameFormat(ModBase.versionBaseName);
         ModAnimation.AniControlEnabled -= 1;
@@ -178,6 +179,15 @@ public partial class PageSetupUpdate
     {
         if (ModAnimation.AniControlEnabled == 0)
             Config.Update.UpdateMode = (LauncherAutoUpdateBehavior)ComboSystemUpdateMode.SelectedIndex;
+    }
+
+    private void ComboSystemUpdateSource_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (ModAnimation.AniControlEnabled != 0)
+            return;
+        Config.Update.UpdateSource = (UpdateSourceType)ComboSystemUpdateSource.SelectedIndex;
+        // 更新源已变更，下次检查更新时按新配置重建源列表
+        UpdateManager.ResetRemoteServer();
     }
 
     private void ComboSystemUpdateBranch_SelectionChanged(object sender, SelectionChangedEventArgs e)

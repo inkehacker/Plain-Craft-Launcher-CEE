@@ -121,6 +121,11 @@ public static partial class Config
         /// 更新分支。
         /// </summary>
         [ConfigItem<UpdateChannel>("SystemUpdateChannel", UpdateChannel.Release, ConfigSource.Local)] public partial UpdateChannel UpdateChannel { get; set; }
+
+        /// <summary>
+        /// 更新源：自动 / GitHub / AtomGit 国内镜像。
+        /// </summary>
+        [ConfigItem<UpdateSourceType>("SystemUpdateSource", UpdateSourceType.Auto, ConfigSource.Local)] public partial UpdateSourceType UpdateSource { get; set; }
             
         /// <summary>
         /// Mirror 酱 CDK。

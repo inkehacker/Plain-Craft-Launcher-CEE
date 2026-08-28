@@ -12,18 +12,45 @@ public static class UpdateManager
 {
     public static bool isUpdateWaitingRestart;
 
-    public static UpdatesWrapperModel remoteServer = new(new List<IUpdateSource>
+    private static UpdatesWrapperModel _remoteServer;
+
+    /// <summary>
+    /// 远程更新服务器（懒加载）：按设置中的更新源（自动 / GitHub / AtomGit）构建源列表。
+    /// </summary>
+    public static UpdatesWrapperModel remoteServer => _remoteServer ??= CreateRemoteServer();
+
+    /// <summary>
+    /// 更新源设置变更后调用，下次访问 remoteServer 时按新配置重建源列表。
+    /// </summary>
+    public static void ResetRemoteServer() => _remoteServer = null;
+
+    private static UpdatesWrapperModel CreateRemoteServer()
     {
-        // 自定义下载源优先：CEE 自研版本从 GitHub Versions 分支检查更新，不可用时回退官方源
-        new UpdatesCeeGitHubModel(),
-        new UpdatesMirrorChyanModel(),
-        new UpdatesRandomModel(new[]
+        var sources = new List<IUpdateSource>();
+        // 自定义源按设置选择；官方源兜底始终保留
+        switch (Config.Update.UpdateSource)
+        {
+            case UpdateSourceType.AtomGit:
+                sources.Add(new UpdatesAtomGitModel());
+                break;
+            case UpdateSourceType.GitHub:
+                sources.Add(new UpdatesCeeGitHubModel());
+                break;
+            default: // 自动：GitHub 优先（快速失败），失败后立即回退 AtomGit 国内镜像
+                sources.Add(new UpdatesCeeGitHubModel());
+                sources.Add(new UpdatesAtomGitModel());
+                break;
+        }
+
+        sources.Add(new UpdatesMirrorChyanModel());
+        sources.Add(new UpdatesRandomModel(new[]
         {
             new UpdatesMinioModel("https://s3.pysio.online/pcl2-ce/", "Pysio"),
             new UpdatesMinioModel("https://staticassets.naids.com/resources/pclce/", "Naids")
-        }),
-        new UpdatesMinioModel("https://github.com/PCL-Community/PCL2_CE_Server/raw/main/", "GitHub")
-    });
+        }));
+        sources.Add(new UpdatesMinioModel("https://github.com/PCL-Community/PCL2_CE_Server/raw/main/", "GitHub"));
+        return new UpdatesWrapperModel(sources);
+    }
 
     public static bool IsCurrentVersionBeta
     {

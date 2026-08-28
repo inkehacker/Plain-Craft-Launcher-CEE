@@ -42,6 +42,19 @@ public enum UpdateChannel
 }
 
 /// <summary>
+/// 更新源选择
+/// </summary>
+public enum UpdateSourceType
+{
+    /// <summary>自动选择：优先 GitHub，失败快速回退国内镜像</summary>
+    Auto = 0,
+    /// <summary>固定使用 GitHub 源</summary>
+    GitHub = 1,
+    /// <summary>固定使用 AtomGit 国内镜像源</summary>
+    AtomGit = 2
+}
+
+/// <summary>
 /// 游戏窗口大小模式
 /// </summary>
 public enum GameWindowSizeMode

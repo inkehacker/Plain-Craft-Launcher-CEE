@@ -3206,6 +3206,16 @@
     <sys:String x:Key="Setup.Update.Auto.NotifyOnly.ToolTip">啟動器將會自動檢查可用更新，然後提示你下載並安裝更新。</sys:String>
     <sys:String x:Key="Setup.Update.Auto.Title">自動更新設定</sys:String>
 
+    <!-- Setup.Update.Source -->
+
+    <sys:String x:Key="Setup.Update.Source.Title">更新源</sys:String>
+    <sys:String x:Key="Setup.Update.Source.Auto">自動選擇</sys:String>
+    <sys:String x:Key="Setup.Update.Source.Auto.ToolTip">自動嘗試 GitHub 與國內鏡像源，優先使用可用者。</sys:String>
+    <sys:String x:Key="Setup.Update.Source.GitHub">GitHub</sys:String>
+    <sys:String x:Key="Setup.Update.Source.GitHub.ToolTip">從 GitHub 倉庫檢查更新（國內網路可能不穩定）。</sys:String>
+    <sys:String x:Key="Setup.Update.Source.AtomGit">AtomGit 國內鏡像</sys:String>
+    <sys:String x:Key="Setup.Update.Source.AtomGit.ToolTip">從 AtomGit 國內鏡像檢查更新，無需代理即可存取。</sys:String>
+
     <!-- Setup.Update.Channel -->
 
     <sys:String x:Key="Setup.Update.Channel.Beta">測試版 / Beta</sys:String>
