@@ -9,13 +9,13 @@ using PCL.Network.Loaders;
 namespace PCL;
 
 /// <summary>
-/// CEE 自研版本的国内镜像更新源：从 AtomGit（gitcode）仓库 inkehacker/Plain-Craft-Launcher-CEE 的
+/// CEE 自研版本的国内镜像更新源：从 AtomGit（gitcode）仓库 2503_93182279/Plain-Craft-Launcher-CEE 的
 /// Versions 分支读取发布文件（Plain Craft Launcher CEE x.y.z.zip / .exe），与 GitHub 源内容一致。
 /// AtomGit 即 gitcode，提供 gitee v5 风格 API（/api/v5/repos/.../contents），JSON 字段与 GitHub 兼容。
 /// </summary>
 public class UpdatesAtomGitModel : IUpdateSource
 {
-    private const string RepositoryOwner = "inkehacker";
+    private const string RepositoryOwner = "2503_93182279";
     private const string RepositoryName = "Plain-Craft-Launcher-CEE";
     private const string BranchName = "Versions";
     private const string FilePattern = @"^Plain Craft Launcher CEE (\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.\-]+))?\.(zip|exe)$";
