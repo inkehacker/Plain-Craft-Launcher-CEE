@@ -20,6 +20,12 @@ public partial class PageToolsAi
     private string? _sessionPath;
     private bool _isLoadingSessions;
 
+    /// <summary>设置卡自动折叠的高度下限。低于该高度时默认折叠设置卡，把空间让给聊天区（内嵌到启动页时页面通常较矮）。</summary>
+    private const double SettingsExpandMinHeight = 820;
+
+    /// <summary>用户是否手动展开/折叠过设置卡；一旦手动操作过就不再随窗口高度自动切换。</summary>
+    private bool _settingsUserToggled;
+
     /// <summary>待自动开始的报错诊断上下文（单槽）。由报错入口排队；页面可见/空闲时消费并自动开跑。</summary>
     private static string? _queuedDiagnosisText;
 
@@ -44,16 +50,31 @@ public partial class PageToolsAi
     {
         InitializeComponent();
         Loaded += PageToolsAi_Loaded;
-        // 页面从隐藏变为可见时（含导航回到本页）消费排队的诊断
+        // 用户手动展开/折叠过设置卡后，不再随高度自动切换
+        CardSettings.Swap += (_, _) => _settingsUserToggled = true;
+        // 页面从隐藏变为可见时（含导航回到本页）消费排队的诊断，并按当前高度调整设置卡
         IsVisibleChanged += (_, _) =>
         {
             if (IsVisible)
-                ModBase.RunInUi(() => TryConsumePendingDiagnosis(), true);
+                ModBase.RunInUi(() =>
+                {
+                    _AutoFitSettingsCard();
+                    TryConsumePendingDiagnosis();
+                }, true);
         };
+    }
+
+    /// <summary>页面较矮时自动折叠设置卡，保证聊天区可见且可用（嵌入启动页右栏时为矮视口）。</summary>
+    private void _AutoFitSettingsCard()
+    {
+        if (_settingsUserToggled || ActualHeight < 1d)
+            return;
+        CardSettings.IsSwapped = ActualHeight < SettingsExpandMinHeight;
     }
 
     private void PageToolsAi_Loaded(object sender, RoutedEventArgs e)
     {
+        _AutoFitSettingsCard();
         if (TextEndpoint.Text.Length == 0)
         {
             TextEndpoint.Text = Config.Ai.Endpoint;

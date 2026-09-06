@@ -71,9 +71,6 @@
                         <local:MyCheckBox Text="{DynamicResource Setup.Ui.Basic.ShowTriviaHint}" Margin="-1,0,0,7" Height="22"
                                            x:Name="CheckShowLaunchingHint" Tag="UiShowLaunchingHint"
                                            Change="CheckBoxChange" />
-                        <local:MyCheckBox Text="{DynamicResource Setup.Ui.Basic.ShowAi}" Margin="-1,0,0,7" Height="22"
-                                          x:Name="CheckAiShow" Tag="AiShowOnLaunchPage"
-                                          Change="CheckBoxChange" />
                         <local:MyCheckBox Text="{DynamicResource Setup.Ui.Basic.CatgirlMode}" Margin="-1,0,0,7" Height="22"
                                           x:Name="CheckCatgirlMode" Tag="UiCatgirlMode"
                                           Change="CatgirlMode_Change" />
@@ -366,6 +363,7 @@
                             <local:MyComboBoxItem Content="{DynamicResource Setup.Ui.Homepage.Preset.Bangumi}" />
                             <local:MyComboBoxItem Content="{DynamicResource Setup.Ui.Homepage.Preset.PclAnnouncement}"/>
                             <local:MyComboBoxItem Content="{DynamicResource Setup.Ui.Homepage.Preset.McOfficialFeed}"/>
+                            <local:MyComboBoxItem Content="{DynamicResource Setup.Ui.Homepage.Preset.AiAssistant}"/>
                         </local:MyComboBox>
                     </Grid>
                 </StackPanel>

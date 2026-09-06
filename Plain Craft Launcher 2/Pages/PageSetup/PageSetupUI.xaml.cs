@@ -55,7 +55,6 @@ public partial class PageSetupUI
             ComboDarkColor.SelectedIndex = (int)Config.Preference.Theme.DarkColor;
             ComboLightColor.SelectedIndex = (int)Config.Preference.Theme.LightColor;
             CheckShowLaunchingHint.Checked = Config.Preference.ShowLaunchingHint;
-            CheckAiShow.Checked = Config.Ai.ShowOnLaunchPage;
             CheckCatgirlMode.Checked = Config.Preference.CatgirlMode;
 
             // 字体设置

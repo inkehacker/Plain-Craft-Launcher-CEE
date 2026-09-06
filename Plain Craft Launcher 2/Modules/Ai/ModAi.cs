@@ -44,7 +44,8 @@ public static class ModAi
         AiSkillCoreTranslate.CreateTool(),
         AiSkillModTranslate.CreateTool(),
         ..AiSkillDiagnosis.CreateTools(),
-        ..AiSkillRepair.CreateTools()
+        ..AiSkillRepair.CreateTools(),
+        ..AiSkillModMaintain.CreateTools()
     ];
 
     /// <summary>
@@ -72,6 +73,12 @@ public static class ModAi
         "open_settings_page" => Lang.Text("Ai.Diagnosis.Action.OpenSettingsPage"),
         "retry_launch" => Lang.Text("Ai.Diagnosis.Action.RetryLaunch"),
         "clear_cache" => Lang.Text("Ai.Diagnosis.Action.ClearCache"),
+        "list_instances" => Lang.Text("Ai.Mod.Tool.ListInstances"),
+        "list_mods" => Lang.Text("Ai.Mod.Tool.ListMods"),
+        "search_mods" => Lang.Text("Ai.Mod.Tool.SearchMods"),
+        "mod_versions" => Lang.Text("Ai.Mod.Tool.ModVersions"),
+        "install_mod" => Lang.Text("Ai.Mod.Tool.InstallMod"),
+        "update_mod" => Lang.Text("Ai.Mod.Tool.UpdateMod"),
         _ => name ?? "?"
     };
 
@@ -144,7 +151,7 @@ public static class ModAi
             history.Insert(0, AiChatMessage.System(SystemPrompt));
 
         var client = CreateClient();
-        const int maxRounds = 6;
+        const int maxRounds = 24;
 
         for (var round = 0; round < maxRounds; round++)
         {

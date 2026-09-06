@@ -629,7 +629,8 @@ public static partial class Config
         [ConfigItem<string>("AiModel", "deepseek-chat")] public partial string Model { get; set; }
 
         /// <summary>
-        /// 在启动页右栏显示 AI 助手面板。
+        /// 旧版「在启动页右栏显示 AI 助手」勾选框配置。
+        /// 2.17 起改为「主页预设 → AI 助手」单选，此键仅保留用于一次性迁移（见 PageLaunchRight），不再有 UI。
         /// </summary>
         [ConfigItem<bool>("AiShowOnLaunchPage", false)] public partial bool ShowOnLaunchPage { get; set; }
 

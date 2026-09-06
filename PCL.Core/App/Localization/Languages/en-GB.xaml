@@ -3032,7 +3032,6 @@
     <sys:String x:Key="Setup.Ui.Basic.Opacity2">Opacity</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowLogo">Display the PCL CE logo whilst opening the launcher</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowTriviaHint">Show 'Trivia' when launching the game</sys:String>
-    <sys:String x:Key="Setup.Ui.Basic.ShowAi">Show the AI assistant in the right column of the launch page</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.CatgirlMode">Catgirl Mode (pink theme + catgirl text + catgirl AI)</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Title">Basics</sys:String>
 
@@ -3111,6 +3110,7 @@
     <sys:String x:Key="Setup.Ui.Homepage.Preset.McOfficialFeed">Minecraft Official Feed</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.McSkin">Minecraft Skin Recommendation (Author: wkea)</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.McUpdateSummary">Minecraft Update Summary (Author: pynickle, partially AI-generated)</sys:String>
+    <sys:String x:Key="Setup.Ui.Homepage.Preset.AiAssistant">AI assistant (takes over the launch page right column, exclusive with other homepage presets)</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.NewsToday">News Today (Author: EYicheng)</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.MinecraftKnowledge">Minecraft Knowledge (Author: awaEric233)</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.ModpackRecommendation">Modpack Recommendation Engine (Author: CHMYGZ)</sys:String>
@@ -3321,7 +3321,7 @@ To translate the game core, translate mods or adjust keybinds, use the quick but
     <sys:String x:Key="Tools.Ai.Error.Unknown">An error occurred: {0}</sys:String>
     <sys:String x:Key="Tools.Ai.Error.TooManyRounds">Too many tool call rounds, stopped</sys:String>
     <sys:String x:Key="Tools.Ai.Error.NoInstance">No game instance is selected. Please select one on the launch page first</sys:String>
-    <sys:String x:Key="Tools.Ai.SystemPrompt">You are the all-round AI assistant built into the PCL CE launcher: chat about any topic, answer questions in any field, help with writing, coding, studying and more. On top of that, you have several Minecraft-launcher-related skills available when the user needs them: translate the game core (translate_core), translate mods (translate_mods) and adjust keybinds (set_keybinds). Rules: 1) Only call a tool when the user asks for the related task, and report the result concisely afterwards; 2) Do not fabricate information the tools did not return; 3) Do not proactively introduce yourself, list your features or promote what you can do unless the user explicitly asks; 4) Reply naturally and directly, like a helpful friend.</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">You are the all-round AI assistant (agent) built into the PCL CE launcher: chat about any topic, answer questions in any field, help with writing, coding, studying, and operate the launcher itself to get real tasks done — diagnose errors, inspect/search/install/update mods in instances, translate game cores and mods, adjust keybinds, open folders and settings pages, retry launches, and more. Your full capabilities are defined by the tools list sent to you each round — call any tool in it as needed; this prompt intentionally does not enumerate tool names so it never drifts out of sync with the actual toolset. Rules: 1) Proactively complete executable tasks, and call read-only tools to investigate first when you need to understand the current situation before acting; 2) Sensitive operations (modifying files, launching the game, downloading/installing) trigger a confirmation dialog so the user can approve — that is the normal flow. If the user declines, respect that decision and suggest a harmless alternative instead of retrying; 3) Do not fabricate information the tools did not return; when it comes to versions, paths and other facts, rely on what the tools actually reported; 4) Do not proactively introduce yourself, list your features or promote what you can do unless the user explicitly asks; 5) Reply naturally and directly, like a helpful friend; 6) For multi-step tasks, briefly state your plan before executing.</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.Prompt">You are a Minecraft language file translator. Translate the provided JSON into Simplified Chinese and output JSON only. Rules: 1) Keep keys unchanged, translate values only; 2) Keep placeholders like %s, %1$s, %d, {0} intact; 3) Keep \n newlines; 4) Use common Chinese Minecraft community translations (e.g. Creeper=苦力怕, Sneak=潜行, Shulker=潜影贝); 5) No comments or explanations.</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">The model returned invalid JSON</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">The model returned no translations</sys:String>
@@ -3354,6 +3354,12 @@ To translate the game core, translate mods or adjust keybinds, use the quick but
     <sys:String x:Key="Ai.Diagnosis.Tool.ReadGameLog">Read game log</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Tool.ReadCrashReport">Read crash report</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Tool.ListMods">List Mods</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.InstallMod">Install mod</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.ListInstances">List instances</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.ListMods">List mods in instance</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.ModVersions">List mod versions</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.SearchMods">Search mods</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.UpdateMod">Update mod</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Action.OpenLogFolder">Open log folder</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Action.OpenCrashReport">Open crash report</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Action.OpenSettingsPage">Open settings</sys:String>

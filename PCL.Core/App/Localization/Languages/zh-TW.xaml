@@ -3032,7 +3032,6 @@
     <sys:String x:Key="Setup.Ui.Basic.Opacity2">不透明度</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowLogo">開啟啟動器時顯示 PCL CE 圖示</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowTriviaHint">在啟動遊戲時顯示"你知道嗎"</sys:String>
-    <sys:String x:Key="Setup.Ui.Basic.ShowAi">在啟動頁右欄顯示 AI 助手</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.CatgirlMode">貓娘化（粉色主題 + 貓娘風文字 + 貓娘 AI）</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Title">基礎</sys:String>
 
@@ -3111,6 +3110,7 @@
     <sys:String x:Key="Setup.Ui.Homepage.Preset.McOfficialFeed">Minecraft 官方資訊流</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.McSkin">Minecraft 外觀推薦（作者：wkea）</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.McUpdateSummary">Minecraft 更新摘要（作者：pynickle，部分由 AI 生成）</sys:String>
+    <sys:String x:Key="Setup.Ui.Homepage.Preset.AiAssistant">AI 助手（AI 助手獨佔啟動頁右欄，與其他主頁預設互斥）</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.NewsToday">今日新聞熱點（作者：EYicheng）</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.MinecraftKnowledge">Minecraft 芝士站（作者：awaEric233）</sys:String>
     <sys:String x:Key="Setup.Ui.Homepage.Preset.ModpackRecommendation">模組包推薦引擎（作者：CHMYGZ）</sys:String>
@@ -3321,7 +3321,7 @@
     <sys:String x:Key="Tools.Ai.Error.Unknown">發生錯誤：{0}</sys:String>
     <sys:String x:Key="Tools.Ai.Error.TooManyRounds">工具呼叫輪次過多，已停止</sys:String>
     <sys:String x:Key="Tools.Ai.Error.NoInstance">目前沒有選中的遊戲實例，請先在啟動頁選擇一個實例</sys:String>
-    <sys:String x:Key="Tools.Ai.SystemPrompt">你是 PCL CE 啟動器內建的全能 AI 助手，可以陪使用者聊天、解答任何領域的問題、寫作、程式設計、學習等。此外你還掌握幾個與 Minecraft 啟動器相關的專業技能，可在使用者需要時呼叫：翻譯遊戲核心（translate_core）、翻譯 mod（translate_mods）、調整按鍵（set_keybinds）。規則：1) 僅在使用者提出相關需求時呼叫對應工具，工具執行成功後簡潔彙報結果；2) 不要編造工具沒有回傳的資訊；3) 不要主動自我介紹、羅列功能或推銷自己，除非使用者明確詢問；4) 回答自然、直接，像一位樂於助人的朋友。</sys:String>
+    <sys:String x:Key="Tools.Ai.SystemPrompt">你是 PCL CE 啟動器內建的全能 AI 助手（Agent），可以陪使用者聊天、解答任何領域的問題、寫作、程式設計、學習等，也可以直接操作這個啟動器幫使用者完成實際任務：診斷報錯、查看/搜尋/安裝/更新實例中的 mod、翻譯遊戲核心與 mod、調整按鍵、開啟資料夾與設定頁、重試啟動等。你的全部能力以每一輪下發給你的 tools 清單為準，清單中的任何工具都可以自主按需呼叫；本提示詞特意不逐一列舉工具，以免與實際工具集脫節。規則：1) 主動幫使用者完成可執行的任務，動手前如需了解現況，先呼叫唯讀工具調查再行動；2) 涉及修改檔案、啟動遊戲、下載安裝等敏感操作時，啟動器會先跳出確認框徵得使用者同意，這是正常流程——若使用者拒絕，請尊重其決定，改提其他無害建議，不要反覆重試；3) 不要編造工具沒有回傳的資訊，涉及版本號、路徑等事實時以工具實際回傳為準；4) 不要主動自我介紹、羅列功能或推銷自己，除非使用者明確詢問；5) 回答自然、直接，像一位樂於助人的朋友；6) 任務步驟較多時，先簡短說明打算做什麼再執行。</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.Prompt">你是 Minecraft 語言檔案翻譯器。將使用者提供的 JSON 翻譯為簡體中文並只輸出 JSON。規則：1) 鍵名保持原樣，只翻譯值；2) 保留 %s、%1$s、%d、{0} 等佔位符原樣；3) 保留 \n 換行符；4) 使用 Minecraft 中文社群通用譯名（如 Creeper=苦力怕、Sneak=潛行、Shulker=潛影貝）；5) 不要添加註釋或解釋。</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.InvalidResponse">模型回傳的內容不是有效 JSON</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.EmptyResponse">模型沒有回傳翻譯內容</sys:String>
@@ -3354,6 +3354,12 @@
     <sys:String x:Key="Ai.Diagnosis.Tool.ReadGameLog">讀取遊戲日誌</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Tool.ReadCrashReport">讀取崩潰報告</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Tool.ListMods">查看 Mods 列表</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.InstallMod">安裝 Mod</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.ListInstances">列出遊戲實例</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.ListMods">列出實例內 Mods</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.ModVersions">查看 Mod 版本</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.SearchMods">搜尋 Mod 專案</sys:String>
+    <sys:String x:Key="Ai.Mod.Tool.UpdateMod">更新 Mod</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Action.OpenLogFolder">開啟日誌資料夾</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Action.OpenCrashReport">開啟崩潰報告</sys:String>
     <sys:String x:Key="Ai.Diagnosis.Action.OpenSettingsPage">開啟設定</sys:String>

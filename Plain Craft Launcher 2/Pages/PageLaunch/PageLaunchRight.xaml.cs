@@ -30,30 +30,70 @@ public partial class PageLaunchRight : IRefreshable
         PanBack.SizeChanged += (_, _) => _RefreshAiPanelHeight();
     }
 
+    /// <summary>
+    ///     主页预设列表中「AI 助手」对应的下标（须与 PageSetupUI.xaml 预设下拉的项顺序一致）。
+    /// </summary>
+    private const int HomepagePresetAi = 16;
+
     private void Init()
     {
         PanBack.ScrollToHome();
         PanScroll = PanBack; // 不知道为啥不能在 XAML 设置
-        PanLog.Visibility = ModBase.modeDebug ? Visibility.Visible : Visibility.Collapsed;
-        // AI 助手面板（设置中可选开启）
+        _UpdateAiPanelVisibility();
+        // 社区版提示
+        if (PanHint.Visibility == Visibility.Visible)
+        {
+            LabHint1.Text = Lang.Text("Launch.Right.CommunityHint.Message");
+            LabHint2.Text = Lang.Text("Launch.Right.CommunityHint.HidePrompt");
+        }
+        _EnsureHomepageLiveWatcher();
+    }
+
+    /// <summary>
+    ///     是否选中「主页预设 → AI 助手」（与更新摘要等主页预设单选互斥）。
+    /// </summary>
+    private bool _IsAiHomepagePreset()
+    {
+        // 旧版「在启动页右栏显示 AI 助手」勾选框（个性化-基础卡）已并入主页预设下拉。
+        // 做一次性迁移：仅当主页来源仍为空白时切入 AI 预设，避免覆盖已有的自定义主页选择。
         if (Config.Ai.ShowOnLaunchPage)
+        {
+            if (Config.Preference.Homepage.Type == 0)
+            {
+                Config.Preference.Homepage.Type = 3;
+                Config.Preference.Homepage.SelectedPreset = HomepagePresetAi;
+            }
+            Config.Ai.ShowOnLaunchPage = false;
+        }
+        return Config.Preference.Homepage.Type == 3 &&
+               Config.Preference.Homepage.SelectedPreset == HomepagePresetAi;
+    }
+
+    /// <summary>
+    ///     按主页预设切换 AI 助手面板：选中 AI 预设时 AI 独占右栏
+    ///     （隐藏主页内容/提示/日志卡），保证外层无可滚动余量、不吞 AI 面板的滚轮。
+    /// </summary>
+    private void _UpdateAiPanelVisibility()
+    {
+        if (_IsAiHomepagePreset())
         {
             ModMain.frmToolsAi ??= new PageToolsAi();
             PanAi.Child = ModMain.frmToolsAi;
             PanAi.Visibility = Visibility.Visible;
+            PanCustom.Visibility = Visibility.Collapsed;
+            PanHint.Visibility = Visibility.Collapsed;
+            PanLog.Visibility = Visibility.Collapsed;
         }
         else
         {
             PanAi.Visibility = Visibility.Collapsed;
+            PanCustom.Visibility = Visibility.Visible;
+            PanHint.Visibility = States.Hint.CEMessage
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+            PanLog.Visibility = ModBase.modeDebug ? Visibility.Visible : Visibility.Collapsed;
         }
-        // 社区版提示
-        PanHint.Visibility = States.Hint.CEMessage
-            ? Visibility.Visible
-            : Visibility.Collapsed;
-        LabHint1.Text = Lang.Text("Launch.Right.CommunityHint.Message");
-        LabHint2.Text = Lang.Text("Launch.Right.CommunityHint.HidePrompt");
         _RefreshAiPanelHeight();
-        _EnsureHomepageLiveWatcher();
     }
 
     /// <summary>
@@ -271,6 +311,11 @@ public partial class PageLaunchRight : IRefreshable
                         PanCustom.Children.Clear();
                         PanCustom.Children.Add(ModMain.frmHomepageNews);
                     });
+                    return;
+
+                case HomepagePresetAi:
+                    // AI 助手独占右栏，由 Init/_UpdateAiPanelVisibility 处理，无需加载主页内容
+                    LogWrapper.Info("[Page] 主页预设：AI 助手");
                     return;
             }
         }
