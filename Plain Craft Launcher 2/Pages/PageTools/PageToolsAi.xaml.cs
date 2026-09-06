@@ -20,22 +20,52 @@ public partial class PageToolsAi
     private string? _sessionPath;
     private bool _isLoadingSessions;
 
+    /// <summary>待自动开始的报错诊断上下文（单槽）。由报错入口排队；页面可见/空闲时消费并自动开跑。</summary>
+    private static string? _queuedDiagnosisText;
+
+    /// <summary>Agent 是否正在运行（发送中/工具循环中）。运行时不能插入新会话。</summary>
+    internal bool IsAgentRunning => _isRunning;
+
+    /// <summary>排队一次报错诊断会话。随后页面导航/可见/空闲时会自动开跑。</summary>
+    internal static void QueueDiagnosis(string contextText) => _queuedDiagnosisText = contextText;
+
+    /// <summary>若排队的诊断尚未开跑且 Agent 空闲，立即开跑。返回是否已开始。</summary>
+    internal bool TryConsumePendingDiagnosis()
+    {
+        var text = _queuedDiagnosisText;
+        if (text is null || _isRunning || !IsVisible)
+            return false;
+        _queuedDiagnosisText = null;
+        _BeginDiagnosisSession(text);
+        return true;
+    }
+
     public PageToolsAi()
     {
         InitializeComponent();
         Loaded += PageToolsAi_Loaded;
+        // 页面从隐藏变为可见时（含导航回到本页）消费排队的诊断
+        IsVisibleChanged += (_, _) =>
+        {
+            if (IsVisible)
+                ModBase.RunInUi(() => TryConsumePendingDiagnosis(), true);
+        };
     }
 
     private void PageToolsAi_Loaded(object sender, RoutedEventArgs e)
     {
-        if (TextEndpoint.Text.Length > 0)
-            return; // 已加载过
-        TextEndpoint.Text = Config.Ai.Endpoint;
-        TextModel.Text = Config.Ai.Model;
-        _ApplyKeyMask();
-        _RefreshSessionList();
-        if (PanChatList.Children.Count == 0)
-            _AddBubble(Lang.Text("Tools.Ai.Chat.EmptyHint"), isUser: false, isStatus: true);
+        if (TextEndpoint.Text.Length == 0)
+        {
+            TextEndpoint.Text = Config.Ai.Endpoint;
+            TextModel.Text = Config.Ai.Model;
+            CheckDiagnosis.SetChecked(Config.Ai.AiDiagnosisEnabled, false);
+            _ApplyKeyMask();
+            _RefreshSessionList();
+            if (PanChatList.Children.Count == 0)
+                _AddBubble(Lang.Text("Tools.Ai.Chat.EmptyHint"), isUser: false, isStatus: true);
+        }
+        // 首次加载或重新加载时消费排队的诊断（启动早期的报错可能先于本页排队）
+        ModBase.RunInUi(() => TryConsumePendingDiagnosis(), true);
     }
 
     #region 设置
@@ -62,6 +92,7 @@ public partial class PageToolsAi
     {
         Config.Ai.Endpoint = TextEndpoint.Text.Trim();
         Config.Ai.Model = TextModel.Text.Trim();
+        Config.Ai.AiDiagnosisEnabled = CheckDiagnosis.Checked == true;
         if (_isShowingKey)
             Config.Ai.ApiKey = TextApiKey.Text;
     }
@@ -176,6 +207,15 @@ public partial class PageToolsAi
         _AddBubble(input, isUser: true);
         _history.Add(AiChatMessage.User(input));
 
+        await _RunAgentCoreAsync();
+    }
+
+    /// <summary>
+    /// 把历史交给 ModAi 跑一轮 Agent 对话（流式渲染正文、展示工具过程）。
+    /// 仅在 UI 线程、且 _isRunning 为 false 时调用（BtnSend 与诊断会话共用）。
+    /// </summary>
+    private async Task _RunAgentCoreAsync()
+    {
         _isRunning = true;
         BtnSend.IsEnabled = false;
         BtnStop.Visibility = Visibility.Visible;
@@ -246,7 +286,37 @@ public partial class PageToolsAi
             _SaveSession();
             _RefreshSessionList();
             _ScrollToBottom();
+            // 兜底：若有排队未开的诊断（例如运行期间外部排队），现在自动补开
+            TryConsumePendingDiagnosis();
         }
+    }
+
+    /// <summary>
+    /// 用报错上下文开一场新会话：当前对话自动存档 → 清空历史 → 注入诊断指令与用户上下文 → 自动开跑。
+    /// 必须在 UI 线程、且 Agent 空闲时调用（TryConsumePendingDiagnosis 保证）。
+    /// </summary>
+    private void _BeginDiagnosisSession(string contextText)
+    {
+        if (_history.Any(m => m.Role != "system"))
+            _SaveSession(); // 之前的对话自动存档
+
+        _history.Clear();
+        _sessionPath = null;
+        ModAi.ResetTokenUsage();
+        _UpdateTokenLabel();
+
+        // 在完整基础提示词（人设/语言/记忆）之上叠加诊断工作模式
+        _history.Add(AiChatMessage.System(ModAi.SystemPrompt + "\n\n" + Lang.Text("Ai.Diagnosis.SystemPrompt")));
+        _history.Add(AiChatMessage.User(contextText));
+
+        PanChatList.Children.Clear();
+        _AddBubble(contextText, isUser: true);
+        _AddBubble(Lang.Text("Ai.Diagnosis.Starting"), isUser: false, isStatus: true);
+        _SaveSession(); // 立即落盘（含诊断上下文），中断后仍可恢复
+        _RefreshSessionList();
+        TextInput.Focus();
+
+        _ = _RunAgentCoreAsync();
     }
 
     private void BtnStop_Click(object sender, MouseButtonEventArgs e)
@@ -254,13 +324,7 @@ public partial class PageToolsAi
         _cts?.Cancel();
     }
 
-    private static string _ToolDisplayName(string? name) => name switch
-    {
-        "translate_core" => Lang.Text("Tools.Ai.Skill.Core"),
-        "translate_mods" => Lang.Text("Tools.Ai.Skill.Mod"),
-        "set_keybinds" => Lang.Text("Tools.Ai.Skill.Keybind"),
-        _ => name ?? "?"
-    };
+    private static string _ToolDisplayName(string? name) => ModAi.ToolDisplayName(name);
 
     #endregion
 

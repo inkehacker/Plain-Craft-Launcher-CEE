@@ -868,7 +868,7 @@ public partial class PageDownloadCompFavorites
                     CurrentFavTarget.Favs.Remove(Id);
                 ModComp.CompFavorites.Save();
                 HintService.Hint(Lang.Text("Download.Comp.Favorites.Hint.Removed"), HintType.Success);
-            });
+            }, isWarn: true);
     }
 
     #endregion

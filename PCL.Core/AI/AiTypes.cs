@@ -53,6 +53,11 @@ public sealed class AiToolDefinition
     public string Name { get; init; } = "";
     public string Description { get; init; } = "";
     public JsonObject Parameters { get; init; } = new();
+
+    /// <summary>
+    /// 是否属于敏感操作（修改文件/设置、启动游戏等）。为 True 时执行前会弹出用户确认框，用户可拒绝。
+    /// </summary>
+    public bool Sensitive { get; init; }
 }
 
 /// <summary>

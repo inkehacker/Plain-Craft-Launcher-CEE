@@ -1094,7 +1094,7 @@ public partial class PageInstanceSavesDatapack : IRefreshable
             {
                 if (File.Exists(newPath))
                 {
-                    ModMain.MyMsgBox(Lang.Text("Instance.Saves.Datapack.Replace.FileNameConflict", ModBase.GetFileNameFromPath(newPath)));
+                    ModMain.MyMsgBox(Lang.Text("Instance.Saves.Datapack.Replace.FileNameConflict", ModBase.GetFileNameFromPath(newPath)), isWarn: true);
                     continue;
                 }
 
@@ -1551,7 +1551,8 @@ public partial class PageInstanceSavesDatapack : IRefreshable
                     Lang.Text(
                         "Instance.Saves.Datapack.Info.ReadFailed.WithDetail",
                         datapackEntry.FileUnavailableReason.ToString()),
-                    Lang.Text("Instance.Saves.Datapack.Info.ReadFailedTitle"));
+                    Lang.Text("Instance.Saves.Datapack.Info.ReadFailedTitle"),
+                    isWarn: true);
                 return;
             }
 

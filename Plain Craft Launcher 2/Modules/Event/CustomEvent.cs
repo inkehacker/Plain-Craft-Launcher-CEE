@@ -36,7 +36,8 @@ namespace PCL
                 else
                     ModMain.MyMsgBox(
                         Lang.Text("Event.Error.UnknownType", type.ToString()),
-                        Lang.Text("Event.Error.Title"));
+                        Lang.Text("Event.Error.Title"),
+                        isWarn: true);
             }
             catch (Exception ex)
             {
@@ -105,7 +106,7 @@ namespace PCL
             arg = arg.Replace('\\', '/');
             if (!arg.Contains("://") || arg.StartsWithF("file", true))
             {
-                ModMain.MyMsgBox(Lang.Text("Event.Error.UrlRequired"), Lang.Text("Event.Error.Title"));
+                ModMain.MyMsgBox(Lang.Text("Event.Error.UrlRequired"), Lang.Text("Event.Error.Title"), isWarn: true);
                 return;
             }
             HintService.Hint(Lang.Text("Event.OpenUrl.Opening", arg));
@@ -260,7 +261,7 @@ namespace PCL
             args[0] = args[0].Replace('\\', '/');
             if (!args[0].StartsWithF("http://", true) && !args[0].StartsWithF("https://", true))
             {
-                ModMain.MyMsgBox(Lang.Text("Event.Error.DownloadUrlRequired"), Lang.Text("Event.Error.Title"));
+                ModMain.MyMsgBox(Lang.Text("Event.Error.DownloadUrlRequired"), Lang.Text("Event.Error.Title"), isWarn: true);
                 return;
             }
             if (!EventSafetyConfirm(Lang.Text("Event.Download.Confirm", args[0])))

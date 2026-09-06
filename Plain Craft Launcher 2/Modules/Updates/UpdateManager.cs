@@ -225,6 +225,7 @@ public static class UpdateManager
                 Lang.Text("Common.Action.Confirm"),
                 "",
                 "",
+                "",
                 true);
         }
     }

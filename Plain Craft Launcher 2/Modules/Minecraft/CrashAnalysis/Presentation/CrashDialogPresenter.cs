@@ -43,6 +43,9 @@ internal sealed class CrashDialogPresenter(CrashAnalysisContext context)
             directFile,
             openInstanceSettings);
 
+        // AI 诊断按钮：可用时显示，点击后关闭本弹窗并交给 AI 助手页的 Agent 分析
+        var aiButtonText = AiDiagnosisService.IsAvailable ? Lang.Text("Ai.Diagnosis.Button") : "";
+
         var selectedButton = MsgBoxWrapper.ShowWithCustomButtons(
             resultText,
             title,
@@ -50,7 +53,8 @@ internal sealed class CrashDialogPresenter(CrashAnalysisContext context)
             true,
             new MsgBoxButtonInfo(Lang.Text("Common.Action.Confirm"), 1),
             new MsgBoxButtonInfo(secondButtonText, 2, secondButtonAction),
-            new MsgBoxButtonInfo(thirdButtonText, 3));
+            new MsgBoxButtonInfo(thirdButtonText, 3),
+            new MsgBoxButtonInfo(aiButtonText, 4));
 
         switch (selectedButton)
         {
@@ -64,7 +68,27 @@ internal sealed class CrashDialogPresenter(CrashAnalysisContext context)
             case 3:
                 _ExportReport(extraFiles);
                 break;
+
+            case 4:
+                _StartAiAgentSession(resultText);
+                break;
         }
+    }
+
+    /// <summary>
+    ///     把崩溃上下文交给「AI 助手」的 Agent：本地分析结果（作为先验）+ 游戏输出尾部，
+    ///     在 AI 助手页自动开跑分析（AI 可用工具进一步检查日志/Mods 或执行修复动作）。
+    /// </summary>
+    private void _StartAiAgentSession(string crashText)
+    {
+        var rawOutput = context.RawFiles
+            .FirstOrDefault(f => f.FullPath.EndsWith("RawOutput.log", StringComparison.OrdinalIgnoreCase))
+            ?.Lines;
+
+        AiDiagnosisService.OpenAgentSession(
+            "gameCrash",
+            analysisText: crashText,
+            gameLogTail: rawOutput);
     }
 
     private static string _GetSecondButtonText(

@@ -31,6 +31,9 @@ public static class MsgBoxWrapper
 {
     public static event MsgBoxHandler? OnShow;
 
+    /// <summary>是否有应用侧订阅了弹窗事件（可渲染样式化弹窗）。</summary>
+    public static bool HasListener => OnShow is not null;
+
     public static int ShowWithCustomButtons(
         string message,
         string? caption,

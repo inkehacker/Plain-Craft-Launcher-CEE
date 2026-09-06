@@ -109,12 +109,23 @@ public class LogService : ILifecycleLogService
                 var message = Lang.Text(
                     "SystemDialog.Fatal.Message.WithFeedbackGuidance",
                     _ComposeUserError(plain, ex));
+                var caption = Lang.Text("SystemDialog.Fatal.Title");
 
-                MessageBox.Show(
-                    message,
-                    Lang.Text("SystemDialog.Fatal.Title"),
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                // 优先走应用侧样式化弹窗（有订阅时），以便附加「AI 诊断」等按钮；
+                // UI 不可用（无人订阅）时回退原生 MessageBox 兜底。
+                if (MsgBoxWrapper.HasListener)
+                {
+                    MsgBoxWrapper.ShowWithCustomButtons(message, caption, MsgBoxTheme.Error, true,
+                        new MsgBoxButtonInfo(Lang.Text("Common.Action.Confirm"), 1));
+                }
+                else
+                {
+                    MessageBox.Show(
+                        message,
+                        caption,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
 
                 break;
             }

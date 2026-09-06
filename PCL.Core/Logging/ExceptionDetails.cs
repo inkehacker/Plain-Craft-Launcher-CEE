@@ -30,7 +30,7 @@ public static partial class ExceptionDetails
             var message = current.Message?.Trim();
             if (string.IsNullOrWhiteSpace(message) || string.Equals(message, "$$", StringComparison.Ordinal))
                 continue;
-            message = _TruncateForUser(_RedactSensitiveText(message));
+            message = _TruncateForUser(RedactSensitiveText(message));
             if (seenMessages.Add(message))
                 messages.Add(message);
         }
@@ -62,8 +62,14 @@ public static partial class ExceptionDetails
         RegexOptions.IgnoreCase)]
     private static partial Regex _BearerTokenPattern();
 
-    private static string _RedactSensitiveText(string text)
+    /// <summary>
+    ///     脱敏文本中的凭据信息（access_token / refresh_token / client_secret / password / Bearer 等）。
+    ///     发送给外部服务（如 AI 诊断）前必须经过本方法。
+    /// </summary>
+    public static string RedactSensitiveText(string text)
     {
+        if (string.IsNullOrEmpty(text))
+            return text;
         // 在保留失败原因可见的前提下，避免在普通用户界面中直接暴露明显的凭据信息。
         text = _KeyValueCredentialPattern().Replace(text, "$1[redacted]");
         text = _QueryStringCredentialPattern().Replace(text, "$1[redacted]");

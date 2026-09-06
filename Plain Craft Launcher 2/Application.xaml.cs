@@ -147,41 +147,6 @@ public partial class Application
         ModMain.frmMain.EndProgram(false);
     }
 
-    /**
-     * Error handling for unhandled exceptions
-     */
-    private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-    {
-        try
-        {
-            e.Handled = true;
-            if (ModBase.isProgramEnded) return;
-
-            ModBase.FeedbackInfo();
-
-            var detail = e.Exception.ToString();
-
-            // Automatic error analysis for environment issues
-            if (detail.Contains("System.Windows.Threading.Dispatcher.Invoke") ||
-                detail.Contains("MS.Internal.AppModel.ITaskbarList.HrInit") ||
-                detail.Contains("未能加载文件或程序集"))
-            {
-                ModBase.OpenWebsite("https://get.dot.net/10");
-                LogWrapper.Error(
-                    e.Exception,
-                    Lang.Text("SystemDialog.Startup.DotNetRuntimeOutdated.Message"));
-            }
-            else
-            {
-                LogWrapper.Error(e.Exception, Lang.Text("SystemDialog.Error.Unexpected.Message"));
-            }
-        }
-        catch
-        {
-            // Equivalent to On Error Resume Next for safety in the global handler
-        }
-    }
-
     // Win32 API declaration for DLL directory configuration
     [DllImport("kernel32", EntryPoint = "SetDllDirectoryA", CharSet = CharSet.Ansi)]
     private static extern bool _SetDllDirectory(string lpPathName);

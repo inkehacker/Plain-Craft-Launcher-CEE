@@ -42,10 +42,38 @@ public static class ModAi
     [
         AiSkillKeybind.CreateTool(),
         AiSkillCoreTranslate.CreateTool(),
-        AiSkillModTranslate.CreateTool()
+        AiSkillModTranslate.CreateTool(),
+        ..AiSkillDiagnosis.CreateTools(),
+        ..AiSkillRepair.CreateTools()
     ];
 
+    /// <summary>
+    /// 敏感工具（Sensitive）执行前的用户确认入口。由应用侧注入：弹「允许/拒绝」确认框。
+    /// 未注入时（理论上不存在，聊天页总会注入）敏感工具直接拒绝执行。
+    /// </summary>
+    internal static Func<AiToolDefinition, AiToolCall, Task<bool>>? ToolConfirm { get; set; }
+
     public static IReadOnlyList<AiToolDefinition> ToolDefinitions => _tools.Select(t => t.Definition).ToList();
+
+    /// <summary>工具的本地化显示名（气泡、确认框等处使用）。</summary>
+    internal static string ToolDisplayName(string? name) => name switch
+    {
+        "translate_core" => Lang.Text("Tools.Ai.Skill.Core"),
+        "translate_mods" => Lang.Text("Tools.Ai.Skill.Mod"),
+        "set_keybinds" => Lang.Text("Tools.Ai.Skill.Keybind"),
+        "inspect_launcher" => Lang.Text("Ai.Diagnosis.Tool.InspectLauncher"),
+        "read_game_latest_log" => Lang.Text("Ai.Diagnosis.Tool.ReadGameLog"),
+        "read_crash_report" => Lang.Text("Ai.Diagnosis.Tool.ReadCrashReport"),
+        "list_instance_mods" => Lang.Text("Ai.Diagnosis.Tool.ListMods"),
+        "open_log_folder" => Lang.Text("Ai.Diagnosis.Action.OpenLogFolder"),
+        "open_crash_report_folder" => Lang.Text("Ai.Diagnosis.Action.OpenCrashReport"),
+        "open_instance_folder" => Lang.Text("Ai.Diagnosis.Action.OpenInstanceFolder"),
+        "open_mods_folder" => Lang.Text("Ai.Diagnosis.Action.OpenModsFolder"),
+        "open_settings_page" => Lang.Text("Ai.Diagnosis.Action.OpenSettingsPage"),
+        "retry_launch" => Lang.Text("Ai.Diagnosis.Action.RetryLaunch"),
+        "clear_cache" => Lang.Text("Ai.Diagnosis.Action.ClearCache"),
+        _ => name ?? "?"
+    };
 
     public static string SystemPrompt => BuildSystemPrompt();
 
@@ -88,7 +116,7 @@ public static class ModAi
     /// <summary>
     ///     按 UI 语言返回回复语言指令。语言规则是提示词内容而非界面文本，故放在代码中。
     /// </summary>
-    private static string LanguageRule(string languageCode) => languageCode switch
+    internal static string LanguageRule(string languageCode) => languageCode switch
     {
         "zh-CN" => "请始终使用简体中文与用户交流。",
         "zh-TW" => "請始終使用繁體中文與用戶交流。",
@@ -175,7 +203,10 @@ public static class ModAi
                 string result;
                 try
                 {
-                    result = await _ExecuteAsync(call, cancellationToken).ConfigureAwait(false);
+                    if (await _IsApprovedAsync(call).ConfigureAwait(false))
+                        result = await _ExecuteAsync(call, cancellationToken).ConfigureAwait(false);
+                    else
+                        result = "用户拒绝了执行此操作（未获得授权）。请不要再尝试该操作，改给用户其他无害的建议或说明原因。";
                 }
                 catch (OperationCanceledException)
                 {
@@ -192,6 +223,31 @@ public static class ModAi
         }
 
         yield return new AiEvent(AiEventKind.Error, Lang.Text("Tools.Ai.Error.TooManyRounds"));
+    }
+
+    /// <summary>敏感工具需用户确认后方可执行（应用侧注入 ToolConfirm 弹确认框）。</summary>
+    private static async Task<bool> _IsApprovedAsync(AiToolCall call)
+    {
+        AiToolDefinition? definition = null;
+        foreach (var (def, _) in _tools)
+            if (string.Equals(def.Name, call.Name, StringComparison.Ordinal))
+            {
+                definition = def;
+                break;
+            }
+        if (definition is null || !definition.Sensitive)
+            return true;
+        var confirm = ToolConfirm;
+        if (confirm is null)
+            return false;
+        try
+        {
+            return await confirm(definition, call).ConfigureAwait(false);
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     private static async Task<string> _ExecuteAsync(AiToolCall call, CancellationToken cancellationToken)
@@ -258,7 +314,7 @@ public static class ModAi
         return result;
     }
 
-    private static string _StripCodeFence(string text)
+    internal static string _StripCodeFence(string text)
     {
         text = text.Trim();
         if (text.StartsWith("```", StringComparison.Ordinal))

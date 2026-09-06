@@ -2837,7 +2837,8 @@ public static class ModBase
                 ex);
             ModMain.MyMsgBox(
                 message,
-                Lang.Text("SystemDialog.Browser.OpenFailed.Title"));
+                Lang.Text("SystemDialog.Browser.OpenFailed.Title"),
+                isWarn: true);
         }
     }
 
@@ -3400,7 +3401,7 @@ public static class ModBase
                 break;
 
             case LogLevel.Msgbox:
-                ModMain.MyMsgBox(userMessage, dialogTitle, isWarn: true);
+                ShowMsgboxWithAi(userMessage, dialogTitle);
                 break;
 
             case LogLevel.Feedback:
@@ -3464,7 +3465,7 @@ public static class ModBase
                 break;
 
             case LogLevel.Msgbox:
-                ModMain.MyMsgBox(userMessage, dialogTitle, isWarn: true);
+                ShowMsgboxWithAi(userMessage, dialogTitle);
                 break;
 
             case LogLevel.Feedback:
@@ -3475,6 +3476,15 @@ public static class ModBase
                 _ShowFeedbackPrompt(userMessage, dialogTitle, true);
                 break;
         }
+    }
+
+    /// <summary>
+    ///     显示报错弹窗。AI 诊断可用时，MyMsgBox 会为警告弹窗自动附加「AI 诊断」按钮，
+    ///     点击后把当前报错交给 AI 助手页的 Agent 分析；不可用时为普通警告弹窗。
+    /// </summary>
+    public static void ShowMsgboxWithAi(string userMessage, string dialogTitle)
+    {
+        ModMain.MyMsgBox(userMessage, dialogTitle, isWarn: true);
     }
 
     private static string _GetUserDialogTitle(string? title)
@@ -3514,20 +3524,27 @@ public static class ModBase
         if (CanFeedback(false))
         {
             var message = Lang.Text("Setup.Feedback.ErrorPrompt.Submit.Message", userMessage);
-            var shouldSend = isCritical
-                ? Interaction.MsgBox(
+            if (isCritical)
+            {
+                var shouldSend = Interaction.MsgBox(
                     message,
                     (MsgBoxStyle)((int)MsgBoxStyle.Critical + (int)MsgBoxStyle.YesNo),
-                    title) == MsgBoxResult.Yes
-                : ModMain.MyMsgBox(
+                    title) == MsgBoxResult.Yes;
+                if (shouldSend)
+                    Feedback(false, true);
+            }
+            else
+            {
+                // 非 critical 分支：提交反馈 / 取消；「AI 诊断」按钮由弹窗自动注入（槽位 3）
+                var result = ModMain.MyMsgBox(
                     message,
                     title,
                     Lang.Text("Setup.Feedback.ErrorPrompt.Submit.Action"),
                     Lang.Text("Common.Action.Cancel"),
-                    isWarn: true) == 1;
-
-            if (shouldSend)
-                Feedback(false, true);
+                    isWarn: true);
+                if (result == 1)
+                    Feedback(false, true);
+            }
             return;
         }
 
@@ -3596,31 +3613,37 @@ public static class ModBase
     }
 
     /// <summary>
+    ///     收集系统诊断信息字符串（OS/内存/DPI/MC 文件夹/exe 路径）。
+    /// </summary>
+    public static string CollectDiagnosticInfo()
+    {
+        // Get system memory info
+        var phyRam = KernelInterop.GetPhysicalMemoryBytes();
+
+        // Calculate memory and DPI scale
+        var availableMb = phyRam.Available / 1024 / 1024;
+        var totalMb = phyRam.Total / 1024 / 1024;
+        var dpiScale = Math.Round(dpi / 96.0, 2);
+
+        // Build diagnostic information string
+        return $"""
+            [System] Diagnostic Information:
+            OS: {RuntimeInformation.OSDescription} (32-bit: {SystemInfo.Is32BitSystem})
+            Memory: {availableMb} MiB / {totalMb} MiB
+            DPI: {dpi} ({dpiScale * 100}%)
+            MC Folder: {ModFolder.mcFolderSelected ?? "Nothing"}
+            Executable Path: {exePath}
+            """;
+    }
+
+    /// <summary>
     ///     在日志中输出系统诊断信息。
     /// </summary>
     public static void FeedbackInfo()
     {
         try
         {
-            // Get system memory info
-            var phyRam = KernelInterop.GetPhysicalMemoryBytes();
-
-            // Calculate memory and DPI scale
-            var availableMb = phyRam.Available / 1024 / 1024;
-            var totalMb = phyRam.Total / 1024 / 1024;
-            var dpiScale = Math.Round(dpi / 96.0, 2);
-
-            // Build diagnostic information string
-            var info = $"""
-                [System] Diagnostic Information:
-                OS: {RuntimeInformation.OSDescription} (32-bit: {SystemInfo.Is32BitSystem})
-                Memory: {availableMb} MiB / {totalMb} MiB
-                DPI: {dpi} ({dpiScale * 100}%)
-                MC Folder: {ModFolder.mcFolderSelected ?? "Nothing"}
-                Executable Path: {exePath}
-                """;
-
-            LogWrapper.Info(info);
+            LogWrapper.Info(CollectDiagnosticInfo());
         }
         catch (Exception ex)
         {

@@ -44,7 +44,8 @@ public static class ModLaunch
         {
             var userChoice = ModMain.MyMsgBox(
                 Lang.Text("Minecraft.Launch.Precheck.NonAsciiPath.Message", ModInstanceList.McMcInstanceSelected.Name),
-                Lang.Text("Minecraft.Launch.Precheck.NonAsciiPath.Title"), Lang.Text("Minecraft.Launch.Precheck.NonAsciiPath.Continue"), Lang.Text("Minecraft.Launch.Precheck.NonAsciiPath.Back"), Lang.Text("Common.Hint.DoNotShowAgain"));
+                Lang.Text("Minecraft.Launch.Precheck.NonAsciiPath.Title"), Lang.Text("Minecraft.Launch.Precheck.NonAsciiPath.Continue"), Lang.Text("Minecraft.Launch.Precheck.NonAsciiPath.Back"), Lang.Text("Common.Hint.DoNotShowAgain"),
+                isWarn: true);
             if (userChoice == 2) throw new Exception("$$");
             if (userChoice == 3) States.Hint.NonAsciiGamePath = true;
         }
@@ -417,7 +418,8 @@ public static class ModLaunch
                                 currentEx.Message.TrimStart('$')),
                             currentLaunchOptions?.SaveBatch is null
                                 ? Lang.Text("Launch.Error.Title")
-                                : Lang.Text("Launch.Error.ExportScriptTitle"));
+                                : Lang.Text("Launch.Error.ExportScriptTitle"),
+                            isWarn: true);
                     throw;
                 }
 
@@ -983,7 +985,8 @@ public static class ModLaunch
                     return;
                 if (ModMain.MyMsgBox(
                         Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Message"),
-                        Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel")) == 1)
+                        Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel"),
+                        isWarn: true) == 1)
                     isIgnore = true;
             });
             if (isIgnore) return new[] { "Ignore", "" };
@@ -1057,7 +1060,8 @@ public static class ModLaunch
                     return;
                 if (ModMain.MyMsgBox(
                         Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Message"),
-                        Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel")) == 1)
+                        Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel"),
+                        isWarn: true) == 1)
                     isIgnore = true;
             });
             if (isIgnore) return "Ignore";
@@ -1129,7 +1133,7 @@ public static class ModLaunch
 
                 if (result.Contains("2148916235"))
                 {
-                    ModMain.MyMsgBox(Lang.Text("Minecraft.Launch.Login.Microsoft.RegionBlocked"), Lang.Text("Minecraft.Launch.Login.Failed"), Lang.Text("Minecraft.Launch.Login.IKnow"));
+                    ModMain.MyMsgBox(Lang.Text("Minecraft.Launch.Login.Microsoft.RegionBlocked"), Lang.Text("Minecraft.Launch.Login.Failed"), Lang.Text("Minecraft.Launch.Login.IKnow"), isWarn: true);
                     throw new Exception("$$");
                 }
 
@@ -1163,7 +1167,8 @@ public static class ModLaunch
                         return;
                     if (ModMain.MyMsgBox(
                             Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Message"),
-                            Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel")) == 1)
+                            Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel"),
+                            isWarn: true) == 1)
                         isIgnore = true;
                 });
                 if (isIgnore)
@@ -1230,7 +1235,8 @@ public static class ModLaunch
                     return;
                 if (ModMain.MyMsgBox(
                         Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Message"),
-                        Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel")) == 1)
+                        Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel"),
+                        isWarn: true) == 1)
                     isIgnore = true;
             });
             if (isIgnore)
@@ -1277,7 +1283,8 @@ public static class ModLaunch
                     x["name"]?.ToString() == "product_minecraft" || x["name"]?.ToString() == "game_minecraft")))
             {
                 switch (ModMain.MyMsgBox(Lang.Text("Minecraft.Launch.Login.Microsoft.NotPurchased"),
-                            Lang.Text("Minecraft.Launch.Login.Failed"), Lang.Text("Minecraft.Launch.Login.Microsoft.PurchaseMinecraft"), Lang.Text("Common.Action.Cancel")))
+                            Lang.Text("Minecraft.Launch.Login.Failed"), Lang.Text("Minecraft.Launch.Login.Microsoft.PurchaseMinecraft"), Lang.Text("Common.Action.Cancel"),
+                            isWarn: true))
                 {
                     case 1:
                     {
@@ -1335,7 +1342,8 @@ public static class ModLaunch
                 ModBase.Log(ex, "正版验证 Step 6 汇报 404");
                 ModBase.RunInNewThread(() =>
                 {
-                    switch (ModMain.MyMsgBox(Lang.Text("Minecraft.Launch.Login.Microsoft.CreateProfile.Message"), Lang.Text("Minecraft.Launch.Login.Failed"), Lang.Text("Minecraft.Launch.Login.Microsoft.CreateProfile.Button"), Lang.Text("Common.Action.Cancel")))
+                    switch (ModMain.MyMsgBox(Lang.Text("Minecraft.Launch.Login.Microsoft.CreateProfile.Message"), Lang.Text("Minecraft.Launch.Login.Failed"), Lang.Text("Minecraft.Launch.Login.Microsoft.CreateProfile.Button"), Lang.Text("Common.Action.Cancel"),
+                            isWarn: true))
                     {
                         case 1:
                         {
@@ -1355,7 +1363,8 @@ public static class ModLaunch
                     return;
                 if (ModMain.MyMsgBox(
                         Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Message"),
-                        Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel")) == 1)
+                        Lang.Text("Minecraft.Launch.Login.RefreshAccountFailed.Title"), Lang.Text("Minecraft.Launch.Login.Continue"), Lang.Text("Common.Action.Cancel"),
+                        isWarn: true) == 1)
                     isIgnore = true;
             });
             if (isIgnore)
@@ -1754,7 +1763,7 @@ public static class ModLaunch
         catch (HttpResponseException ex)
         {
             
-            if (_TryGetLastError(ex, out var message)) ModMain.MyMsgBox(message, Lang.Text("Minecraft.Launch.Login.Failed"));
+            if (_TryGetLastError(ex, out var message)) ModMain.MyMsgBox(message, Lang.Text("Minecraft.Launch.Login.Failed"), isWarn: true);
             ex.Dispose();
             return false;
         }
@@ -2042,25 +2051,29 @@ public static class ModLaunch
                 if (ModInstanceList.McMcInstanceSelected.Info.HasForge)
                     ModMain.MyMsgBox(
                         Lang.Text("Minecraft.Launch.Java.NeedLegacyJavaFixerOrJava7"),
-                        Lang.Text("Minecraft.Launch.Java.NotFound.Title"));
+                        Lang.Text("Minecraft.Launch.Java.NotFound.Title"),
+                        isWarn: true);
                 else
                     ModMain.MyMsgBox(
                         Lang.Text("Minecraft.Launch.Java.NeedJava7"),
-                        Lang.Text("Minecraft.Launch.Java.NotFound.Title"));
+                        Lang.Text("Minecraft.Launch.Java.NotFound.Title"),
+                        isWarn: true);
                 throw new Exception("$$");
             }
             else if (minVer > new Version(1, 8, 0, 140) && maxVer < new Version(1, 8, 0, 321))
             {
                 ModMain.MyMsgBox(
                     Lang.Text("Minecraft.Launch.Java.NeedJava8U141ToU320"),
-                    Lang.Text("Minecraft.Launch.Java.NotFound.Title"));
+                    Lang.Text("Minecraft.Launch.Java.NotFound.Title"),
+                    isWarn: true);
                 throw new Exception("$$");
             }
             else if (minVer > new Version(1, 8, 0, 140))
             {
                 ModMain.MyMsgBox(
                     Lang.Text("Minecraft.Launch.Java.NeedJava8U141OrLater"),
-                    Lang.Text("Minecraft.Launch.Java.NotFound.Title"));
+                    Lang.Text("Minecraft.Launch.Java.NotFound.Title"),
+                    isWarn: true);
                 throw new Exception("$$");
             }
             else

@@ -634,6 +634,11 @@ public static partial class Config
         [ConfigItem<bool>("AiShowOnLaunchPage", false)] public partial bool ShowOnLaunchPage { get; set; }
 
         /// <summary>
+        /// 启用报错 AI 诊断（报错弹窗出现「AI 诊断」按钮）。
+        /// </summary>
+        [ConfigItem<bool>("AiDiagnosisEnabled", true)] public partial bool AiDiagnosisEnabled { get; set; }
+
+        /// <summary>
         /// API Key 明文（读写时自动加解密）。
         /// </summary>
         public string ApiKey

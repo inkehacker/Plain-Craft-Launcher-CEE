@@ -830,7 +830,7 @@ public partial class PageInstanceExport : IRefreshable
                 if (ModMain.MyMsgBox(
                         Lang.Text("Instance.Export.PackPathInvalid.WithDetail", configPackPath, ex.ToString()),
                         Lang.Text("Instance.Export.PackPathInvalid.Title"), Lang.Text("Common.Action.Confirm"),
-                        Lang.Text("Common.Action.Cancel")) == 2)
+                        Lang.Text("Common.Action.Cancel"), isWarn: true) == 2)
                     return;
             }
 
@@ -1111,7 +1111,8 @@ public partial class PageInstanceExport : IRefreshable
                         if (ModMain.MyMsgBox(
                                 Lang.Text("Instance.Export.NetCheckPartialFailed.Message"),
                                 Lang.Text("Instance.Export.NetCheckPartialFailed.Title"),
-                                Lang.Text("Common.Action.Continue"), Lang.Text("Common.Action.Cancel")) == 2)
+                                Lang.Text("Common.Action.Continue"), Lang.Text("Common.Action.Cancel"),
+                                isWarn: true) == 2)
                             throw failedExceptions.First();
                     }
                     else if (failedExceptions.Count > 1)
@@ -1119,7 +1120,8 @@ public partial class PageInstanceExport : IRefreshable
                         if (ModMain.MyMsgBox(
                                 Lang.Text("Instance.Export.NetCheckAllFailed.Message"),
                                 Lang.Text("Instance.Export.NetCheckAllFailed.Title"),
-                                Lang.Text("Common.Action.Continue"), Lang.Text("Common.Action.Cancel")) == 2)
+                                Lang.Text("Common.Action.Continue"), Lang.Text("Common.Action.Cancel"),
+                                isWarn: true) == 2)
                             throw failedExceptions.First();
                     }
                 })

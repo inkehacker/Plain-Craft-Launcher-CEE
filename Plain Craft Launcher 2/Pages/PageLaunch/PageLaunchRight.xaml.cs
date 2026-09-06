@@ -530,7 +530,8 @@ public partial class PageLaunchRight : IRefreshable
                                 : Lang.Text("Launch.Homepage.LoadFailed.Message", ex),
                             Lang.Text("Launch.Homepage.LoadFailed.Title"),
                             Lang.Text("Launch.Homepage.LoadFailed.Retry"),
-                            Lang.Text("Common.Action.Cancel")) ==
+                            Lang.Text("Common.Action.Cancel"),
+                            isWarn: true) ==
                         1) goto Refresh; // 防止 SyncLock 死锁
                 }
                 else

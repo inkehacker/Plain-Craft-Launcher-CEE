@@ -1931,7 +1931,8 @@ public partial class PageInstanceCompResource : IRefreshable
                         {
                             ModMain.MyMsgBox(
                                 Lang.Text("Instance.Resource.Ed.FileConflict.Message", newPath, modEntity.path),
-                                Lang.Text("Instance.Resource.Ed.FileConflict"));
+                                Lang.Text("Instance.Resource.Ed.FileConflict"),
+                                isWarn: true);
                             continue;
                         }
                     }
@@ -2403,7 +2404,8 @@ public partial class PageInstanceCompResource : IRefreshable
                 ModMain.MyMsgBox(
                     Lang.Text("Instance.Resource.Item.Info.FailedMessage.WithDetail",
                         modEntry.FileUnavailableReason.ToString()),
-                    Lang.Text("Instance.Resource.Item.Info.FailedTitle"));
+                    Lang.Text("Instance.Resource.Item.Info.FailedTitle"),
+                    isWarn: true);
                 return;
             }
 

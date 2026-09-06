@@ -19,6 +19,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="{DynamicResource Tools.Ai.Setting.Endpoint}"
                                Style="{StaticResource BasedOnTextBlock}"
@@ -47,7 +48,15 @@
                     <local:MyTextBox Grid.Row="2" Grid.Column="1" x:Name="TextModel" Margin="0,0,0,12"
                                      HintText="deepseek-chat" />
 
-                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Grid.Row="3" Text="{DynamicResource Tools.Ai.Setting.Diagnosis}"
+                               ToolTip="{DynamicResource Tools.Ai.Setting.Diagnosis.ToolTip}"
+                               Style="{StaticResource BasedOnTextBlock}"
+                               VerticalAlignment="Center" Margin="0,0,15,0" />
+                    <local:MyCheckBox Grid.Row="3" Grid.Column="1" x:Name="CheckDiagnosis"
+                                      ToolTip="{DynamicResource Tools.Ai.Setting.Diagnosis.ToolTip}"
+                                      Margin="0,0,0,12" VerticalAlignment="Center" />
+
+                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                         <local:MyButton x:Name="BtnTest" Margin="0,0,10,0" Height="28" Padding="10,0"
                                         Text="{DynamicResource Tools.Ai.Setting.Test}"
                                         Click="BtnTest_Click" />
