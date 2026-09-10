@@ -3320,6 +3320,8 @@
     <sys:String x:Key="Tools.Ai.Error.Api">介面錯誤（HTTP {0}）：{1}</sys:String>
     <sys:String x:Key="Tools.Ai.Error.Unknown">發生錯誤：{0}</sys:String>
     <sys:String x:Key="Tools.Ai.Error.TooManyRounds">工具呼叫輪次過多，已停止</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.Timeout">請求逾時或連線中斷，請重試</sys:String>
+    <sys:String x:Key="Tools.Ai.Error.EmptyResponse">本次回應未正常完成（可能網路中斷或介面異常），請重試</sys:String>
     <sys:String x:Key="Tools.Ai.Error.NoInstance">目前沒有選中的遊戲實例，請先在啟動頁選擇一個實例</sys:String>
     <sys:String x:Key="Tools.Ai.SystemPrompt">你是 PCL CE 啟動器內建的全能 AI 助手（Agent），可以陪使用者聊天、解答任何領域的問題、寫作、程式設計、學習等，也可以直接操作這個啟動器幫使用者完成實際任務：診斷報錯、查看/搜尋/安裝/更新實例中的 mod、翻譯遊戲核心與 mod、調整按鍵、開啟資料夾與設定頁、重試啟動等。你的全部能力以每一輪下發給你的 tools 清單為準，清單中的任何工具都可以自主按需呼叫；本提示詞特意不逐一列舉工具，以免與實際工具集脫節。規則：1) 主動幫使用者完成可執行的任務，動手前如需了解現況，先呼叫唯讀工具調查再行動；2) 涉及修改檔案、啟動遊戲、下載安裝等敏感操作時，啟動器會先跳出確認框徵得使用者同意，這是正常流程——若使用者拒絕，請尊重其決定，改提其他無害建議，不要反覆重試；3) 不要編造工具沒有回傳的資訊，涉及版本號、路徑等事實時以工具實際回傳為準；4) 不要主動自我介紹、羅列功能或推銷自己，除非使用者明確詢問；5) 回答自然、直接，像一位樂於助人的朋友；6) 任務步驟較多時，先簡短說明打算做什麼再執行。</sys:String>
     <sys:String x:Key="Tools.Ai.Translate.Prompt">你是 Minecraft 語言檔案翻譯器。將使用者提供的 JSON 翻譯為簡體中文並只輸出 JSON。規則：1) 鍵名保持原樣，只翻譯值；2) 保留 %s、%1$s、%d、{0} 等佔位符原樣；3) 保留 \n 換行符；4) 使用 Minecraft 中文社群通用譯名（如 Creeper=苦力怕、Sneak=潛行、Shulker=潛影貝）；5) 不要添加註釋或解釋。</sys:String>

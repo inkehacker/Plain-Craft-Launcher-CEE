@@ -152,15 +152,20 @@ public static class ModAi
 
         var client = CreateClient();
         const int maxRounds = 24;
+        const int maxContinuations = 3;
+        var continuationCount = 0;
 
         for (var round = 0; round < maxRounds; round++)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var contentBuilder = new StringBuilder();
             var toolAccumulator = new Dictionary<int, AiToolCall>();
+            string? finishReason = null;
 
             await foreach (var chunk in client.StreamAsync(history, ToolDefinitions, cancellationToken).ConfigureAwait(false))
             {
+                if (chunk.FinishReason is not null)
+                    finishReason = chunk.FinishReason;
                 if (chunk.ContentDelta is { } delta && delta.Length > 0)
                 {
                     contentBuilder.Append(delta);
@@ -195,8 +200,31 @@ public static class ModAi
             var toolCalls = toolAccumulator.OrderBy(kv => kv.Key).Select(kv => kv.Value).ToList();
             if (toolCalls.Count == 0)
             {
-                if (contentBuilder.Length > 0)
-                    history.Add(AiChatMessage.Assistant(contentBuilder.ToString()));
+                var content = contentBuilder.ToString();
+                if (content.Length > 0)
+                    history.Add(AiChatMessage.Assistant(content));
+
+                // 流没有正常结束标记且没有任何内容：连接中断或空响应，不能当作完成（否则表现为无声停止）
+                if (finishReason is null && content.Length == 0)
+                {
+                    yield return new AiEvent(AiEventKind.Error, Lang.Text("Tools.Ai.Error.EmptyResponse"));
+                    yield break;
+                }
+
+                // 接口声明本轮要调用工具却没收到任何调用（部分兼容端点丢失增量）：提示而非静默完成
+                if (finishReason == "tool_calls")
+                {
+                    yield return new AiEvent(AiEventKind.Error, Lang.Text("Tools.Ai.Error.EmptyResponse"));
+                    yield break;
+                }
+
+                // 输出被长度限制截断：再多请求一轮让模型把话说完
+                if (finishReason == "length" && content.Length > 0 && continuationCount < maxContinuations)
+                {
+                    continuationCount++;
+                    continue;
+                }
+
                 yield return new AiEvent(AiEventKind.Done);
                 yield break;
             }
@@ -264,18 +292,34 @@ public static class ModAi
             if (!string.Equals(definition.Name, call.Name, StringComparison.Ordinal))
                 continue;
             JsonObject args;
-            try
+            var raw = call.ArgumentsJson;
+            if (string.IsNullOrWhiteSpace(raw))
             {
-                args = JsonNode.Parse(call.ArgumentsJson) as JsonObject ?? new JsonObject();
-            }
-            catch
-            {
+                // 无参工具在流式响应中参数可能为空串
                 args = new JsonObject();
+            }
+            else
+            {
+                try
+                {
+                    if (JsonNode.Parse(raw) is not JsonObject parsed)
+                        return $"工具参数必须是 JSON 对象，收到：{_Truncate(raw)}。请按工具定义的参数格式重新调用。";
+                    args = parsed;
+                }
+                catch
+                {
+                    // 参数无效（多为输出被截断或接口异常）：明确告知模型以便自纠，不能静默按空参数执行
+                    return $"工具参数 JSON 无效，可能被截断：{_Truncate(raw)}。请重新调用本工具并完整生成参数。";
+                }
             }
             return await handler(args, cancellationToken).ConfigureAwait(false);
         }
         return $"未知工具：{call.Name}";
     }
+
+    /// <summary>回显参数时的截断，避免过长内容撑爆上下文。</summary>
+    private static string _Truncate(string text, int max = 200) =>
+        text.Length > max ? text[..max] + "…" : text;
 
     /// <summary>
     /// 将语言条目分块翻译并合并结果。两个翻译技能共用。

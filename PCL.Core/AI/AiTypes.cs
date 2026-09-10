@@ -42,7 +42,12 @@ public sealed class AiToolCall
 {
     public string Id { get; set; } = "";
     public string Name { get; set; } = "";
-    public string ArgumentsJson { get; set; } = "{}";
+
+    /// <summary>
+    /// 工具参数 JSON。流式响应中由各增量片段拼接而成，故初始为空串而非 "{}"；
+    /// 读取时对空串/无效 JSON 需按无参处理。
+    /// </summary>
+    public string ArgumentsJson { get; set; } = "";
 }
 
 /// <summary>

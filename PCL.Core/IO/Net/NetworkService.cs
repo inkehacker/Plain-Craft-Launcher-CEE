@@ -40,6 +40,9 @@ public partial class NetworkService
 
     public const string Default = "default";
 
+    /// <summary>AI 对话：流式推理单轮可能远超默认 100 秒超时，需要更长的超时。</summary>
+    public const string Ai = "ai";
+
     public const string MicrosoftEntraId = "microsoft_id";
 
     public const string MinecraftService = "minecraft_service";
@@ -72,8 +75,12 @@ public partial class NetworkService
             .SetHandlerLifetime(TimeSpan.FromMinutes(LifeTime)));
         
         // 默认的 HTTP Client
-        
+
         services.AddHttpClient(Default);
+
+        // AI 对话（默认 100 秒超时会切断长流式响应，放宽到 10 分钟）
+
+        services.AddHttpClient(Ai).ConfigureHttpClient(c => c.Timeout = TimeSpan.FromMinutes(10));
         
         // CurseForge
 
